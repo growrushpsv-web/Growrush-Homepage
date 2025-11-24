@@ -162,10 +162,12 @@
             margin-top: 10px;
         }
 
+        /* --- MODIFIKASI POSISI FLOATING (Tidak Melewati Batas) --- */
+        
         /* FLOATING GUIDE BUTTON & CONTENT (POJOK KIRI BAWAH) */
         #floating-guide-button {
             position: fixed;
-            bottom: 20px;
+            bottom: 20px; /* Jarak dari bawah */
             left: 20px;
             background-color: var(--main-blue);
             color: white;
@@ -187,10 +189,10 @@
 
         #floating-guide-content {
             position: fixed;
-            bottom: 80px; 
+            bottom: 75px; /* Ditinggikan agar tidak bertabrakan */
             left: 20px;
-            width: 300px;
-            max-height: 400px;
+            width: 250px; /* Diperkecil agar tidak terlalu lebar di mobile */
+            max-height: 300px; /* Membatasi tinggi */
             background-color: var(--bg-card); 
             padding: 15px;
             border-radius: 8px;
@@ -199,7 +201,7 @@
             z-index: 999;
             display: none; 
             text-align: left;
-            overflow-y: auto;
+            overflow-y: auto; /* Memungkinkan scroll jika konten terlalu panjang */
         }
         #floating-guide-content .guide-title {
             color: var(--main-blue);
@@ -219,7 +221,7 @@
         #floating-social-button {
             position: fixed;
             bottom: 20px;
-            right: 20px; /* Positioned on the right */
+            right: 20px;
             background-color: #555; 
             color: white;
             padding: 12px 18px;
@@ -240,16 +242,16 @@
 
         #floating-social-content {
             position: fixed;
-            bottom: 80px; /* Di atas tombol */
-            right: 20px; /* Positioned on the right */
-            width: 300px;
+            bottom: 75px; /* Ditinggikan agar tidak bertabrakan */
+            right: 20px;
+            width: 250px; /* Diperkecil agar tidak terlalu lebar di mobile */
             background-color: var(--bg-card); 
             padding: 15px;
             border-radius: 8px;
             border: 2px solid var(--main-blue);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             z-index: 999;
-            display: none; /* Sembunyikan secara default */
+            display: none; 
             text-align: left;
         }
 
@@ -263,7 +265,7 @@
         }
         .social-links {
             display: flex;
-            flex-direction: column; /* Stack buttons vertically inside the box */
+            flex-direction: column; 
             gap: 5px;
         }
         .social-button {
@@ -583,3 +585,4 @@
     </script>
 </body>
 </html>
+                    
