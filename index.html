@@ -5,52 +5,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GrowRushPS - Status Server & Download</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
+        /* Definisi Warna */
+        :root {
+            --main-blue: #2196F3; /* Biru utama */
+            --main-blue-light: rgba(33, 150, 243, 0.4); /* Biru lebih terang untuk glow */
+            --main-blue-dark: rgba(33, 150, 243, 0.6); /* Biru lebih gelap untuk hover glow */
+            --text-light: #E0E0E0;
+            --text-dark: #A0A0A0;
+            --bg-dark-1: #0d0d0d;
+            --bg-dark-2: #1a1a1a;
+            --bg-card: rgba(31, 31, 31, 0.95);
+            --bg-button: #2D2D2D;
+            --bg-button-hover: #404040;
+            --border-dark: #333333;
+            --tab-border: #3d3d3d;
+            --warning-orange: #FF9800;
+        }
+
         /* CSS UMUM */
         body { 
-            /* BACKGROUND BARU: Gradasi gelap yang halus */
-            background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #0d0d0d 100%);
-            color: #E0E0E0; 
+            background: linear-gradient(135deg, var(--bg-dark-1) 0%, var(--bg-dark-2) 50%, var(--bg-dark-1) 100%);
+            color: var(--text-light); 
             font-family: 'Poppins', sans-serif; 
             text-align: center; 
             padding: 50px 20px 20px; 
-            min-height: 100vh; /* Pastikan background penuh */
+            min-height: 100vh;
         }
         .container { 
             max-width: 400px; 
             margin: 0 auto; 
             padding: 20px; 
-            /* Background container sedikit transparan */
-            background-color: rgba(31, 31, 31, 0.95); 
-            border-radius: 12px; /* Lebih bulat */
-            /* BINGKAI/FRAME BARU: Efek Shadow Glow Hijau */
+            background-color: var(--bg-card); 
+            border-radius: 12px;
+            /* BINGKAI/FRAME BARU: Efek Shadow Glow Biru */
             box-shadow: 
-                0 4px 15px rgba(0, 0, 0, 0.8), /* Bayangan Utama */
-                0 0 20px rgba(76, 175, 80, 0.4); /* Glow Hijau */
-            border: 1px solid #333333; /* Border tipis */
+                0 4px 15px rgba(0, 0, 0, 0.8),
+                0 0 20px var(--main-blue-light); 
+            border: 1px solid var(--border-dark);
         }
-        h1 { color: #4CAF50; font-size: 36px; margin-bottom: 10px; text-shadow: 0 0 10px rgba(76, 175, 80, 0.8); } /* Shadow lebih kuat */
-        .description { color: #A0A0A0; font-size: 14px; margin-bottom: 30px; }
+        h1 { 
+            color: var(--main-blue); 
+            font-size: 36px; 
+            margin-bottom: 10px; 
+            text-shadow: 0 0 10px var(--main-blue-light); 
+        }
+        .description { color: var(--text-dark); font-size: 14px; margin-bottom: 30px; }
         .server-status { margin: 20px 0; font-size: 18px; font-weight: 600; }
         #status-text { 
-            font-weight: 700; 
+            color: var(--main-blue); /* Status teks juga biru */
+            font-weight: 800; 
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); 
         }
         .host-section { margin-top: 30px; text-align: left; }
-        .host-section h2 { font-size: 16px; color: #A0A0A0; margin-bottom: 15px; font-weight: 400; }
+        .host-section h2 { color: var(--text-dark); margin-bottom: 15px; font-weight: 400; }
         .action-button {
-            width: 100%; padding: 15px; margin-bottom: 10px; background-color: #2D2D2D; color: #E0E0E0; border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.3s, box-shadow 0.3s; font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: flex-start; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4); 
+            width: 100%; padding: 15px; margin-bottom: 10px; background-color: var(--bg-button); color: var(--text-light); border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.3s, box-shadow 0.3s; font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: flex-start; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4); 
         }
         .action-button:hover { 
-            background-color: #404040; 
+            background-color: var(--bg-button-hover); 
             box-shadow: 
                 0 5px 10px rgba(0, 0, 0, 0.6),
-                0 0 8px rgba(76, 175, 80, 0.6); /* Glow saat di-hover */
+                0 0 8px var(--main-blue-dark); /* Glow saat di-hover */
         }
-        .icon-placeholder { margin-right: 15px; font-size: 20px; }
-        .note { font-size: 12px; color: #A0A0A0; margin-top: -5px; margin-bottom: 10px; text-align: left; padding-left: 10px; }
+        .icon-placeholder { 
+            margin-right: 15px; 
+            font-size: 20px; 
+            color: var(--main-blue); /* Ikon di tombol juga biru */
+        }
+        .note { font-size: 12px; color: var(--text-dark); margin-top: -5px; margin-bottom: 10px; text-align: left; padding-left: 10px; }
 
         /* CSS TAB */
         .tabs-container { margin-top: 20px; }
@@ -58,23 +83,24 @@
         .tab-button {
             flex-grow: 1;
             padding: 10px 5px;
-            background-color: #2D2D2D;
-            color: #A0A0A0;
+            background-color: var(--bg-button);
+            color: var(--text-dark);
             border: none;
-            border-bottom: 3px solid #3d3d3d;
+            border-bottom: 3px solid var(--tab-border);
             cursor: pointer;
             font-weight: 600;
             transition: background-color 0.3s, border-bottom-color 0.3s, color 0.3s;
-            font-size: 12px; 
+            font-size: 11px;
+            margin: 0 1px;
         }
         .tab-button.active {
-            background-color: #3d3d3d;
-            color: #4CAF50;
-            border-bottom: 3px solid #4CAF50;
+            background-color: var(--tab-border);
+            color: var(--main-blue); /* Teks tab aktif biru */
+            border-bottom: 3px solid var(--main-blue); /* Garis bawah tab aktif biru */
         }
         .tab-content {
             padding: 15px;
-            background-color: #2D2D2D; 
+            background-color: var(--bg-button); 
             border-radius: 0 0 8px 8px;
             text-align: left;
         }
@@ -83,15 +109,15 @@
         }
         .guide-title { 
             font-size: 15px; 
-            font-weight: 600; 
-            color: #E0E0E0; 
+            font-weight: 700; 
+            color: var(--text-light); 
             margin-bottom: 10px;
         }
         .guide-list {
             list-style-type: decimal;
             margin-left: 20px;
             font-size: 13px;
-            color: #A0A0A0;
+            color: var(--text-dark);
             text-align: left;
             padding-left: 0;
         }
@@ -99,7 +125,7 @@
             margin-bottom: 8px;
         }
         .admin-note {
-            color: #FF9800;
+            color: var(--warning-orange);
             font-size: 12px;
             margin-top: 10px;
         }
@@ -111,7 +137,7 @@
         <p class="description">Rasakan pengalaman bermain di Growtopia private server dengan gameplay seru dan sistem yang stabil</p>
 
         <div class="server-status">
-            Server Status: <span id="status-text" style="color: #4CAF50;">UP</span>
+            Status Server: <span id="status-text">UP</span>
         </div>
 
         <div class="host-section">
@@ -141,12 +167,25 @@
 
         <div class="tabs-container">
             <div class="tab-buttons">
-                <button class="tab-button active" onclick="openGuide(event, 'PowerTunnel')">PowerTunnel</button>
-                <button class="tab-button" onclick="openGuide(event, 'iOS')">iOS (Surge 5)</button>
-                <button class="tab-button" onclick="openGuide(event, 'Windows')">Windows (Host File)</button>
+                <button class="tab-button active" onclick="openGuide(event, 'Gameplay')">🎮 Cara Bermain</button>
+                <button class="tab-button" onclick="openGuide(event, 'PowerTunnel')">⚙️ PowerTunnel</button>
+                <button class="tab-button" onclick="openGuide(event, 'iOS')">🍏 iOS (Surge 5)</button>
+                <button class="tab-button" onclick="openGuide(event, 'Windows')">💻 Windows</button>
             </div>
 
-            <div id="PowerTunnel" class="tab-content">
+            <div id="Gameplay" class="tab-content">
+                <p class="guide-title">🎮 Panduan Gameplay Dasar:</p>
+                <ol class="guide-list">
+                    <li>**Langkah Pertama:** Pastikan Anda sudah mengikuti panduan koneksi (tab di sebelah) untuk bisa login ke server.</li>
+                    <li>**Masuk ke Dunia:** Setelah login, Anda akan berada di dunia `START` atau `TUTORIAL`.</li>
+                    <li>**Ambil Item:** Ketik `/start` atau `/kit` di kolom *chat* untuk mendapatkan peralatan dasar (starter pack) dan modal awal.</li>
+                    <li>**Informasi Server:** Gunakan perintah `/help` atau `/commands` untuk melihat semua fitur dan perintah unik yang tersedia di GrowRushPS.</li>
+                    <li>**Teleportasi:** Untuk berpindah antar dunia fitur, gunakan `/warp <nama_dunia>` (contoh: `/warp SHOP`).</li>
+                    <li>**Selamat Bermain!** Jika ada masalah, gunakan `/mod` untuk memanggil staff atau bergabung ke komunitas Discord/Grup.</li>
+                </ol>
+            </div>
+
+            <div id="PowerTunnel" class="tab-content hidden">
                 <p class="guide-title">⚙️ Panduan Penggunaan PowerTunnel:</p>
                 <ol class="guide-list">
                     <li>Pertama, unduh Aplikasi **PowerTunnel** dari tautan di tombol di atas.</li>
