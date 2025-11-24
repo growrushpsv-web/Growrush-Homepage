@@ -151,48 +151,8 @@
             font-size: 12px;
             margin-top: 10px;
         }
-        
-        /* CSS BARU: SOCIAL MEDIA SECTION */
-        .social-media-section {
-            margin-top: 30px;
-            text-align: center;
-            padding-top: 15px;
-            border-top: 1px solid #333333;
-        }
-        .social-media-section h3 {
-            font-size: 14px;
-            color: var(--main-blue);
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        .social-button {
-            color: var(--text-light);
-            font-size: 14px;
-            font-weight: 500;
-            text-decoration: none;
-            padding: 8px 12px;
-            border-radius: 6px;
-            transition: background-color 0.3s;
-            display: flex;
-            align-items: center;
-        }
-        .social-button:hover {
-            background-color: var(--bg-button-hover);
-        }
-        .social-icon {
-            margin-right: 5px;
-            font-size: 18px;
-            color: var(--main-blue); /* Ikon sosial media berwarna biru */
-        }
-        /* END NEW CSS */
 
-        /* FLOATING BUTTON & CONTENT (POJOK KIRI BAWAH) */
+        /* FLOATING GUIDE BUTTON & CONTENT (POJOK KIRI BAWAH) */
         #floating-guide-button {
             position: fixed;
             bottom: 20px;
@@ -217,7 +177,7 @@
 
         #floating-guide-content {
             position: fixed;
-            bottom: 80px;
+            bottom: 80px; 
             left: 20px;
             width: 300px;
             max-height: 400px;
@@ -227,7 +187,7 @@
             border: 2px solid var(--main-blue);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             z-index: 999;
-            display: none;
+            display: none; 
             text-align: left;
             overflow-y: auto;
         }
@@ -244,6 +204,81 @@
             padding-left: 0;
             font-size: 13px;
         }
+        
+        /* NEW: FLOATING SOCIAL BUTTON & CONTENT (POJOK KANAN BAWAH) */
+        #floating-social-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px; /* Positioned on the right */
+            background-color: #555; 
+            color: white;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        #floating-social-button:hover {
+            background-color: #666;
+        }
+
+        #floating-social-content {
+            position: fixed;
+            bottom: 80px; /* Di atas tombol */
+            right: 20px; /* Positioned on the right */
+            width: 300px;
+            background-color: var(--bg-card); 
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid var(--main-blue);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none; /* Sembunyikan secara default */
+            text-align: left;
+        }
+
+        /* Adjusting social media styles for floating box */
+        #floating-social-content .social-title {
+            color: var(--main-blue);
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .social-links {
+            display: flex;
+            flex-direction: column; /* Stack buttons vertically inside the box */
+            gap: 5px;
+        }
+        .social-button {
+            color: var(--text-light);
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-button);
+            justify-content: flex-start;
+            width: 100%;
+        }
+        .social-button:hover {
+            background-color: var(--bg-button-hover);
+        }
+        .social-icon {
+            margin-right: 10px;
+            font-size: 18px;
+            color: var(--main-blue);
+        }
+
     </style>
 </head>
 <body>
@@ -325,22 +360,7 @@
             </div>
         </div>
 
-        <div class="social-media-section">
-            <h3>KOMUNITAS & MEDIA SOSIAL</h3>
-            <div class="social-links">
-                <a href="https://discord.gg/kFDepPDe7G" target="_blank" class="social-button">
-                    <span class="social-icon">💬</span> Discord
-                </a>
-                <a href="https://chat.whatsapp.com/Elq453EwzudLyUIi4nuDik" target="_blank" class="social-button">
-                    <span class="social-icon">📱</span> WhatsApp
-                </a>
-                <a href="Coming Soon" target="_blank" class="social-button">
-                    <span class="social-icon">✈️</span> Telegram
-                </a>
-            </div>
         </div>
-
-    </div>
     
     <button id="floating-guide-button" onclick="toggleGuide()">
         🎮 Cara Bermain
@@ -355,6 +375,25 @@
             <li>**Warp:** Untuk berpindah antar dunia fitur/jual beli, gunakan `/warp <nama_dunia>`.</li>
             <li>**Bantuan:** Jika ada masalah serius, gunakan `/mod` untuk memanggil staff atau hubungi komunitas Discord/Grup.</li>
         </ul>
+    </div>
+
+    <button id="floating-social-button" onclick="toggleSocial()">
+        💬 Komunitas
+    </button>
+    
+    <div id="floating-social-content">
+        <p class="social-title">💬 Komunitas & Media Sosial</p>
+        <div class="social-links">
+            <a href="https://discord.gg/kFDepPDe7G" target="_blank" class="social-button">
+                <span class="social-icon">💬</span> Discord
+            </a>
+            <a href="https://chat.whatsapp.com/Elq453EwzudLyUIi4nuDik" target="_blank" class="social-button">
+                <span class="social-icon">📱</span> WhatsApp
+            </a>
+            <a href="Coming Soon" target="_blank" class="social-button">
+                <span class="social-icon">✈️</span> Telegram
+            </a>
+        </div>
     </div>
 
     <script>
@@ -386,12 +425,13 @@
             window.location.href = url;
         }
 
-        // --- FUNGSI TAB SWITCHING ---
+        // --- FUNGSI TAB SWITCHING (untuk panduan koneksi di container utama) ---
         function openGuide(evt, guideName) {
             var i, tabcontent, tablinks;
 
-            // Pastikan floating guide tertutup saat tab utama dibuka
+            // Pastikan floating widgets tertutup saat tab utama dibuka
             document.getElementById('floating-guide-content').style.display = 'none';
+            document.getElementById('floating-social-content').style.display = 'none';
 
             tabcontent = document.getElementsByClassName("tab-content");
             for (i = 0; i < tabcontent.length; i++) {
@@ -407,13 +447,33 @@
             evt.currentTarget.classList.add("active");
         }
         
-        // --- FUNGSI TOGGLE FLOATING GUIDE ---
+        // --- FUNGSI TOGGLE FLOATING GUIDE (Kiri Bawah) ---
         function toggleGuide() {
             var guideBox = document.getElementById('floating-guide-content');
+            var socialBox = document.getElementById('floating-social-content');
+
             if (guideBox.style.display === 'none' || guideBox.style.display === '') {
+                // Buka guide, tutup social
                 guideBox.style.display = 'block';
+                socialBox.style.display = 'none'; 
             } else {
+                // Tutup guide
                 guideBox.style.display = 'none';
+            }
+        }
+        
+        // --- FUNGSI TOGGLE FLOATING SOCIAL (Kanan Bawah) ---
+        function toggleSocial() {
+            var socialBox = document.getElementById('floating-social-content');
+            var guideBox = document.getElementById('floating-guide-content');
+
+            if (socialBox.style.display === 'none' || socialBox.style.display === '') {
+                // Buka social, tutup guide
+                socialBox.style.display = 'block';
+                guideBox.style.display = 'none'; 
+            } else {
+                // Tutup social
+                socialBox.style.display = 'none';
             }
         }
         
