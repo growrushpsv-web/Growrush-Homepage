@@ -85,6 +85,9 @@
         .host-section h2 { color: var(--text-dark); margin-bottom: 15px; font-weight: 400; }
         .action-button {
             width: 100%; padding: 15px; margin-bottom: 10px; background-color: var(--bg-button); color: var(--text-light); border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.3s, box-shadow 0.3s; font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: flex-start; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4); 
+            /* Perubahan untuk mengakomodasi teks panjang saat error/cooldown */
+            white-space: normal; 
+            text-align: left;
         }
         .action-button:hover { 
             background-color: var(--bg-button-hover); 
@@ -96,10 +99,11 @@
             margin-right: 15px; 
             font-size: 20px; 
             color: var(--main-blue);
+            flex-shrink: 0; /* Agar ikon tidak menyusut saat teks panjang */
         }
         /* Style untuk Cooldown Feedback */
         .action-button:disabled {
-            background-color: #333 !important;
+            background-color: #404040 !important; /* Warna yang berbeda saat disable */
             box-shadow: none !important;
         }
 
@@ -406,53 +410,74 @@
         
         // Konstanta IP untuk fungsi Salin IP
         const SERVER_IP = '15.235.227.241'; 
+        const COOLDOWN_SECONDS = 4;
         
-        // --- FUNGSI SALIN IP (Dengan Cooldown) ---
+        // --- FUNGSI UTILITY COOLDOWN ---
+        function applyCooldown(buttonElement, originalContent) {
+            let timeLeft = COOLDOWN_SECONDS;
+            buttonElement.disabled = true;
+            buttonElement.style.cursor = 'wait';
+            
+            const countdownInterval = setInterval(() => {
+                timeLeft--;
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    buttonElement.innerHTML = originalContent; // Kembalikan konten asli
+                    buttonElement.disabled = false; // Aktifkan tombol
+                    buttonElement.style.cursor = 'pointer';
+                    buttonElement.style.backgroundColor = ''; // Reset warna background
+                } else {
+                    // Update button text during cooldown
+                    // Pastikan ikon placeholder tetap ada, namun ganti teks
+                    const iconPlaceholder = originalContent.match(/<span class="icon-placeholder">.*?<\/span>/) ? originalContent.match(/<span class="icon-placeholder">.*?<\/span>/)[0] : '';
+                    buttonElement.innerHTML = `${iconPlaceholder} Tunggu ${timeLeft}s...`;
+                }
+            }, 1000);
+        }
+
+        // --- FUNGSI SALIN IP (Anti-Rate Limit Robust) ---
         function copyIP(buttonElement, ipValue) {
-            const originalContent = buttonElement.innerHTML;
-            const cooldownTime = 3; // 3 seconds cooldown
+            const originalContent = buttonElement.innerHTML; // Simpan konten asli
             
             if (buttonElement.disabled) {
                 return; 
             }
             
-            buttonElement.disabled = true;
-            buttonElement.style.cursor = 'wait';
-            
+            // Attempt copy
             navigator.clipboard.writeText(ipValue).then(() => {
-                
-                let timeLeft = cooldownTime;
-                
-                // Success feedback
-                buttonElement.innerHTML = '<span class="icon-placeholder" style="color: #4CAF50;">✅</span> Berhasil Disalin!';
-                
-                const countdownInterval = setInterval(() => {
-                    timeLeft--;
-                    if (timeLeft <= 0) {
-                        clearInterval(countdownInterval);
-                        buttonElement.innerHTML = originalContent; // Restore original content
-                        buttonElement.disabled = false; // Re-enable button
-                        buttonElement.style.cursor = 'pointer';
-                    } else {
-                        buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #4CAF50;">✅</span> Tunggu ${timeLeft}s...`;
-                    }
-                }, 1000);
+                // Success
+                buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #4CAF50;">✅</span> Berhasil Disalin!`;
+                buttonElement.style.backgroundColor = '#4CAF50'; // Green on success
+                applyCooldown(buttonElement, originalContent);
 
             }).catch(err => {
                 console.error('Gagal menyalin:', err);
-                alert("Gagal menyalin IP. Silakan salin secara manual: " + ipValue);
-                
-                // Re-enable faster on hard failure
-                buttonElement.innerHTML = '<span class="icon-placeholder" style="color: #FF5722;">❌</span> Gagal Salin! (Coba lagi)';
+
+                // **FALLBACK 1: Show IP on button + Prompt**
+                // Red on failure
+                buttonElement.style.backgroundColor = '#FF5722'; 
+                buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> **SALIN GAGAL (Batas). IP:** ${ipValue} (Coba Salin Manual)`;
+
+                // Use prompt as a robust fallback for copy
+                try {
+                    if (window.confirm("Gagal Salin Otomatis (Batas Peramban). Apakah Anda ingin menyalin IP melalui jendela Pop-up? (Pilih 'OK')")) {
+                        prompt("Salin IP ini secara manual (CTRL+C atau tekan lama):", ipValue);
+                    }
+                } catch(e) {
+                    // Fail gracefully
+                }
+
+                // **FALLBACK 2: Re-enable after short delay to allow manual copy and retry**
+                buttonElement.disabled = true;
                 setTimeout(() => {
                     buttonElement.innerHTML = originalContent;
+                    buttonElement.style.backgroundColor = ''; // Reset color
                     buttonElement.disabled = false;
-                    buttonElement.style.cursor = 'pointer';
-                }, 2000); // 2 seconds to show failure message
+                }, 4000); // 4 seconds to show failure message/manual copy option
             });
         }
         
-        // --- FUNGSI SALIN URL HOST DAN NAVIGASI (Dengan Cooldown) ---
+        // --- FUNGSI SALIN URL HOST DAN NAVIGASI (Anti-Rate Limit Robust) ---
         function copyAndNavigate(buttonElement, url, successMessage) {
             const originalContent = buttonElement.innerHTML;
             
@@ -460,42 +485,45 @@
                 return;
             }
 
-            buttonElement.disabled = true;
-            buttonElement.style.cursor = 'wait';
-
-            // Function to reset button state
-            const reEnableButton = () => {
-                buttonElement.innerHTML = originalContent;
-                buttonElement.disabled = false;
-                buttonElement.style.cursor = 'pointer';
-            };
-
+            // Attempt copy
             navigator.clipboard.writeText(url)
                 .then(() => {
                     alert(successMessage);
                     
-                    // Show success briefly before navigating
+                    // Success feedback
+                    buttonElement.style.backgroundColor = '#4CAF50';
                     buttonElement.innerHTML = '<span class="icon-placeholder" style="color: #4CAF50;">✅</span> Disalin & Mengunduh...';
                     
-                    // Navigate and then re-enable the button after 3 seconds, just in case the user comes back quickly
-                    setTimeout(() => {
-                        reEnableButton();
-                    }, 3000);
+                    applyCooldown(buttonElement, originalContent);
 
                     // Navigate immediately after showing alert/feedback
                     window.location.href = url;
                 })
                 .catch(err => {
                     console.error('Gagal menyalin:', err);
-                    alert("Gagal menyalin URL host. Silakan salin secara manual: " + url + ".");
+                    alert("Gagal menyalin URL host. Silakan salin secara manual dari tombol yang akan muncul.");
                     
-                    // Show failure and re-enable button after 2 seconds
-                    buttonElement.innerHTML = '<span class="icon-placeholder" style="color: #FF5722;">❌</span> Gagal Salin! (Coba lagi)';
-                    setTimeout(() => {
-                        reEnableButton();
-                    }, 2000);
+                    // **FALLBACK 1: Show URL on button + Prompt**
+                    buttonElement.style.backgroundColor = '#FF5722';
+                    buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> **SALIN GAGAL. URL:** ${url} (Coba Salin Manual)`;
 
-                    // Still navigate to the download URL, assuming user wants the file even if copy failed
+                    try {
+                        if (window.confirm("Gagal Salin Otomatis (Batas Peramban). Apakah Anda ingin menyalin URL melalui jendela Pop-up? (Pilih 'OK')")) {
+                            prompt("Salin URL ini secara manual (CTRL+C atau tekan lama):", url);
+                        }
+                    } catch(e) {
+                        // Fail gracefully
+                    }
+
+                    // **FALLBACK 2: Re-enable after short delay and navigate**
+                    buttonElement.disabled = true;
+                    setTimeout(() => {
+                        buttonElement.innerHTML = originalContent;
+                        buttonElement.style.backgroundColor = ''; 
+                        buttonElement.disabled = false;
+                    }, 4000);
+
+                    // Still navigate to the download URL
                     window.location.href = url;
                 });
         }
