@@ -3,15 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GrowRushPS - Status Server</title> <link rel="stylesheet" href="style.css">
+    <title>GrowRushPS - Status Server & Download</title>
+    
+    <style>
+        /* CSS INLINE UNTUK DESAIN DARK MODE (Agar Lebih Mudah) */
+        body {
+            background-color: #121212; /* Latar belakang gelap */
+            color: #E0E0E0; /* Teks terang */
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 50px 20px 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #1F1F1F; /* Sedikit lebih terang dari background */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #4CAF50; /* Warna hijau untuk nama */
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            color: #A0A0A0;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .server-status {
+            margin: 20px 0;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        #status-text {
+            /* Warna akan diatur oleh JavaScript */
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .host-section {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .host-section h2 {
+            font-size: 16px;
+            color: #A0A0A0;
+            margin-bottom: 15px;
+            font-weight: normal;
+        }
+
+        .action-button {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #2D2D2D;
+            color: #E0E0E0;
+            border: none;
+            border-radius: 8px;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .action-button:hover {
+            background-color: #404040;
+        }
+        
+        /* Icon placeholder (Anda bisa mengganti ini dengan ikon nyata) */
+        .action-button::before {
+            content: '⬇️'; /* Default icon */
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        /* Modifikasi ikon spesifik (opsional) */
+        .action-button:nth-child(2)::before { content: '📋'; } /* Copy IP */
+        .action-button:nth-child(3)::before { content: '💾'; } /* Download Host */
+        .action-button:nth-child(4)::before { content: '🔗'; } /* PowerTunnel */
+        .action-button:nth-child(5)::before { content: '🌐'; } /* Host GO */
+        .action-button:nth-child(6)::before { content: '🍏'; } /* iOS Host */
+
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>GrowRushPS</h1> <p class="description">Rasakan pengalaman bermain di Growtopia private server GrowRushPS dengan gameplay seru dan sistem yang stabil</p> <div class="server-status">
-            Server Status: <span id="status-text">ONLINE</span> <span class="status-icon">☐</span>
+        <h1>GrowRushPS</h1>
+        <p class="description">Rasakan pengalaman bermain di Growtopia private server dengan gameplay seru dan sistem yang stabil</p>
+
+        <div class="server-status">
+            Server Status: <span id="status-text">LOADING...</span> <span class="status-icon"></span>
         </div>
 
+        <div class="host-section">
+            <h2>HOST & DOWNLOAD</h2>
+            
+            <button class="action-button" onclick="copyIP('play.growrushps.net')">Copy IP</button>
+            
+            <button class="action-button" onclick="window.location.href='https://link-download-host.com'">Download Host</button>
+            
+            <button class="action-button" onclick="window.location.href='https://link-powertunnel-url.com'">PowerTunnel URL</button>
+            
+            <button class="action-button" onclick="window.location.href='https://link-hostgo-url.com'">Host GO URL</button>
+            
+            <button class="action-button" onclick="window.location.href='https://link-ios-host.com'">iOS Host</button>
         </div>
+    </div>
 
-    </body>
+    <script>
+        
+        // =======================================================
+        // == ⚠️ PENTING: GANTI DUA NILAI INI DENGAN DATA ASLI ANDA ==
+        // =======================================================
+        
+        // 1. Ganti dengan URL API Status Server Anda (dari Vercel/Server Anda)
+        const SERVER_STATUS_API_URL = 'https://<ganti-dengan-domain-anda>/api/status'; 
+
+        // 2. Ganti dengan IP/DNS yang benar yang akan disalin
+        const SERVER_IP = 'play.growrushps.net'; 
+        
+        // =======================================================
+
+
+        // --- FUNGSI COPY IP ---
+        function copyIP(ipValue) {
+            navigator.clipboard.writeText(ipValue).then(() => {
+                alert("IP " + ipValue + " berhasil disalin!");
+            }).catch(err => {
+                console.error('Gagal menyalin:', err);
+                alert("Gagal menyalin IP. Silakan salin secara manual: " + ipValue);
+            });
+        }
+        
+        // --- FUNGSI CEK STATUS SERVER ---
+        const statusTextElement = document.getElementById('status-text');
+
+        async function checkServerStatus() {
+            try {
+                // Panggil API endpoint status server Anda
+                const response = await fetch(SERVER_STATUS_API_URL);
+                const data = await response.json();
+
+                if (data.server.status === 'online') {
+                    statusTextElement.textContent = 'ONLINE';
+                    statusTextElement.style.color = '#4CAF50'; // Hijau
+                } else {
+                    statusTextElement.textContent = 'OFFLINE';
+                    statusTextElement.style.color = '#F44336'; // Merah
+                }
+            } catch (error) {
+                // Jika terjadi error koneksi ke API status server
+                console.error('Error fetching server status:', error);
+                statusTextElement.textContent = 'UNKNOWN';
+                statusTextElement.style.color = '#FF9800'; // Oranye
+            }
+        }
+
+        // Panggil fungsi saat halaman dimuat
+        checkServerStatus(); 
+        
+        // Opsional: Periksa status setiap 30 detik
+        setInterval(checkServerStatus, 30000); 
+
+    </script>
+</body>
 </html>
