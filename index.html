@@ -46,29 +46,25 @@
             border: 1px solid var(--border-dark);
         }
         
-        /* LOGO BARU (H1) */
+        /* LOGO (H1) */
         h1 { 
-            font-size: 40px; /* Lebih besar */
-            margin-bottom: 5px; /* Margin lebih kecil */
-            font-weight: 800; /* Lebih tebal */
-            
-            /* Efek Gradient pada Teks */
+            font-size: 40px; 
+            margin-bottom: 5px; 
+            font-weight: 800; 
             background: linear-gradient(90deg, #64B5F6 0%, #2196F3 100%); 
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-fill-color: transparent;
-            
-            /* Efek Glow Kuat */
             text-shadow: 0 0 15px var(--main-blue-light), 0 0 3px var(--main-blue); 
         }
         
         /* Tagline (Description) */
         .description { 
-            color: #81D4FA; /* Warna biru muda untuk tagline */
-            font-size: 13px; /* Ukuran lebih kecil */
+            color: #81D4FA;
+            font-size: 13px;
             font-weight: 500;
-            margin-top: 5px; /* Diangkat mendekati logo */
+            margin-top: 5px;
             margin-bottom: 30px; 
         }
         
@@ -149,31 +145,57 @@
             margin-top: 10px;
         }
 
-        /* KOTAK PANDUAN CARA BERMAIN TERPISAH (POJOK KIRI BAWAH) */
-        .gameplay-guide-standalone {
-            margin-top: 30px;
-            padding: 15px;
-            background-color: rgba(33, 150, 243, 0.1);
-            border: 1px solid var(--main-blue);
-            border-radius: 8px;
-            text-align: left;
-            font-size: 13px;
-            box-shadow: 0 0 10px rgba(33, 150, 243, 0.2);
-            max-width: 95%;
-            margin-right: auto;
-            margin-left: 0;
-        }
-        .gameplay-guide-standalone .guide-title {
-            color: var(--main-blue);
-            font-size: 14px;
-            margin-bottom: 10px;
+        /* FLOATING BUTTON & CONTENT (POJOK KIRI BAWAH) */
+        #floating-guide-button {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: var(--main-blue);
+            color: white;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
             font-weight: 700;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .gameplay-guide-standalone .guide-list {
+        #floating-guide-button:hover {
+            background-color: #1976D2;
+        }
+
+        #floating-guide-content {
+            position: fixed;
+            bottom: 80px; /* Di atas tombol */
+            left: 20px;
+            width: 300px;
+            max-height: 400px;
+            background-color: var(--bg-card); 
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid var(--main-blue);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none; /* Sembunyikan secara default */
+            text-align: left;
+            overflow-y: auto;
+        }
+        #floating-guide-content .guide-title {
+            color: var(--main-blue);
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        #floating-guide-content .guide-list {
             list-style-type: disc;
             margin-left: 20px;
             color: var(--text-dark);
             padding-left: 0;
+            font-size: 13px;
         }
     </style>
 </head>
@@ -198,7 +220,7 @@
             </button>
             
             <button class="action-button" onclick="copyAndNavigate('https://as.panel.growsoft.cc/android/355', 'URL Host PowerTunnel berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
-                <span class="icon-placeholder">🔗</span> PowerTunnel URL (Salin & Unduh)
+                <span class="icon-placeholder">🔗</span> PowerTunnel URL 
             </button>
             
             <button class="action-button" onclick="window.location.href='hostgo://15.235.227.241/growtopia1.com,growtopia2.com,www.growtopia1.com,www.growtopia2.com'">
@@ -206,7 +228,7 @@
             </button>
             
             <button class="action-button" onclick="copyAndNavigate('https://as.panel.growsoft.cc/ios/355', 'URL Konfigurasi Host iOS berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
-                <span class="icon-placeholder">🍏</span> iOS Host (Salin & Unduh)
+                <span class="icon-placeholder">🍏</span> iOS Host 
             </button>
             <p class="note">⚠️ Rekomendasi klien iOS: **Surge 5**</p>
         </div>
@@ -255,18 +277,22 @@
                 <p class="admin-note">❗ **PENTING:** Anda harus menjalankan Notepad/editor teks sebagai **Administrator** agar dapat menyimpan perubahan pada file hosts.</p>
             </div>
         </div>
-        
-        <div class="gameplay-guide-standalone">
-            <p class="guide-title">🎮 Cara Bermain GrowRushPS:</p>
-            <ul class="guide-list">
-                <li>**Koneksi:** Pastikan Anda sudah menggunakan salah satu metode di atas (PowerTunnel/iOS/Windows) untuk login.</li>
-                <li>**Starter Pack:** Setelah login, ketik `/start` atau `/kit` di kolom *chat* untuk mendapatkan peralatan dasar dan modal awal.</li>
-                <li>**Fitur Server:** Gunakan perintah `/help` atau `/commands` untuk melihat semua fitur dan perintah unik.</li>
-                <li>**Warp:** Untuk berpindah antar dunia fitur/jual beli, gunakan `/warp <nama_dunia>`.</li>
-                <li>**Bantuan:** Jika ada masalah serius, gunakan `/mod` untuk memanggil staff atau hubungi komunitas Discord/Grup.</li>
-            </ul>
-        </div>
 
+    </div>
+    
+    <button id="floating-guide-button" onclick="toggleGuide()">
+        🎮 Cara Bermain
+    </button>
+    
+    <div id="floating-guide-content">
+        <p class="guide-title">🎮 Cara Bermain GrowRushPS:</p>
+        <ul class="guide-list">
+            <li>**Koneksi:** Pastikan Anda sudah menggunakan salah satu metode di tab koneksi (PowerTunnel/iOS/Windows) untuk login.</li>
+            <li>**Starter Pack:** Setelah login, ketik `/start` atau `/kit` di kolom *chat* untuk mendapatkan peralatan dasar dan modal awal.</li>
+            <li>**Fitur Server:** Gunakan perintah `/help` atau `/commands` untuk melihat semua fitur dan perintah unik.</li>
+            <li>**Warp:** Untuk berpindah antar dunia fitur/jual beli, gunakan `/warp <nama_dunia>`.</li>
+            <li>**Bantuan:** Jika ada masalah serius, gunakan `/mod` untuk memanggil staff atau hubungi komunitas Discord/Grup.</li>
+        </ul>
     </div>
 
     <script>
@@ -286,7 +312,6 @@
         
         // --- FUNGSI SALIN URL HOST DAN NAVIGASI ---
         function copyAndNavigate(url, successMessage) {
-            // 1. Salin URL ke clipboard
             navigator.clipboard.writeText(url)
                 .then(() => {
                     alert(successMessage);
@@ -296,7 +321,6 @@
                     alert("Gagal menyalin URL host. Silakan salin secara manual: " + url);
                 });
 
-            // 2. Navigasi ke tautan download
             window.location.href = url;
         }
 
@@ -304,21 +328,31 @@
         function openGuide(evt, guideName) {
             var i, tabcontent, tablinks;
 
-            // Sembunyikan semua konten tab
+            // Pastikan floating guide tertutup saat tab utama dibuka
+            document.getElementById('floating-guide-content').style.display = 'none';
+
             tabcontent = document.getElementsByClassName("tab-content");
             for (i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].classList.add("hidden");
             }
 
-            // Hapus kelas 'active' dari semua tombol tab
             tablinks = document.getElementsByClassName("tab-button");
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].classList.remove("active");
             }
 
-            // Tampilkan konten tab saat ini dan tambahkan kelas 'active' ke tombol
             document.getElementById(guideName).classList.remove("hidden");
             evt.currentTarget.classList.add("active");
+        }
+        
+        // --- FUNGSI TOGGLE FLOATING GUIDE ---
+        function toggleGuide() {
+            var guideBox = document.getElementById('floating-guide-content');
+            if (guideBox.style.display === 'none' || guideBox.style.display === '') {
+                guideBox.style.display = 'block';
+            } else {
+                guideBox.style.display = 'none';
+            }
         }
         
     </script>
