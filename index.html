@@ -29,13 +29,11 @@
         body { 
             /* BACKGROUND BARU: Gradien + Pola Titik Halus (Tekstur) */
             background: 
-                /* Overlay Pattern: Subtle dark dots */
                 radial-gradient(circle at center, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
-                /* Base Gradient */
                 linear-gradient(135deg, var(--bg-dark-1) 0%, var(--bg-dark-2) 50%, var(--bg-dark-1) 100%);
             
-            background-size: 15px 15px; /* Ukuran pengulangan pattern */
-            background-attachment: fixed; /* Menjaga background tetap saat scroll */
+            background-size: 15px 15px;
+            background-attachment: fixed;
             
             color: var(--text-light); 
             font-family: 'Poppins', sans-serif; 
@@ -153,6 +151,46 @@
             font-size: 12px;
             margin-top: 10px;
         }
+        
+        /* CSS BARU: SOCIAL MEDIA SECTION */
+        .social-media-section {
+            margin-top: 30px;
+            text-align: center;
+            padding-top: 15px;
+            border-top: 1px solid #333333;
+        }
+        .social-media-section h3 {
+            font-size: 14px;
+            color: var(--main-blue);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .social-button {
+            color: var(--text-light);
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        .social-button:hover {
+            background-color: var(--bg-button-hover);
+        }
+        .social-icon {
+            margin-right: 5px;
+            font-size: 18px;
+            color: var(--main-blue); /* Ikon sosial media berwarna biru */
+        }
+        /* END NEW CSS */
 
         /* FLOATING BUTTON & CONTENT (POJOK KIRI BAWAH) */
         #floating-guide-button {
@@ -221,25 +259,25 @@
             <h2>HOST & DOWNLOAD</h2>
             
             <button class="action-button" onclick="copyIP('15.235.227.241')">
-                <span class="icon-placeholder">📋</span> Windows
+                <span class="icon-placeholder">📋</span> Salin IP
             </button>
             
             <button class="action-button" onclick="window.location.href='https://raw.githubusercontent.com/growrushpsv-web/Growrush-Homepage/refs/heads/main/host.txt'">
-                <span class="icon-placeholder">💾</span> Virtual Host
+                <span class="icon-placeholder">💾</span> Unduh Host
             </button>
             
             <button class="action-button" onclick="copyAndNavigate('https://as.panel.growsoft.cc/android/355', 'URL Host PowerTunnel berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
-                <span class="icon-placeholder">🔗</span> PowerTunnel
+                <span class="icon-placeholder">🔗</span> PowerTunnel URL (Salin & Unduh)
             </button>
             
             <button class="action-button" onclick="window.location.href='hostgo://15.235.227.241/growtopia1.com,growtopia2.com,www.growtopia1.com,www.growtopia2.com'">
-                <span class="icon-placeholder">🌐</span> Host GO
+                <span class="icon-placeholder">🌐</span> Host GO URL
             </button>
             
             <button class="action-button" onclick="copyAndNavigate('https://as.panel.growsoft.cc/ios/355', 'URL Konfigurasi Host iOS berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
-                <span class="icon-placeholder">🍏</span> iOS
+                <span class="icon-placeholder">🍏</span> iOS Host (Salin & Unduh)
             </button>
-            <p class="note">⚠️ Rekomendasi klien iOS: Surge 5</p>
+            <p class="note">⚠️ Rekomendasi klien iOS: **Surge 5**</p>
         </div>
 
         <div class="tabs-container">
@@ -250,40 +288,55 @@
             </div>
 
             <div id="PowerTunnel" class="tab-content">
-                <p class="guide-title">⚙️ Panduan Penggunaan Android:</p>
+                <p class="guide-title">⚙️ Panduan Penggunaan PowerTunnel:</p>
                 <ol class="guide-list">
-                    <li>Pertama, unduh Aplikasi PowerTunnel dari tautan di tombol di atas.</li>
-                    <li>Kemudian, klik tombol PowerTunnel tersebut. Ini akan menyalin tautan host PowerTunnel ke clipboard Anda.</li>
+                    <li>Pertama, unduh Aplikasi **PowerTunnel** dari tautan di tombol di atas.</li>
+                    <li>Kemudian, **klik tombol PowerTunnel** tersebut. Ini akan menyalin tautan host PowerTunnel ke *clipboard* Anda.</li>
                     <li>Buka aplikasi PowerTunnel, klik ikon tiga garis, lalu klik ikon pengaturan host.</li>
-                    <li>Tempel URL host yang sudah disalin. Ubah periode pembaruan host dari 12 jam menjadi 'on start'.</li>
-                    <li>Sekarang, Anda bisa login ke GrowRushPS (Growtopia Private Server) Anda!</li>
+                    <li>**Tempel** URL host yang sudah disalin. Ubah periode pembaruan host dari **12 jam menjadi 'on start'**.</li>
+                    <li>Sekarang, Anda bisa login ke GTPS (Growtopia Private Server) Anda!</li>
                 </ol>
             </div>
 
             <div id="iOS" class="tab-content hidden">
                 <p class="guide-title">🍏 Panduan Penggunaan iOS (Surge 5):</p>
                 <ol class="guide-list">
-                    <li>Unduh Aplikasi bernama: "Surge 5" dari App Store.</li>
-                    <li>Setelah menginstal, tekan "OK".</li>
-                    <li>Klik pada "Default.conf".</li>
-                    <li>Klik bagian "IMPORT" - Unduh Profil dari URL.</li>
-                    <li>Tempel URL yang Anda salin saat menekan tombol Host iOS di atas, lalu klik "OK" dan "Selesai".</li>
-                    <li>Tekan "SETUP" (Pengaturan) dan setujui kebijakan dengan mengklik "OK" dan "Izinkan" untuk Konfigurasi VPN!</li>
-                    <li>Selesai, buka aplikasi "Growtopia" dan sambungkan!</li>
+                    <li>Unduh Aplikasi bernama: **"Surge 5"** dari App Store.</li>
+                    <li>Setelah menginstal, tekan **"OK"**.</li>
+                    <li>Klik pada **"Default.conf"**.</li>
+                    <li>Klik bagian **"IMPORT"** - Unduh Profil dari URL.</li>
+                    <li>**Tempel** URL yang Anda salin saat menekan tombol **Host iOS** di atas, lalu klik **"OK"** dan **"Selesai"**.</li>
+                    <li>Tekan **"SETUP"** (Pengaturan) dan setujui kebijakan dengan mengklik **"OK"** dan **"Izinkan"** untuk Konfigurasi VPN!</li>
+                    <li>**Selesai**, buka aplikasi **"Growtopia"** dan sambungkan!</li>
                 </ol>
             </div>
 
             <div id="Windows" class="tab-content hidden">
                 <p class="guide-title">💻 Panduan Penggunaan Windows (Host File):</p>
                 <ol class="guide-list">
-                    <li>Tekan ⊞ Win+R (Tombol Windows + R) untuk membuka jendela "Run" (Jalankan).</li>
+                    <li>Tekan **⊞ Win+R** (Tombol Windows + R) untuk membuka jendela "Run" (Jalankan).</li>
                     <li>Ketik `C:\Windows\System32\drivers\etc` di kotak teks.</li>
-                    <li>Cari file bernama hosts.</li>
-                    <li>Klik kanan pada file hosts dan edit dengan Notepad atau editor teks.</li>
-                    <li>Tambahkan baris IP/Domain yang Anda dapatkan dari tombol Unduh Host di bagian paling bawah file.</li>
+                    <li>Cari file bernama **hosts**.</li>
+                    <li>Klik kanan pada file **hosts** dan edit dengan **Notepad** atau editor teks.</li>
+                    <li>Tambahkan baris IP/Domain yang Anda dapatkan dari tombol **Unduh Host** di bagian paling bawah file.</li>
                     <li>Kemudian Simpan (Save) dan segera login ke Growtopia Anda.</li>
                 </ol>
-                <p class="admin-note">❗ PENTING: Anda harus menjalankan Notepad/editor teks sebagai Administrator agar dapat menyimpan perubahan pada file hosts.</p>
+                <p class="admin-note">❗ **PENTING:** Anda harus menjalankan Notepad/editor teks sebagai **Administrator** agar dapat menyimpan perubahan pada file hosts.</p>
+            </div>
+        </div>
+
+        <div class="social-media-section">
+            <h3>KOMUNITAS & MEDIA SOSIAL</h3>
+            <div class="social-links">
+                <a href="https://discord.gg/kFDepPDe7G" target="_blank" class="social-button">
+                    <span class="social-icon">💬</span> Discord
+                </a>
+                <a href="https://chat.whatsapp.com/Elq453EwzudLyUIi4nuDik" target="_blank" class="social-button">
+                    <span class="social-icon">📱</span> WhatsApp
+                </a>
+                <a href="Coming Soon" target="_blank" class="social-button">
+                    <span class="social-icon">✈️</span> Telegram
+                </a>
             </div>
         </div>
 
@@ -296,11 +349,11 @@
     <div id="floating-guide-content">
         <p class="guide-title">🎮 Cara Bermain GrowRushPS:</p>
         <ul class="guide-list">
-            <li>Pastikan Anda sudah menggunakan salah satu metode di tab koneksi (PowerTunnel/iOS/Windows) untuk login.</li>
-            <li>Setelah Koneksi Aktif Masuk Ke Permainan Growtopia dan Klik Login Masukan Nama Server GrowRushPS.</li></li>
-            <li>Hadiah eksklusif untuk pendatang baru. Klaim sekarang dan mulai bermain dengan perlengkapan premium dari GrowRushPS. </li>
-            <li>Nikmati sistem perdagangan paling simpel dan aman.Pasang barangmu, tentukan harga, dan biarkan pemain lain membeli!</li>
-            <li>Butuh pertolongan? Tim staff GrowRushPS siap membantuGunakan /Report untuk memanggil staff yang online, atau kunjungi Discord resmi untuk dukungan lebih lengkap.</li>
+            <li>**Koneksi:** Pastikan Anda sudah menggunakan salah satu metode di tab koneksi (PowerTunnel/iOS/Windows) untuk login.</li>
+            <li>**Starter Pack:** Setelah login, ketik `/start` atau `/kit` di kolom *chat* untuk mendapatkan peralatan dasar dan modal awal.</li>
+            <li>**Fitur Server:** Gunakan perintah `/help` atau `/commands` untuk melihat semua fitur dan perintah unik.</li>
+            <li>**Warp:** Untuk berpindah antar dunia fitur/jual beli, gunakan `/warp <nama_dunia>`.</li>
+            <li>**Bantuan:** Jika ada masalah serius, gunakan `/mod` untuk memanggil staff atau hubungi komunitas Discord/Grup.</li>
         </ul>
     </div>
 
