@@ -10,9 +10,9 @@
     <style>
         /* Definisi Warna */
         :root {
-            --main-blue: #2196F3; /* Biru utama */
-            --main-blue-light: rgba(33, 150, 243, 0.4); /* Biru lebih terang untuk glow */
-            --main-blue-dark: rgba(33, 150, 243, 0.6); /* Biru lebih gelap untuk hover glow */
+            --main-blue: #2196F3;
+            --main-blue-light: rgba(33, 150, 243, 0.4);
+            --main-blue-dark: rgba(33, 150, 243, 0.6);
             --text-light: #E0E0E0;
             --text-dark: #A0A0A0;
             --bg-dark-1: #0d0d0d;
@@ -40,22 +40,41 @@
             padding: 20px; 
             background-color: var(--bg-card); 
             border-radius: 12px;
-            /* BINGKAI/FRAME BARU: Efek Shadow Glow Biru */
             box-shadow: 
                 0 4px 15px rgba(0, 0, 0, 0.8),
                 0 0 20px var(--main-blue-light); 
             border: 1px solid var(--border-dark);
         }
+        
+        /* LOGO BARU (H1) */
         h1 { 
-            color: var(--main-blue); 
-            font-size: 36px; 
-            margin-bottom: 10px; 
-            text-shadow: 0 0 10px var(--main-blue-light); 
+            font-size: 40px; /* Lebih besar */
+            margin-bottom: 5px; /* Margin lebih kecil */
+            font-weight: 800; /* Lebih tebal */
+            
+            /* Efek Gradient pada Teks */
+            background: linear-gradient(90deg, #64B5F6 0%, #2196F3 100%); 
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            
+            /* Efek Glow Kuat */
+            text-shadow: 0 0 15px var(--main-blue-light), 0 0 3px var(--main-blue); 
         }
-        .description { color: var(--text-dark); font-size: 14px; margin-bottom: 30px; }
+        
+        /* Tagline (Description) */
+        .description { 
+            color: #81D4FA; /* Warna biru muda untuk tagline */
+            font-size: 13px; /* Ukuran lebih kecil */
+            font-weight: 500;
+            margin-top: 5px; /* Diangkat mendekati logo */
+            margin-bottom: 30px; 
+        }
+        
         .server-status { margin: 20px 0; font-size: 18px; font-weight: 600; }
         #status-text { 
-            color: var(--main-blue); /* Status teks juga biru */
+            color: var(--main-blue);
             font-weight: 800; 
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); 
         }
@@ -68,16 +87,16 @@
             background-color: var(--bg-button-hover); 
             box-shadow: 
                 0 5px 10px rgba(0, 0, 0, 0.6),
-                0 0 8px var(--main-blue-dark); /* Glow saat di-hover */
+                0 0 8px var(--main-blue-dark);
         }
         .icon-placeholder { 
             margin-right: 15px; 
             font-size: 20px; 
-            color: var(--main-blue); /* Ikon di tombol juga biru */
+            color: var(--main-blue);
         }
         .note { font-size: 12px; color: var(--text-dark); margin-top: -5px; margin-bottom: 10px; text-align: left; padding-left: 10px; }
 
-        /* CSS TAB */
+        /* CSS TAB KONEKSI */
         .tabs-container { margin-top: 20px; }
         .tab-buttons { display: flex; margin-bottom: 10px; }
         .tab-button {
@@ -90,13 +109,13 @@
             cursor: pointer;
             font-weight: 600;
             transition: background-color 0.3s, border-bottom-color 0.3s, color 0.3s;
-            font-size: 11px;
+            font-size: 12px;
             margin: 0 1px;
         }
         .tab-button.active {
             background-color: var(--tab-border);
-            color: var(--main-blue); /* Teks tab aktif biru */
-            border-bottom: 3px solid var(--main-blue); /* Garis bawah tab aktif biru */
+            color: var(--main-blue);
+            border-bottom: 3px solid var(--main-blue);
         }
         .tab-content {
             padding: 15px;
@@ -128,6 +147,33 @@
             color: var(--warning-orange);
             font-size: 12px;
             margin-top: 10px;
+        }
+
+        /* KOTAK PANDUAN CARA BERMAIN TERPISAH (POJOK KIRI BAWAH) */
+        .gameplay-guide-standalone {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: rgba(33, 150, 243, 0.1);
+            border: 1px solid var(--main-blue);
+            border-radius: 8px;
+            text-align: left;
+            font-size: 13px;
+            box-shadow: 0 0 10px rgba(33, 150, 243, 0.2);
+            max-width: 95%;
+            margin-right: auto;
+            margin-left: 0;
+        }
+        .gameplay-guide-standalone .guide-title {
+            color: var(--main-blue);
+            font-size: 14px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .gameplay-guide-standalone .guide-list {
+            list-style-type: disc;
+            margin-left: 20px;
+            color: var(--text-dark);
+            padding-left: 0;
         }
     </style>
 </head>
@@ -167,25 +213,12 @@
 
         <div class="tabs-container">
             <div class="tab-buttons">
-                <button class="tab-button active" onclick="openGuide(event, 'Gameplay')">🎮 Cara Bermain</button>
-                <button class="tab-button" onclick="openGuide(event, 'PowerTunnel')">⚙️ PowerTunnel</button>
+                <button class="tab-button active" onclick="openGuide(event, 'PowerTunnel')">⚙️ PowerTunnel</button>
                 <button class="tab-button" onclick="openGuide(event, 'iOS')">🍏 iOS (Surge 5)</button>
                 <button class="tab-button" onclick="openGuide(event, 'Windows')">💻 Windows</button>
             </div>
 
-            <div id="Gameplay" class="tab-content">
-                <p class="guide-title">🎮 Panduan Gameplay Dasar:</p>
-                <ol class="guide-list">
-                    <li>**Langkah Pertama:** Pastikan Anda sudah mengikuti panduan koneksi (tab di sebelah) untuk bisa login ke server.</li>
-                    <li>**Masuk ke Dunia:** Setelah login, Anda akan berada di dunia `START` atau `TUTORIAL`.</li>
-                    <li>**Ambil Item:** Ketik `/start` atau `/kit` di kolom *chat* untuk mendapatkan peralatan dasar (starter pack) dan modal awal.</li>
-                    <li>**Informasi Server:** Gunakan perintah `/help` atau `/commands` untuk melihat semua fitur dan perintah unik yang tersedia di GrowRushPS.</li>
-                    <li>**Teleportasi:** Untuk berpindah antar dunia fitur, gunakan `/warp <nama_dunia>` (contoh: `/warp SHOP`).</li>
-                    <li>**Selamat Bermain!** Jika ada masalah, gunakan `/mod` untuk memanggil staff atau bergabung ke komunitas Discord/Grup.</li>
-                </ol>
-            </div>
-
-            <div id="PowerTunnel" class="tab-content hidden">
+            <div id="PowerTunnel" class="tab-content">
                 <p class="guide-title">⚙️ Panduan Penggunaan PowerTunnel:</p>
                 <ol class="guide-list">
                     <li>Pertama, unduh Aplikasi **PowerTunnel** dari tautan di tombol di atas.</li>
@@ -221,6 +254,17 @@
                 </ol>
                 <p class="admin-note">❗ **PENTING:** Anda harus menjalankan Notepad/editor teks sebagai **Administrator** agar dapat menyimpan perubahan pada file hosts.</p>
             </div>
+        </div>
+        
+        <div class="gameplay-guide-standalone">
+            <p class="guide-title">🎮 Cara Bermain GrowRushPS:</p>
+            <ul class="guide-list">
+                <li>**Koneksi:** Pastikan Anda sudah menggunakan salah satu metode di atas (PowerTunnel/iOS/Windows) untuk login.</li>
+                <li>**Starter Pack:** Setelah login, ketik `/start` atau `/kit` di kolom *chat* untuk mendapatkan peralatan dasar dan modal awal.</li>
+                <li>**Fitur Server:** Gunakan perintah `/help` atau `/commands` untuk melihat semua fitur dan perintah unik.</li>
+                <li>**Warp:** Untuk berpindah antar dunia fitur/jual beli, gunakan `/warp <nama_dunia>`.</li>
+                <li>**Bantuan:** Jika ada masalah serius, gunakan `/mod` untuk memanggil staff atau hubungi komunitas Discord/Grup.</li>
+            </ul>
         </div>
 
     </div>
