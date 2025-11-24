@@ -8,14 +8,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* CSS SAMA SEPERTI VERSI SEBELUMNYA */
+        /* CSS UMUM */
         body { background-color: #121212; color: #E0E0E0; font-family: 'Poppins', sans-serif; text-align: center; padding: 50px 20px 20px; }
         .container { max-width: 400px; margin: 0 auto; padding: 20px; background-color: #1F1F1F; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); }
         h1 { color: #4CAF50; font-size: 36px; margin-bottom: 10px; text-shadow: 0 0 8px rgba(76, 175, 80, 0.7); }
         .description { color: #A0A0A0; font-size: 14px; margin-bottom: 30px; }
         .server-status { margin: 20px 0; font-size: 18px; font-weight: 600; }
         #status-text { 
-            /* Warna dan Gaya Ditetapkan di HTML (ONLINE) */
             font-weight: 700; 
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); 
         }
@@ -27,6 +26,58 @@
         .action-button:hover { background-color: #404040; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.6); }
         .icon-placeholder { margin-right: 15px; font-size: 20px; }
         .note { font-size: 12px; color: #A0A0A0; margin-top: -5px; margin-bottom: 10px; text-align: left; padding-left: 10px; }
+
+        /* CSS TAB */
+        .tabs-container { margin-top: 20px; }
+        .tab-buttons { display: flex; margin-bottom: 10px; }
+        .tab-button {
+            flex-grow: 1;
+            padding: 10px 5px;
+            background-color: #2D2D2D;
+            color: #A0A0A0;
+            border: none;
+            border-bottom: 3px solid #3d3d3d;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s, border-bottom-color 0.3s, color 0.3s;
+            font-size: 12px; /* Ukuran font lebih kecil agar tiga tombol muat */
+        }
+        .tab-button.active {
+            background-color: #3d3d3d;
+            color: #4CAF50;
+            border-bottom: 3px solid #4CAF50;
+        }
+        .tab-content {
+            padding: 15px;
+            background-color: #2D2D2D; 
+            border-radius: 0 0 8px 8px;
+            text-align: left;
+        }
+        .tab-content.hidden {
+            display: none;
+        }
+        .guide-title { 
+            font-size: 15px; 
+            font-weight: 600; 
+            color: #E0E0E0; 
+            margin-bottom: 10px;
+        }
+        .guide-list {
+            list-style-type: decimal;
+            margin-left: 20px;
+            font-size: 13px;
+            color: #A0A0A0;
+            text-align: left;
+            padding-left: 0;
+        }
+        .guide-list li {
+            margin-bottom: 8px;
+        }
+        .admin-note {
+            color: #FF9800;
+            font-size: 12px;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -35,41 +86,87 @@
         <p class="description">Rasakan pengalaman bermain di Growtopia private server dengan gameplay seru dan sistem yang stabil</p>
 
         <div class="server-status">
-            Server Status: <span id="status-text" style="color: #4CAF50;">ONLINE</span>
+            Server Status: <span id="status-text" style="color: #4CAF50;">UP</span>
         </div>
 
         <div class="host-section">
             <h2>HOST & DOWNLOAD</h2>
             
             <button class="action-button" onclick="copyIP('15.235.227.241')">
-                <span class="icon-placeholder">📋</span> Copy IP
+                <span class="icon-placeholder">📋</span> Salin IP
             </button>
             
             <button class="action-button" onclick="window.location.href='https://raw.githubusercontent.com/growrushpsv-web/Growrush-Homepage/refs/heads/main/host.txt'">
-                <span class="icon-placeholder">💾</span> Download Host
+                <span class="icon-placeholder">💾</span> Unduh Host
             </button>
             
-            <button class="action-button" onclick="window.location.href='https://as.panel.growsoft.cc/android/355'">
-                <span class="icon-placeholder">🔗</span> PowerTunnel URL
+            <button class="action-button" onclick="copyAndNavigate('https://as.panel.growsoft.cc/android/355', 'URL Host PowerTunnel berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
+                <span class="icon-placeholder">🔗</span> PowerTunnel URL (Salin & Unduh)
             </button>
             
             <button class="action-button" onclick="window.location.href='hostgo://15.235.227.241/growtopia1.com,growtopia2.com,www.growtopia1.com,www.growtopia2.com'">
                 <span class="icon-placeholder">🌐</span> Host GO URL
             </button>
             
-            <button class="action-button" onclick="window.location.href='https://as.panel.growsoft.cc/ios/355'">
-                <span class="icon-placeholder">🍏</span> iOS Host
+            <button class="action-button" onclick="copyAndNavigate('https://as.panel.growsoft.cc/ios/355', 'URL Konfigurasi Host iOS berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
+                <span class="icon-placeholder">🍏</span> iOS Host (Salin & Unduh)
             </button>
             <p class="note">⚠️ Rekomendasi klien iOS: **Surge 5**</p>
         </div>
+
+        <div class="tabs-container">
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="openGuide(event, 'PowerTunnel')">PowerTunnel</button>
+                <button class="tab-button" onclick="openGuide(event, 'iOS')">iOS (Surge 5)</button>
+                <button class="tab-button" onclick="openGuide(event, 'Windows')">Windows (Host File)</button>
+            </div>
+
+            <div id="PowerTunnel" class="tab-content">
+                <p class="guide-title">⚙️ Panduan Penggunaan PowerTunnel:</p>
+                <ol class="guide-list">
+                    <li>Pertama, unduh Aplikasi **PowerTunnel** dari tautan di tombol di atas.</li>
+                    <li>Kemudian, **klik tombol PowerTunnel** tersebut. Ini akan menyalin tautan host PowerTunnel ke *clipboard* Anda.</li>
+                    <li>Buka aplikasi PowerTunnel, klik ikon tiga garis, lalu klik ikon pengaturan host.</li>
+                    <li>**Tempel** URL host yang sudah disalin. Ubah periode pembaruan host dari **12 jam menjadi 'on start'**.</li>
+                    <li>Sekarang, Anda bisa login ke GTPS (Growtopia Private Server) Anda!</li>
+                </ol>
+            </div>
+
+            <div id="iOS" class="tab-content hidden">
+                <p class="guide-title">🍏 Panduan Penggunaan iOS (Surge 5):</p>
+                <ol class="guide-list">
+                    <li>Unduh Aplikasi bernama: **"Surge 5"** dari App Store.</li>
+                    <li>Setelah menginstal, tekan **"OK"**.</li>
+                    <li>Klik pada **"Default.conf"**.</li>
+                    <li>Klik bagian **"IMPORT"** - Unduh Profil dari URL.</li>
+                    <li>**Tempel** URL yang Anda salin saat menekan tombol **Host iOS** di atas, lalu klik **"OK"** dan **"Selesai"**.</li>
+                    <li>Tekan **"SETUP"** (Pengaturan) dan setujui kebijakan dengan mengklik **"OK"** dan **"Izinkan"** untuk Konfigurasi VPN!</li>
+                    <li>**Selesai**, buka aplikasi **"Growtopia"** dan sambungkan!</li>
+                </ol>
+            </div>
+
+            <div id="Windows" class="tab-content hidden">
+                <p class="guide-title">💻 Panduan Penggunaan Windows (Host File):</p>
+                <ol class="guide-list">
+                    <li>Tekan **⊞ Win+R** (Tombol Windows + R) untuk membuka jendela "Run" (Jalankan).</li>
+                    <li>Ketik `C:\Windows\System32\drivers\etc` di kotak teks.</li>
+                    <li>Cari file bernama **hosts**.</li>
+                    <li>Klik kanan pada file **hosts** dan edit dengan **Notepad** atau editor teks.</li>
+                    <li>Tambahkan baris IP/Domain yang Anda dapatkan dari tombol **Unduh Host** di bagian paling bawah file.</li>
+                    <li>Kemudian Simpan (Save) dan segera login ke Growtopia Anda.</li>
+                </ol>
+                <p class="admin-note">❗ **PENTING:** Anda harus menjalankan Notepad/editor teks sebagai **Administrator** agar dapat menyimpan perubahan pada file hosts.</p>
+            </div>
+        </div>
+
     </div>
 
     <script>
         
-        // Konstanta IP untuk fungsi Copy IP
+        // Konstanta IP untuk fungsi Salin IP
         const SERVER_IP = '15.235.227.241'; 
         
-        // --- FUNGSI COPY IP ---
+        // --- FUNGSI SALIN IP ---
         function copyIP(ipValue) {
             navigator.clipboard.writeText(ipValue).then(() => {
                 alert("IP " + ipValue + " berhasil disalin!");
@@ -79,8 +176,48 @@
             });
         }
         
-        // CATATAN: Fungsi cekServerStatus dan interval telah dihapus
-        // karena status sekarang di-hardcode menjadi ONLINE.
+        // --- FUNGSI SALIN URL HOST DAN NAVIGASI ---
+        function copyAndNavigate(url, successMessage) {
+            // 1. Salin URL ke clipboard
+            navigator.clipboard.writeText(url)
+                .then(() => {
+                    alert(successMessage);
+                })
+                .catch(err => {
+                    console.error('Gagal menyalin:', err);
+                    alert("Gagal menyalin URL host. Silakan salin secara manual: " + url);
+                });
+
+            // 2. Navigasi ke tautan download
+            window.location.href = url;
+        }
+
+        // --- FUNGSI TAB SWITCHING ---
+        function openGuide(evt, guideName) {
+            var i, tabcontent, tablinks;
+
+            // Sembunyikan semua konten tab
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.add("hidden");
+            }
+
+            // Hapus kelas 'active' dari semua tombol tab
+            tablinks = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+
+            // Tampilkan konten tab saat ini dan tambahkan kelas 'active' ke tombol
+            document.getElementById(guideName).classList.remove("hidden");
+            evt.currentTarget.classList.add("active");
+        }
+        
+        // Set tab PowerTunnel sebagai default saat dimuat
+        document.addEventListener("DOMContentLoaded", () => {
+             // Pastikan PowerTunnel (tab pertama) aktif secara default
+             // Ini sudah diatur oleh class="active" di HTML, jadi tidak perlu kode tambahan
+        });
 
     </script>
 </body>
