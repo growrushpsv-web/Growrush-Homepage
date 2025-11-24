@@ -27,7 +27,7 @@
 
         /* CSS UMUM */
         body { 
-            /* BACKGROUND BARU: Gradien + Pola Titik Halus (Tekstur) */
+            /* BACKGROUND: Gradien + Pola Titik Halus (Tekstur) */
             background: 
                 radial-gradient(circle at center, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
                 linear-gradient(135deg, var(--bg-dark-1) 0%, var(--bg-dark-2) 50%, var(--bg-dark-1) 100%);
@@ -97,6 +97,12 @@
             font-size: 20px; 
             color: var(--main-blue);
         }
+        /* Style untuk Cooldown Feedback */
+        .action-button:disabled {
+            background-color: #333 !important;
+            box-shadow: none !important;
+        }
+
         .note { font-size: 12px; color: var(--text-dark); margin-top: -5px; margin-bottom: 10px; text-align: left; padding-left: 10px; }
 
         /* CSS TAB KONEKSI */
@@ -205,7 +211,7 @@
             font-size: 13px;
         }
         
-        /* NEW: FLOATING SOCIAL BUTTON & CONTENT (POJOK KANAN BAWAH) */
+        /* FLOATING SOCIAL BUTTON & CONTENT (POJOK KANAN BAWAH) */
         #floating-social-button {
             position: fixed;
             bottom: 20px;
@@ -293,7 +299,7 @@
         <div class="host-section">
             <h2>HOST & DOWNLOAD</h2>
             
-            <button class="action-button" onclick="copyIP('15.235.227.241')">
+            <button class="action-button" onclick="copyIP(this, '15.235.227.241')">
                 <span class="icon-placeholder">📋</span> Salin IP
             </button>
             
@@ -301,7 +307,7 @@
                 <span class="icon-placeholder">💾</span> Unduh Host
             </button>
             
-            <button class="action-button" onclick="copyAndNavigate('https://as.panel.growsoft.cc/android/355', 'URL Host PowerTunnel berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
+            <button class="action-button" onclick="copyAndNavigate(this, 'https://as.panel.growsoft.cc/android/355', 'URL Host PowerTunnel berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
                 <span class="icon-placeholder">🔗</span> PowerTunnel URL (Salin & Unduh)
             </button>
             
@@ -309,7 +315,7 @@
                 <span class="icon-placeholder">🌐</span> Host GO URL
             </button>
             
-            <button class="action-button" onclick="copyAndNavigate('https://as.panel.growsoft.cc/ios/355', 'URL Konfigurasi Host iOS berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
+            <button class="action-button" onclick="copyAndNavigate(this, 'https://as.panel.growsoft.cc/ios/355', 'URL Konfigurasi Host iOS berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
                 <span class="icon-placeholder">🍏</span> iOS Host (Salin & Unduh)
             </button>
             <p class="note">⚠️ Rekomendasi klien iOS: **Surge 5**</p>
@@ -360,7 +366,7 @@
             </div>
         </div>
 
-        </div>
+    </div>
     
     <button id="floating-guide-button" onclick="toggleGuide()">
         🎮 Cara Bermain
@@ -401,31 +407,100 @@
         // Konstanta IP untuk fungsi Salin IP
         const SERVER_IP = '15.235.227.241'; 
         
-        // --- FUNGSI SALIN IP ---
-        function copyIP(ipValue) {
+        // --- FUNGSI SALIN IP (Dengan Cooldown) ---
+        function copyIP(buttonElement, ipValue) {
+            const originalContent = buttonElement.innerHTML;
+            const cooldownTime = 3; // 3 seconds cooldown
+            
+            if (buttonElement.disabled) {
+                return; 
+            }
+            
+            buttonElement.disabled = true;
+            buttonElement.style.cursor = 'wait';
+            
             navigator.clipboard.writeText(ipValue).then(() => {
-                alert("IP " + ipValue + " berhasil disalin!");
+                
+                let timeLeft = cooldownTime;
+                
+                // Success feedback
+                buttonElement.innerHTML = '<span class="icon-placeholder" style="color: #4CAF50;">✅</span> Berhasil Disalin!';
+                
+                const countdownInterval = setInterval(() => {
+                    timeLeft--;
+                    if (timeLeft <= 0) {
+                        clearInterval(countdownInterval);
+                        buttonElement.innerHTML = originalContent; // Restore original content
+                        buttonElement.disabled = false; // Re-enable button
+                        buttonElement.style.cursor = 'pointer';
+                    } else {
+                        buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #4CAF50;">✅</span> Tunggu ${timeLeft}s...`;
+                    }
+                }, 1000);
+
             }).catch(err => {
                 console.error('Gagal menyalin:', err);
                 alert("Gagal menyalin IP. Silakan salin secara manual: " + ipValue);
+                
+                // Re-enable faster on hard failure
+                buttonElement.innerHTML = '<span class="icon-placeholder" style="color: #FF5722;">❌</span> Gagal Salin! (Coba lagi)';
+                setTimeout(() => {
+                    buttonElement.innerHTML = originalContent;
+                    buttonElement.disabled = false;
+                    buttonElement.style.cursor = 'pointer';
+                }, 2000); // 2 seconds to show failure message
             });
         }
         
-        // --- FUNGSI SALIN URL HOST DAN NAVIGASI ---
-        function copyAndNavigate(url, successMessage) {
+        // --- FUNGSI SALIN URL HOST DAN NAVIGASI (Dengan Cooldown) ---
+        function copyAndNavigate(buttonElement, url, successMessage) {
+            const originalContent = buttonElement.innerHTML;
+            
+            if (buttonElement.disabled) {
+                return;
+            }
+
+            buttonElement.disabled = true;
+            buttonElement.style.cursor = 'wait';
+
+            // Function to reset button state
+            const reEnableButton = () => {
+                buttonElement.innerHTML = originalContent;
+                buttonElement.disabled = false;
+                buttonElement.style.cursor = 'pointer';
+            };
+
             navigator.clipboard.writeText(url)
                 .then(() => {
                     alert(successMessage);
+                    
+                    // Show success briefly before navigating
+                    buttonElement.innerHTML = '<span class="icon-placeholder" style="color: #4CAF50;">✅</span> Disalin & Mengunduh...';
+                    
+                    // Navigate and then re-enable the button after 3 seconds, just in case the user comes back quickly
+                    setTimeout(() => {
+                        reEnableButton();
+                    }, 3000);
+
+                    // Navigate immediately after showing alert/feedback
+                    window.location.href = url;
                 })
                 .catch(err => {
                     console.error('Gagal menyalin:', err);
-                    alert("Gagal menyalin URL host. Silakan salin secara manual: " + url);
-                });
+                    alert("Gagal menyalin URL host. Silakan salin secara manual: " + url + ".");
+                    
+                    // Show failure and re-enable button after 2 seconds
+                    buttonElement.innerHTML = '<span class="icon-placeholder" style="color: #FF5722;">❌</span> Gagal Salin! (Coba lagi)';
+                    setTimeout(() => {
+                        reEnableButton();
+                    }, 2000);
 
-            window.location.href = url;
+                    // Still navigate to the download URL, assuming user wants the file even if copy failed
+                    window.location.href = url;
+                });
         }
 
-        // --- FUNGSI TAB SWITCHING (untuk panduan koneksi di container utama) ---
+        // --- FUNGSI TAB SWITCHING ---
         function openGuide(evt, guideName) {
             var i, tabcontent, tablinks;
 
