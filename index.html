@@ -28,6 +28,7 @@
             --border-dark: #333333;
             --tab-border: #3d3d3d;
             --warning-orange: #FF9800;
+            --store-gold: #FFC107; /* NEW: Warna Emas untuk Toko */
         }
 
         /* CSS UMUM */
@@ -188,12 +189,12 @@
 
         /* --- MODIFIKASI POSISI FLOATING (Diperkecil) --- */
         
-        /* --- NEW: FLOATING FEATURE BUTTON & CONTENT (ATAS CARA BERMAIN) --- */
+        /* --- FLOATING FEATURE BUTTON & CONTENT (ATAS CARA BERMAIN KIRI) --- */
         #floating-feature-button {
             position: fixed;
-            bottom: 70px; /* Di atas guide button (20px) */
+            bottom: 70px; 
             left: 20px;
-            background-color: #FF9800; /* Oranye */
+            background-color: #FF9800; 
             color: white;
             padding: 10px 15px; 
             border: none;
@@ -214,7 +215,7 @@
 
         #floating-feature-content {
             position: fixed;
-            bottom: 115px; /* Di atas feature button (70px) */
+            bottom: 115px; 
             left: 20px;
             width: 200px; 
             max-height: 280px; 
@@ -245,7 +246,7 @@
         /* FLOATING GUIDE BUTTON & CONTENT (POJOK KIRI BAWAH) */
         #floating-guide-button {
             position: fixed;
-            bottom: 20px; /* Posisi asli */
+            bottom: 20px; 
             left: 20px;
             background-color: var(--main-blue);
             color: white;
@@ -296,6 +297,81 @@
             font-size: 12px; 
         }
         
+        /* --- NEW: FLOATING STORE BUTTON & CONTENT (ATAS KOMUNITAS KANAN) --- */
+        #floating-store-button {
+            position: fixed;
+            bottom: 70px; /* Di atas social button (20px) */
+            right: 20px;
+            background-color: var(--store-gold); /* Emas/Kuning */
+            color: #212121; /* Teks Hitam untuk kontras */
+            padding: 10px 15px; 
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px; 
+        }
+        #floating-store-button:hover {
+            background-color: #FFB300;
+        }
+
+        #floating-store-content {
+            position: fixed;
+            bottom: 115px; /* Di atas store button (70px) */
+            right: 20px;
+            width: 250px; /* Lebih lebar untuk tabel */
+            max-height: 280px; 
+            background-color: var(--bg-card); 
+            padding: 12px; 
+            border-radius: 8px;
+            border: 2px solid var(--store-gold); 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none; 
+            text-align: left;
+            overflow-y: auto; 
+        }
+        #floating-store-content .store-title {
+            color: var(--store-gold);
+            font-size: 14px; 
+            font-weight: 700;
+            margin-bottom: 8px; 
+            text-align: center;
+        }
+        
+        /* Table styles inside store content */
+        #floating-store-content table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        #floating-store-content th, #floating-store-content td {
+            padding: 6px 4px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-dark);
+        }
+        #floating-store-content th {
+            color: #E0E0E0;
+            font-weight: 600;
+            background-color: rgba(255, 193, 7, 0.1);
+        }
+        #floating-store-content td {
+            color: var(--text-dark);
+        }
+        #floating-store-content .price {
+            color: var(--store-gold);
+            font-weight: 700;
+            text-align: right;
+        }
+
+
         /* FLOATING SOCIAL BUTTON & CONTENT (POJOK KANAN BAWAH) */
         #floating-social-button {
             position: fixed;
@@ -485,6 +561,7 @@
             <li>Dukungan Multi-Platform (Android/iOS/PC).</li>
         </ul>
     </div>
+
     <button id="floating-guide-button" onclick="toggleGuide()">
         🎮 Cara Bermain
     </button>
@@ -498,6 +575,43 @@
             <li>Warp: Untuk berpindah antar dunia fitur/jual beli, gunakan /warp &lt;nama_dunia&gt;.</li>
             <li>Bantuan: Jika ada masalah serius, gunakan /report untuk memanggil staff atau hubungi komunitas Discord/Grup.</li>
         </ul>
+    </div>
+
+    <button id="floating-store-button" onclick="toggleStore()">
+        🛒 Toko
+    </button>
+    
+    <div id="floating-store-content">
+        <p class="store-title">⭐ Daftar Barang Dijual (Otomatis)</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Harga</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>200 DL (Diamond Lock)</td>
+                    <td class="price">Rp 10.000</td>
+                </tr>
+                <tr>
+                    <td>1000 WL (World Lock)</td>
+                    <td class="price">Rp 5.000</td>
+                </tr>
+                <tr>
+                    <td>VIP Pass (30 Hari)</td>
+                    <td class="price">Rp 25.000</td>
+                </tr>
+                <tr>
+                    <td>Custom Item Design</td>
+                    <td class="price">Rp 50.000</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="admin-note" style="text-align: center; margin-top: 10px;">
+            ⚠️ Hubungi Admin untuk pembelian manual.
+        </p>
     </div>
 
     <button id="floating-social-button" onclick="toggleSocial()">
@@ -636,10 +750,11 @@
         function openGuide(evt, guideName) {
             var i, tabcontent, tablinks;
 
-            // Tutup floating widgets
+            // Tutup floating widgets saat tab dibuka
             document.getElementById('floating-guide-content').style.display = 'none';
             document.getElementById('floating-social-content').style.display = 'none';
             document.getElementById('floating-feature-content').style.display = 'none';
+            document.getElementById('floating-store-content').style.display = 'none'; // NEW
 
             tabcontent = document.getElementsByClassName("tab-content");
             for (i = 0; i < tabcontent.length; i++) {
@@ -660,12 +775,14 @@
             var featureBox = document.getElementById('floating-feature-content');
             var guideBox = document.getElementById('floating-guide-content');
             var socialBox = document.getElementById('floating-social-content');
+            var storeBox = document.getElementById('floating-store-content'); // NEW
 
             if (featureBox.style.display === 'none' || featureBox.style.display === '') {
                 // Buka feature, tutup yang lain
                 featureBox.style.display = 'block';
                 guideBox.style.display = 'none'; 
                 socialBox.style.display = 'none';
+                storeBox.style.display = 'none'; // NEW: Tutup Store
             } else {
                 // Tutup feature
                 featureBox.style.display = 'none';
@@ -677,29 +794,52 @@
             var guideBox = document.getElementById('floating-guide-content');
             var socialBox = document.getElementById('floating-social-content');
             var featureBox = document.getElementById('floating-feature-content');
+            var storeBox = document.getElementById('floating-store-content'); // NEW
 
             if (guideBox.style.display === 'none' || guideBox.style.display === '') {
                 // Buka guide, tutup social dan feature
                 guideBox.style.display = 'block';
                 socialBox.style.display = 'none'; 
                 featureBox.style.display = 'none';
+                storeBox.style.display = 'none'; // NEW: Tutup Store
             } else {
                 // Tutup guide
                 guideBox.style.display = 'none';
             }
         }
         
+        // --- NEW: FUNGSI TOGGLE FLOATING STORE (Kanan Bawah, Atas Social) ---
+        function toggleStore() {
+            var storeBox = document.getElementById('floating-store-content');
+            var guideBox = document.getElementById('floating-guide-content');
+            var featureBox = document.getElementById('floating-feature-content');
+            var socialBox = document.getElementById('floating-social-content');
+
+            if (storeBox.style.display === 'none' || storeBox.style.display === '') {
+                // Buka store, tutup yang lain
+                storeBox.style.display = 'block';
+                guideBox.style.display = 'none'; 
+                featureBox.style.display = 'none';
+                socialBox.style.display = 'none';
+            } else {
+                // Tutup store
+                storeBox.style.display = 'none';
+            }
+        }
+
         // --- FUNGSI TOGGLE FLOATING SOCIAL (Kanan Bawah) ---
         function toggleSocial() {
             var socialBox = document.getElementById('floating-social-content');
             var guideBox = document.getElementById('floating-guide-content');
             var featureBox = document.getElementById('floating-feature-content');
+            var storeBox = document.getElementById('floating-store-content'); // NEW
 
             if (socialBox.style.display === 'none' || socialBox.style.display === '') {
                 // Buka social, tutup guide dan feature
                 socialBox.style.display = 'block';
                 guideBox.style.display = 'none'; 
                 featureBox.style.display = 'none';
+                storeBox.style.display = 'none'; // NEW: Tutup Store
             } else {
                 // Tutup social
                 socialBox.style.display = 'none';
