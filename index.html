@@ -162,7 +162,7 @@
             margin-top: 10px;
         }
 
-        /* --- MODIFIKASI POSISI FLOATING (Tidak Melewati Batas) --- */
+        /* --- MODIFIKASI POSISI FLOATING (Diperkecil) --- */
         
         /* FLOATING GUIDE BUTTON & CONTENT (POJOK KIRI BAWAH) */
         #floating-guide-button {
@@ -314,17 +314,17 @@
             </button>
             
             <button class="action-button" onclick="copyAndNavigate(this, 'https://as.panel.growsoft.cc/android/355', 'URL Host PowerTunnel berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
-                <span class="icon-placeholder">🔗</span> PowerTunnel  
+                <span class="icon-placeholder">🔗</span> PowerTunnel
             </button>
             
             <button class="action-button" onclick="window.location.href='hostgo://15.235.227.241/growtopia1.com,growtopia2.com,www.growtopia1.com,www.growtopia2.com'">
-                <span class="icon-placeholder">🌐</span> Host GO 
+                <span class="icon-placeholder">🌐</span> Host GO
             </button>
             
             <button class="action-button" onclick="copyAndNavigate(this, 'https://as.panel.growsoft.cc/ios/355', 'URL Konfigurasi Host iOS berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
-                <span class="icon-placeholder">🍏</span> iOS 
+                <span class="icon-placeholder">🍏</span> iOS
             </button>
-            <p class="note">⚠️ Rekomendasi klien iOS: **Surge 5**</p>
+            <p class="note">⚠️ Rekomendasi klien iOS: Surge 5</p>
         </div>
 
         <div class="tabs-container">
@@ -352,7 +352,7 @@
                     <li>Setelah menginstal, tekan OK.</li>
                     <li>Klik pada Default.conf.</li>
                     <li>Klik bagian IMPORT - Unduh Profil dari URL.</li>
-                    <li>Tempel URL yang Anda salin saat menekan tombol Host iOS di atas, lalu klik OK dan Selesai.</li>
+                    <li>Tempel URL yang Anda salin saat menekan tombol iOS Host di atas, lalu klik OK dan Selesai.</li>
                     <li>Tekan SETUP (Pengaturan) dan setujui kebijakan dengan mengklik OK dan Izinkan untuk Konfigurasi VPN!</li>
                     <li>Selesai, buka aplikasi Growtopia dan sambungkan!</li>
                 </ol>
@@ -368,7 +368,7 @@
                     <li>Tambahkan baris IP/Domain yang Anda dapatkan dari tombol Unduh Host di bagian paling bawah file.</li>
                     <li>Kemudian Simpan (Save) dan segera login ke Growtopia Anda.</li>
                 </ol>
-                <p class="admin-note">❗ PENTING Anda harus menjalankan Notepad/editor teks sebagai Administrator agar dapat menyimpan perubahan pada file hosts.</p>
+                <p class="admin-note">❗ PENTING: Anda harus menjalankan Notepad/editor teks sebagai Administrator agar dapat menyimpan perubahan pada file hosts.</p>
             </div>
         </div>
 
@@ -381,11 +381,11 @@
     <div id="floating-guide-content">
         <p class="guide-title">🎮 Cara Bermain GrowRushPS:</p>
         <ul class="guide-list">
-            <li>Connection : Pastikan Anda sudah menggunakan salah satu metode di tab koneksi (PowerTunnel/iOS/Windows) untuk login.</li>
-            <li>Login : Jika Sudah Login Pastikan Untuk Memasukan Name server GrowRushPS</li>
-            <li>Fitur Server : Gunakan perintah /help atau /commands untuk melihat semua fitur dan perintah unik.</li>
-            <li>Warp : Untuk berpindah antar dunia fitur/jual beli, gunakan /warp <nama_dunia>.</li>
-            <li>Bantuan : Jika ada masalah serius, gunakan /Report untuk memanggil staff atau hubungi komunitas Discord/Grup.</li>
+            <li>Koneksi: Pastikan Anda sudah menggunakan salah satu metode di tab koneksi (PowerTunnel/iOS/Windows) untuk login.</li>
+            <li>Login: Jika sudah login, pastikan untuk memasukkan Nama Server GrowRushPS saat bermain.</li>
+            <li>Fitur Server: Gunakan perintah /help atau /commands untuk melihat semua fitur dan perintah unik.</li>
+            <li>Warp: Untuk berpindah antar dunia fitur/jual beli, gunakan /warp &lt;nama_dunia&gt;.</li>
+            <li>Bantuan: Jika ada masalah serius, gunakan /report untuk memanggil staff atau hubungi komunitas Discord/Grup.</li>
         </ul>
     </div>
 
@@ -458,7 +458,8 @@
                 // **FALLBACK 1: Show IP on button + Prompt**
                 // Red on failure
                 buttonElement.style.backgroundColor = '#FF5722'; 
-                buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> **SALIN GAGAL (Batas). IP:** ${ipValue} (Coba Salin Manual)`;
+                // Menghapus ** dari fallback message
+                buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> SALIN GAGAL (Batas). IP: ${ipValue} (Coba Salin Manual)`;
 
                 // Use prompt as a robust fallback for copy
                 try {
@@ -507,7 +508,8 @@
                     
                     // **FALLBACK 1: Show URL on button + Prompt**
                     buttonElement.style.backgroundColor = '#FF5722';
-                    buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> **SALIN GAGAL. URL:** ${url} (Coba Salin Manual)`;
+                    // Menghapus ** dari fallback message
+                    buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> SALIN GAGAL. URL: ${url} (Coba Salin Manual)`;
 
                     try {
                         if (window.confirm("Gagal Salin Otomatis (Batas Peramban). Apakah Anda ingin menyalin URL melalui jendela Pop-up? (Pilih 'OK')")) {
@@ -585,4 +587,3 @@
     </script>
 </body>
 </html>
-                    
