@@ -28,7 +28,7 @@
             --border-dark: #333333;
             --tab-border: #3d3d3d;
             --warning-orange: #FF9800;
-            --store-gold: #FFC107; /* NEW: Warna Emas untuk Toko */
+            --store-gold: #FFC107; /* Warna Emas untuk Toko */
         }
 
         /* CSS UMUM */
@@ -297,7 +297,7 @@
             font-size: 12px; 
         }
         
-        /* --- NEW: FLOATING STORE BUTTON & CONTENT (ATAS KOMUNITAS KANAN) --- */
+        /* --- FLOATING STORE BUTTON & CONTENT (ATAS KOMUNITAS KANAN) --- */
         #floating-store-button {
             position: fixed;
             bottom: 70px; /* Di atas social button (20px) */
@@ -483,22 +483,6 @@
             <p class="note">⚠️ Rekomendasi klien iOS: Surge 5</p>
         </div>
 
-        <div class="host-section" style="margin-top: 30px;"> 
-            <h2>MARKETPLACE & DONASI</h2>
-            
-            <button class="action-button" onclick="alert('Link store akan segera ditambahkan atau hubungi admin via WA.')">
-                <span class="icon-placeholder" style="color: #FFC107;">💎</span> Beli Diamond/Item (Store Link)
-            </button>
-            
-            <button class="action-button" onclick="window.location.href='https://chat.whatsapp.com/Elq453EwzudLyUIi4nuDik'">
-                <span class="icon-placeholder" style="color: #4CAF50;">🛒</span> Donasi/Beli Manual (WA Group)
-            </button>
-            
-            <button class="action-button" onclick="alert('Fitur cek status pembelian (ID Transaksi) akan segera ditambahkan.')">
-                <span class="icon-placeholder" style="color: #795548;">🧾</span> Cek Status Pembelian
-            </button>
-            <p class="note">✅ Pembelian akan mendukung sistem pembayaran otomatis segera!</p>
-        </div>
         <div class="tabs-container">
             <div class="tab-buttons">
                 <button class="tab-button active" onclick="openGuide(event, 'PowerTunnel')">⚙️ PowerTunnel</button>
@@ -754,7 +738,7 @@
             document.getElementById('floating-guide-content').style.display = 'none';
             document.getElementById('floating-social-content').style.display = 'none';
             document.getElementById('floating-feature-content').style.display = 'none';
-            document.getElementById('floating-store-content').style.display = 'none'; // NEW
+            document.getElementById('floating-store-content').style.display = 'none'; 
 
             tabcontent = document.getElementsByClassName("tab-content");
             for (i = 0; i < tabcontent.length; i++) {
@@ -775,14 +759,14 @@
             var featureBox = document.getElementById('floating-feature-content');
             var guideBox = document.getElementById('floating-guide-content');
             var socialBox = document.getElementById('floating-social-content');
-            var storeBox = document.getElementById('floating-store-content'); // NEW
+            var storeBox = document.getElementById('floating-store-content'); 
 
             if (featureBox.style.display === 'none' || featureBox.style.display === '') {
                 // Buka feature, tutup yang lain
                 featureBox.style.display = 'block';
                 guideBox.style.display = 'none'; 
                 socialBox.style.display = 'none';
-                storeBox.style.display = 'none'; // NEW: Tutup Store
+                storeBox.style.display = 'none'; 
             } else {
                 // Tutup feature
                 featureBox.style.display = 'none';
@@ -794,21 +778,21 @@
             var guideBox = document.getElementById('floating-guide-content');
             var socialBox = document.getElementById('floating-social-content');
             var featureBox = document.getElementById('floating-feature-content');
-            var storeBox = document.getElementById('floating-store-content'); // NEW
+            var storeBox = document.getElementById('floating-store-content'); 
 
             if (guideBox.style.display === 'none' || guideBox.style.display === '') {
                 // Buka guide, tutup social dan feature
                 guideBox.style.display = 'block';
                 socialBox.style.display = 'none'; 
                 featureBox.style.display = 'none';
-                storeBox.style.display = 'none'; // NEW: Tutup Store
+                storeBox.style.display = 'none'; 
             } else {
                 // Tutup guide
                 guideBox.style.display = 'none';
             }
         }
         
-        // --- NEW: FUNGSI TOGGLE FLOATING STORE (Kanan Bawah, Atas Social) ---
+        // --- FUNGSI TOGGLE FLOATING STORE (Kanan Bawah, Atas Social) ---
         function toggleStore() {
             var storeBox = document.getElementById('floating-store-content');
             var guideBox = document.getElementById('floating-guide-content');
@@ -832,14 +816,14 @@
             var socialBox = document.getElementById('floating-social-content');
             var guideBox = document.getElementById('floating-guide-content');
             var featureBox = document.getElementById('floating-feature-content');
-            var storeBox = document.getElementById('floating-store-content'); // NEW
+            var storeBox = document.getElementById('floating-store-content'); 
 
             if (socialBox.style.display === 'none' || socialBox.style.display === '') {
                 // Buka social, tutup guide dan feature
                 socialBox.style.display = 'block';
                 guideBox.style.display = 'none'; 
                 featureBox.style.display = 'none';
-                storeBox.style.display = 'none'; // NEW: Tutup Store
+                storeBox.style.display = 'none'; 
             } else {
                 // Tutup social
                 socialBox.style.display = 'none';
