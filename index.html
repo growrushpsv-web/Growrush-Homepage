@@ -345,7 +345,7 @@
                 <span class="icon-placeholder">🌐</span> Host GO URL
             </button>
             
-            <button class="action-button" onclick="copyAndNavigate(this, 'https://as.panel.growsoft.cc/ios/355', 'URL Konfigurasi Host iOS berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
+            <button class="action-button" onclick="copyOnly(this, 'https://as.panel.growsoft.cc/ios/355', 'URL Konfigurasi Host iOS berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
                 <span class="icon-placeholder">🍏</span> iOS Host Configuration
             </button>
             <p class="note">⚠️ Rekomendasi klien iOS: Surge 5</p>
@@ -362,7 +362,7 @@
                 <p class="guide-title">⚙️ Panduan Penggunaan PowerTunnel:</p>
                 <ol class="guide-list">
                     <li>Pertama, unduh Aplikasi PowerTunnel dari tautan di tombol di atas.</li>
-                    <li>Kemudian, klik tombol PowerTunnel tersebut. Ini akan menyalin tautan host PowerTunnel ke clipboard Anda.</li>
+                    <li>Kemudian, **klik tombol PowerTunnel tersebut. Ini akan menyalin tautan host PowerTunnel** ke clipboard Anda.</li>
                     <li>Buka aplikasi PowerTunnel, klik ikon tiga garis, lalu klik ikon pengaturan host.</li>
                     <li>Tempel URL host yang sudah disalin. Ubah periode pembaruan host dari 12 jam menjadi 'on start'.</li>
                     <li>Sekarang, Anda bisa login ke GTPS (Growtopia Private Server) Anda!</li>
@@ -374,9 +374,10 @@
                 <ol class="guide-list">
                     <li>Unduh Aplikasi bernama: Surge 5 dari App Store.</li>
                     <li>Setelah menginstal, tekan OK.</li>
-                    <li>Klik pada Default.conf.</li>
+                    <li>**Klik tombol iOS Host. Ini akan menyalin URL konfigurasi** ke clipboard Anda.</li>
+                    <li>Buka Surge, klik pada Default.conf.</li>
                     <li>Klik bagian IMPORT - Unduh Profil dari URL.</li>
-                    <li>Tempel URL yang Anda salin saat menekan tombol iOS Host di atas, lalu klik OK dan Selesai.</li>
+                    <li>Tempel URL yang Anda salin, lalu klik OK dan Selesai.</li>
                     <li>Tekan SETUP (Pengaturan) dan setujui kebijakan dengan mengklik OK dan Izinkan untuk Konfigurasi VPN!</li>
                     <li>Selesai, buka aplikasi Growtopia dan sambungkan!</li>
                 </ol>
@@ -501,7 +502,7 @@
             });
         }
         
-        // --- FUNGSI BARU: SALIN URL HOST SAJA (Custom Message, Non-Navigate) ---
+        // --- FUNGSI BARU: SALIN TEKS SAJA (Custom Message, Non-Navigate) ---
         function copyOnly(buttonElement, value, successMessage) {
             const originalContent = buttonElement.innerHTML;
             
@@ -547,13 +548,17 @@
         }
 
 
-        // --- FUNGSI SALIN URL HOST DAN NAVIGASI (Hanya digunakan untuk iOS Host) ---
+        // --- FUNGSI SALIN URL HOST DAN NAVIGASI (Ditinggalkan/Tidak Terpakai lagi) ---
         function copyAndNavigate(buttonElement, url, successMessage) {
             const originalContent = buttonElement.innerHTML;
             
             if (buttonElement.disabled) {
                 return;
             }
+            
+            // Logika fungsi ini kini disalurkan ke copyOnly, 
+            // namun fungsi ini tetap dipertahankan jika ada kasus navigasi yang harus dilakukan.
+            // Saat ini, tidak ada tombol yang memanggil fungsi ini.
 
             // Attempt copy
             navigator.clipboard.writeText(url)
