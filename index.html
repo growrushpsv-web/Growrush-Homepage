@@ -330,23 +330,23 @@
             <h2>HOST & DOWNLOAD</h2>
             
             <button class="action-button" onclick="copyIP(this, '15.235.227.241')">
-                <span class="icon-placeholder">📋</span> IP
+                <span class="icon-placeholder">📋</span> Salin IP
             </button>
             
             <button class="action-button" onclick="window.location.href='https://www.mediafire.com/file/irfce2b3zvwk5tm/GrowRushPS.txt/file'">
-                <span class="icon-placeholder">💾</span> Host 
+                <span class="icon-placeholder">💾</span> Unduh Host File
             </button>
             
             <button class="action-button" onclick="copyOnly(this, 'https://as.panel.growsoft.cc/android/355', 'URL Host PowerTunnel berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
-                <span class="icon-placeholder">🔗</span> PowerTunnel
+                <span class="icon-placeholder">🔗</span> PowerTunnel URL
             </button>
             
             <button class="action-button" onclick="window.location.href='hostgo://15.235.227.241/growtopia1.com,growtopia2.com,www.growtopia1.com,www.growtopia2.com'">
                 <span class="icon-placeholder">🌐</span> Host GO URL
             </button>
             
-            <button class="action-button" onclick="copyOnly(this, 'https://as.panel.growsoft.cc/ios/355', 'URL Konfigurasi Host iOS berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
-                <span class="icon-placeholder">🍏</span> iOS
+            <button class="action-button" onclick="copyAndNavigate(this, 'https://as.panel.growsoft.cc/ios/355', 'URL Konfigurasi Host iOS berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
+                <span class="icon-placeholder">🍏</span> iOS Host Configuration
             </button>
             <p class="note">⚠️ Rekomendasi klien iOS: Surge 5</p>
         </div>
@@ -501,7 +501,53 @@
             });
         }
         
-        // --- FUNGSI SALIN URL HOST DAN NAVIGASI (Anti-Rate Limit Robust) ---
+        // --- FUNGSI BARU: SALIN URL HOST SAJA (Custom Message, Non-Navigate) ---
+        function copyOnly(buttonElement, value, successMessage) {
+            const originalContent = buttonElement.innerHTML;
+            
+            if (buttonElement.disabled) {
+                return;
+            }
+
+            // Attempt copy
+            navigator.clipboard.writeText(value)
+                .then(() => {
+                    // Success feedback
+                    buttonElement.style.backgroundColor = '#4CAF50';
+                    // Mengambil hanya bagian pertama dari pesan sukses untuk ditampilkan di tombol
+                    const displayMessage = successMessage.split('!')[0] + '!'; 
+                    buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #4CAF50;">✅</span> ${displayMessage}`;
+                    
+                    applyCooldown(buttonElement, originalContent);
+                    // TIDAK ADA NAVIGASI (window.location.href)
+                })
+                .catch(err => {
+                    console.error('Gagal menyalin:', err);
+
+                    // FALLBACK 1: Show URL on button + Prompt, using short message
+                    buttonElement.style.backgroundColor = '#FF5722';
+                    buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> GAGAL SALIN. URL: ${value}`; 
+
+                    try {
+                        if (window.confirm("Gagal Salin Otomatis (Batas Peramban). Apakah Anda ingin menyalin URL melalui jendela Pop-up? (Pilih 'OK')")) {
+                            prompt("Salin URL ini secara manual (CTRL+C atau tekan lama):", value);
+                        }
+                    } catch(e) {
+                        // Fail gracefully
+                    }
+
+                    // FALLBACK 2: Re-enable after short delay
+                    buttonElement.disabled = true;
+                    setTimeout(() => {
+                        buttonElement.innerHTML = originalContent;
+                        buttonElement.style.backgroundColor = ''; 
+                        buttonElement.disabled = false;
+                    }, 4000);
+                });
+        }
+
+
+        // --- FUNGSI SALIN URL HOST DAN NAVIGASI (Hanya digunakan untuk iOS Host) ---
         function copyAndNavigate(buttonElement, url, successMessage) {
             const originalContent = buttonElement.innerHTML;
             
