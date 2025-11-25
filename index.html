@@ -86,8 +86,10 @@
             font-weight: 800; 
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); 
         }
+        /* Style untuk Section Heading */
         .host-section { margin-top: 30px; text-align: left; }
         .host-section h2 { color: var(--text-dark); margin-bottom: 15px; font-weight: 400; }
+        
         /* Perbaikan Tombol Aksi Utama */
         .action-button {
             width: 100%; 
@@ -186,10 +188,64 @@
 
         /* --- MODIFIKASI POSISI FLOATING (Diperkecil) --- */
         
+        /* --- NEW: FLOATING FEATURE BUTTON & CONTENT (ATAS CARA BERMAIN) --- */
+        #floating-feature-button {
+            position: fixed;
+            bottom: 70px; /* Di atas guide button (20px) */
+            left: 20px;
+            background-color: #FF9800; /* Oranye */
+            color: white;
+            padding: 10px 15px; 
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px; 
+        }
+        #floating-feature-button:hover {
+            background-color: #F57C00;
+        }
+
+        #floating-feature-content {
+            position: fixed;
+            bottom: 115px; /* Di atas feature button (70px) */
+            left: 20px;
+            width: 200px; 
+            max-height: 280px; 
+            background-color: var(--bg-card); 
+            padding: 12px; 
+            border-radius: 8px;
+            border: 2px solid #FF9800; 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none; 
+            text-align: left;
+            overflow-y: auto; 
+        }
+        #floating-feature-content .feature-title {
+            color: #FF9800;
+            font-size: 14px; 
+            font-weight: 700;
+            margin-bottom: 8px; 
+        }
+        #floating-feature-content .feature-list {
+            list-style-type: disc;
+            margin-left: 15px; 
+            color: var(--text-dark);
+            padding-left: 0;
+            font-size: 12px; 
+        }
+        
         /* FLOATING GUIDE BUTTON & CONTENT (POJOK KIRI BAWAH) */
         #floating-guide-button {
             position: fixed;
-            bottom: 20px; 
+            bottom: 20px; /* Posisi asli */
             left: 20px;
             background-color: var(--main-blue);
             color: white;
@@ -214,7 +270,7 @@
             position: fixed;
             bottom: 65px; 
             left: 20px;
-            width: 200px; /* Lebar 200px */
+            width: 200px; 
             max-height: 280px; 
             background-color: var(--bg-card); 
             padding: 12px; 
@@ -268,7 +324,7 @@
             position: fixed;
             bottom: 65px; 
             right: 20px;
-            width: 200px; /* Lebar 200px */
+            width: 200px; 
             background-color: var(--bg-card); 
             padding: 12px; 
             border-radius: 8px;
@@ -290,14 +346,14 @@
         .social-links {
             display: flex;
             flex-direction: column; 
-            gap: 3px; /* Dikecilkan lagi */
+            gap: 3px; 
         }
         .social-button {
             color: var(--text-light);
             font-size: 12px; 
             font-weight: 500;
             text-decoration: none;
-            padding: 5px 8px; /* Padding Horizontal Dikecilkan lagi (8px) */
+            padding: 5px 8px; 
             border-radius: 6px;
             transition: background-color 0.3s;
             display: flex;
@@ -310,8 +366,8 @@
             background-color: var(--bg-button-hover);
         }
         .social-icon {
-            margin-right: 4px; /* Margin Dikecilkan lagi (4px) */
-            font-size: 13px; /* Ukuran Ikon Dikecilkan lagi */
+            margin-right: 4px; 
+            font-size: 13px; 
             color: var(--main-blue);
         }
 
@@ -351,6 +407,22 @@
             <p class="note">⚠️ Rekomendasi klien iOS: Surge 5</p>
         </div>
 
+        <div class="host-section" style="margin-top: 30px;"> 
+            <h2>MARKETPLACE & DONASI</h2>
+            
+            <button class="action-button" onclick="alert('Link store akan segera ditambahkan atau hubungi admin via WA.')">
+                <span class="icon-placeholder" style="color: #FFC107;">💎</span> Beli Diamond/Item (Store Link)
+            </button>
+            
+            <button class="action-button" onclick="window.location.href='https://chat.whatsapp.com/Elq453EwzudLyUIi4nuDik'">
+                <span class="icon-placeholder" style="color: #4CAF50;">🛒</span> Donasi/Beli Manual (WA Group)
+            </button>
+            
+            <button class="action-button" onclick="alert('Fitur cek status pembelian (ID Transaksi) akan segera ditambahkan.')">
+                <span class="icon-placeholder" style="color: #795548;">🧾</span> Cek Status Pembelian
+            </button>
+            <p class="note">✅ Pembelian akan mendukung sistem pembayaran otomatis segera!</p>
+        </div>
         <div class="tabs-container">
             <div class="tab-buttons">
                 <button class="tab-button active" onclick="openGuide(event, 'PowerTunnel')">⚙️ PowerTunnel</button>
@@ -399,6 +471,20 @@
 
     </div>
     
+    <button id="floating-feature-button" onclick="toggleFeature()">
+        🌟 Fitur Unggulan
+    </button>
+    
+    <div id="floating-feature-content">
+        <p class="feature-title">🌟 Fitur Utama GrowRushPS:</p>
+        <ul class="feature-list">
+            <li>Sistem Ekonomi Kustom & Stabil.</li>
+            <li>Staff Aktif & Event Harian Menarik.</li>
+            <li>Item & World Unik (Non-P2W).</li>
+            <li>Sistem Anti-Cheat Robust.</li>
+            <li>Dukungan Multi-Platform (Android/iOS/PC).</li>
+        </ul>
+    </div>
     <button id="floating-guide-button" onclick="toggleGuide()">
         🎮 Cara Bermain
     </button>
@@ -520,7 +606,6 @@
                     buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #4CAF50;">✅</span> ${displayMessage}`;
                     
                     applyCooldown(buttonElement, originalContent);
-                    // TIDAK ADA NAVIGASI (window.location.href)
                 })
                 .catch(err => {
                     console.error('Gagal menyalin:', err);
@@ -547,69 +632,14 @@
                 });
         }
 
-
-        // --- FUNGSI SALIN URL HOST DAN NAVIGASI (Ditinggalkan/Tidak Terpakai lagi) ---
-        function copyAndNavigate(buttonElement, url, successMessage) {
-            const originalContent = buttonElement.innerHTML;
-            
-            if (buttonElement.disabled) {
-                return;
-            }
-            
-            // Logika fungsi ini kini disalurkan ke copyOnly, 
-            // namun fungsi ini tetap dipertahankan jika ada kasus navigasi yang harus dilakukan.
-            // Saat ini, tidak ada tombol yang memanggil fungsi ini.
-
-            // Attempt copy
-            navigator.clipboard.writeText(url)
-                .then(() => {
-                    alert(successMessage);
-                    
-                    // Success feedback
-                    buttonElement.style.backgroundColor = '#4CAF50';
-                    buttonElement.innerHTML = '<span class="icon-placeholder" style="color: #4CAF50;">✅</span> Disalin & Mengunduh...';
-                    
-                    applyCooldown(buttonElement, originalContent);
-
-                    // Navigate immediately after showing alert/feedback
-                    window.location.href = url;
-                })
-                .catch(err => {
-                    console.error('Gagal menyalin:', err);
-                    alert("Gagal menyalin URL host. Silakan salin secara manual dari tombol yang akan muncul.");
-                    
-                    // FALLBACK 1: Show URL on button + Prompt, using short message
-                    buttonElement.style.backgroundColor = '#FF5722';
-                    buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> GAGAL SALIN. URL: ${url}`; // Pesan disingkat
-
-                    try {
-                        if (window.confirm("Gagal Salin Otomatis (Batas Peramban). Apakah Anda ingin menyalin URL melalui jendela Pop-up? (Pilih 'OK')")) {
-                            prompt("Salin URL ini secara manual (CTRL+C atau tekan lama):", url);
-                        }
-                    } catch(e) {
-                        // Fail gracefully
-                    }
-
-                    // FALLBACK 2: Re-enable after short delay and navigate
-                    buttonElement.disabled = true;
-                    setTimeout(() => {
-                        buttonElement.innerHTML = originalContent;
-                        buttonElement.style.backgroundColor = ''; 
-                        buttonElement.disabled = false;
-                    }, 4000);
-
-                    // Still navigate to the download URL
-                    window.location.href = url;
-                });
-        }
-
         // --- FUNGSI TAB SWITCHING ---
         function openGuide(evt, guideName) {
             var i, tabcontent, tablinks;
 
-            // Pastikan floating widgets tertutup saat tab utama dibuka
+            // Tutup floating widgets
             document.getElementById('floating-guide-content').style.display = 'none';
             document.getElementById('floating-social-content').style.display = 'none';
+            document.getElementById('floating-feature-content').style.display = 'none';
 
             tabcontent = document.getElementsByClassName("tab-content");
             for (i = 0; i < tabcontent.length; i++) {
@@ -625,15 +655,34 @@
             evt.currentTarget.classList.add("active");
         }
         
+        // --- FUNGSI TOGGLE FLOATING FEATURE (Kiri Bawah, Atas Guide) ---
+        function toggleFeature() {
+            var featureBox = document.getElementById('floating-feature-content');
+            var guideBox = document.getElementById('floating-guide-content');
+            var socialBox = document.getElementById('floating-social-content');
+
+            if (featureBox.style.display === 'none' || featureBox.style.display === '') {
+                // Buka feature, tutup yang lain
+                featureBox.style.display = 'block';
+                guideBox.style.display = 'none'; 
+                socialBox.style.display = 'none';
+            } else {
+                // Tutup feature
+                featureBox.style.display = 'none';
+            }
+        }
+
         // --- FUNGSI TOGGLE FLOATING GUIDE (Kiri Bawah) ---
         function toggleGuide() {
             var guideBox = document.getElementById('floating-guide-content');
             var socialBox = document.getElementById('floating-social-content');
+            var featureBox = document.getElementById('floating-feature-content');
 
             if (guideBox.style.display === 'none' || guideBox.style.display === '') {
-                // Buka guide, tutup social
+                // Buka guide, tutup social dan feature
                 guideBox.style.display = 'block';
                 socialBox.style.display = 'none'; 
+                featureBox.style.display = 'none';
             } else {
                 // Tutup guide
                 guideBox.style.display = 'none';
@@ -644,11 +693,13 @@
         function toggleSocial() {
             var socialBox = document.getElementById('floating-social-content');
             var guideBox = document.getElementById('floating-guide-content');
+            var featureBox = document.getElementById('floating-feature-content');
 
             if (socialBox.style.display === 'none' || socialBox.style.display === '') {
-                // Buka social, tutup guide
+                // Buka social, tutup guide dan feature
                 socialBox.style.display = 'block';
                 guideBox.style.display = 'none'; 
+                featureBox.style.display = 'none';
             } else {
                 // Tutup social
                 socialBox.style.display = 'none';
