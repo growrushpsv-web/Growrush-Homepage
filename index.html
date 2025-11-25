@@ -83,11 +83,26 @@
         }
         .host-section { margin-top: 30px; text-align: left; }
         .host-section h2 { color: var(--text-dark); margin-bottom: 15px; font-weight: 400; }
+        /* Perbaikan Tombol Aksi Utama */
         .action-button {
-            width: 100%; padding: 15px; margin-bottom: 10px; background-color: var(--bg-button); color: var(--text-light); border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.3s, box-shadow 0.3s; font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: flex-start; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4); 
-            /* Perubahan untuk mengakomodasi teks panjang saat error/cooldown */
+            width: 100%; 
+            padding: 15px; 
+            margin-bottom: 10px; 
+            background-color: var(--bg-button); 
+            color: var(--text-light); 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: background-color 0.3s, box-shadow 0.3s; 
+            font-size: 16px; 
+            font-weight: 600; 
+            display: flex; 
+            align-items: center; 
+            justify-content: flex-start; 
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4); 
             white-space: normal; 
             text-align: left;
+            min-height: 50px; 
         }
         .action-button:hover { 
             background-color: var(--bg-button-hover); 
@@ -99,11 +114,11 @@
             margin-right: 15px; 
             font-size: 20px; 
             color: var(--main-blue);
-            flex-shrink: 0; /* Agar ikon tidak menyusut saat teks panjang */
+            flex-shrink: 0; 
         }
         /* Style untuk Cooldown Feedback */
         .action-button:disabled {
-            background-color: #404040 !important; /* Warna yang berbeda saat disable */
+            background-color: #404040 !important; 
             box-shadow: none !important;
         }
 
@@ -112,9 +127,10 @@
         /* CSS TAB KONEKSI */
         .tabs-container { margin-top: 20px; }
         .tab-buttons { display: flex; margin-bottom: 10px; }
+        /* Perbaikan Tombol Tab */
         .tab-button {
             flex-grow: 1;
-            padding: 10px 5px;
+            padding: 10px 3px; 
             background-color: var(--bg-button);
             color: var(--text-dark);
             border: none;
@@ -122,8 +138,9 @@
             cursor: pointer;
             font-weight: 600;
             transition: background-color 0.3s, border-bottom-color 0.3s, color 0.3s;
-            font-size: 12px;
+            font-size: 11px; /* Font lebih kecil */
             margin: 0 1px;
+            min-width: 0; 
         }
         .tab-button.active {
             background-color: var(--tab-border);
@@ -167,11 +184,11 @@
         /* FLOATING GUIDE BUTTON & CONTENT (POJOK KIRI BAWAH) */
         #floating-guide-button {
             position: fixed;
-            bottom: 20px; /* Jarak dari bawah */
+            bottom: 20px; 
             left: 20px;
             background-color: var(--main-blue);
             color: white;
-            padding: 12px 18px;
+            padding: 10px 15px; 
             border: none;
             border-radius: 50px;
             cursor: pointer;
@@ -182,39 +199,27 @@
             display: flex;
             align-items: center;
             gap: 8px;
-        }
-        #floating-guide-button:hover {
-            background-color: #1976D2;
+            font-size: 14px; 
         }
 
         #floating-guide-content {
             position: fixed;
-            bottom: 75px; /* Ditinggikan agar tidak bertabrakan */
+            bottom: 65px; 
             left: 20px;
-            width: 250px; /* Diperkecil agar tidak terlalu lebar di mobile */
-            max-height: 300px; /* Membatasi tinggi */
+            width: 200px; /* Lebar 200px */
+            max-height: 280px; 
             background-color: var(--bg-card); 
-            padding: 15px;
+            padding: 12px; 
             border-radius: 8px;
             border: 2px solid var(--main-blue);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             z-index: 999;
             display: none; 
             text-align: left;
-            overflow-y: auto; /* Memungkinkan scroll jika konten terlalu panjang */
-        }
-        #floating-guide-content .guide-title {
-            color: var(--main-blue);
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 10px;
+            overflow-y: auto; 
         }
         #floating-guide-content .guide-list {
-            list-style-type: disc;
-            margin-left: 20px;
-            color: var(--text-dark);
-            padding-left: 0;
-            font-size: 13px;
+            font-size: 12px; 
         }
         
         /* FLOATING SOCIAL BUTTON & CONTENT (POJOK KANAN BAWAH) */
@@ -224,7 +229,7 @@
             right: 20px;
             background-color: #555; 
             color: white;
-            padding: 12px 18px;
+            padding: 10px 15px; 
             border: none;
             border-radius: 50px;
             cursor: pointer;
@@ -235,18 +240,16 @@
             display: flex;
             align-items: center;
             gap: 8px;
-        }
-        #floating-social-button:hover {
-            background-color: #666;
+            font-size: 14px; 
         }
 
         #floating-social-content {
             position: fixed;
-            bottom: 75px; /* Ditinggikan agar tidak bertabrakan */
+            bottom: 65px; 
             right: 20px;
-            width: 250px; /* Diperkecil agar tidak terlalu lebar di mobile */
+            width: 200px; /* Lebar 200px */
             background-color: var(--bg-card); 
-            padding: 15px;
+            padding: 12px; 
             border-radius: 8px;
             border: 2px solid var(--main-blue);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
@@ -255,25 +258,18 @@
             text-align: left;
         }
 
-        /* Adjusting social media styles for floating box */
-        #floating-social-content .social-title {
-            color: var(--main-blue);
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            text-align: center;
-        }
+        /* PERBAIKAN: Tombol Sosial Media */
         .social-links {
             display: flex;
             flex-direction: column; 
-            gap: 5px;
+            gap: 4px;
         }
         .social-button {
             color: var(--text-light);
-            font-size: 14px;
+            font-size: 12px; /* Dikecilkan */
             font-weight: 500;
             text-decoration: none;
-            padding: 10px 15px;
+            padding: 8px 10px; /* Padding Horizontal Dikecilkan */
             border-radius: 6px;
             transition: background-color 0.3s;
             display: flex;
@@ -282,14 +278,29 @@
             justify-content: flex-start;
             width: 100%;
         }
+        .social-icon {
+            margin-right: 5px; /* Margin Dikecilkan */
+            font-size: 14px; /* Ukuran Ikon Dikecilkan */
+            color: var(--main-blue);
+        }
+        /* Penutup CSS lainnya tetap sama... */
+        #floating-guide-button:hover {
+            background-color: #1976D2;
+        }
+        #floating-social-button:hover {
+            background-color: #666;
+        }
+        #floating-social-content .social-title {
+            color: var(--main-blue);
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-align: center;
+        }
         .social-button:hover {
             background-color: var(--bg-button-hover);
         }
-        .social-icon {
-            margin-right: 10px;
-            font-size: 18px;
-            color: var(--main-blue);
-        }
+
 
     </style>
 </head>
@@ -430,7 +441,6 @@
                     buttonElement.style.backgroundColor = ''; // Reset warna background
                 } else {
                     // Update button text during cooldown
-                    // Pastikan ikon placeholder tetap ada, namun ganti teks
                     const iconPlaceholder = originalContent.match(/<span class="icon-placeholder">.*?<\/span>/) ? originalContent.match(/<span class="icon-placeholder">.*?<\/span>/)[0] : '';
                     buttonElement.innerHTML = `${iconPlaceholder} Tunggu ${timeLeft}s...`;
                 }
@@ -455,11 +465,9 @@
             }).catch(err => {
                 console.error('Gagal menyalin:', err);
 
-                // **FALLBACK 1: Show IP on button + Prompt**
-                // Red on failure
+                // FALLBACK 1: Show IP on button + Prompt, using short message
                 buttonElement.style.backgroundColor = '#FF5722'; 
-                // Menghapus ** dari fallback message
-                buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> SALIN GAGAL (Batas). IP: ${ipValue} (Coba Salin Manual)`;
+                buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> GAGAL SALIN (Batas). IP: ${ipValue}`; // Pesan disingkat
 
                 // Use prompt as a robust fallback for copy
                 try {
@@ -470,13 +478,13 @@
                     // Fail gracefully
                 }
 
-                // **FALLBACK 2: Re-enable after short delay to allow manual copy and retry**
+                // FALLBACK 2: Re-enable after short delay to allow manual copy and retry
                 buttonElement.disabled = true;
                 setTimeout(() => {
                     buttonElement.innerHTML = originalContent;
                     buttonElement.style.backgroundColor = ''; // Reset color
                     buttonElement.disabled = false;
-                }, 4000); // 4 seconds to show failure message/manual copy option
+                }, 4000); 
             });
         }
         
@@ -506,10 +514,9 @@
                     console.error('Gagal menyalin:', err);
                     alert("Gagal menyalin URL host. Silakan salin secara manual dari tombol yang akan muncul.");
                     
-                    // **FALLBACK 1: Show URL on button + Prompt**
+                    // FALLBACK 1: Show URL on button + Prompt, using short message
                     buttonElement.style.backgroundColor = '#FF5722';
-                    // Menghapus ** dari fallback message
-                    buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> SALIN GAGAL. URL: ${url} (Coba Salin Manual)`;
+                    buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> GAGAL SALIN. URL: ${url}`; // Pesan disingkat
 
                     try {
                         if (window.confirm("Gagal Salin Otomatis (Batas Peramban). Apakah Anda ingin menyalin URL melalui jendela Pop-up? (Pilih 'OK')")) {
@@ -519,7 +526,7 @@
                         // Fail gracefully
                     }
 
-                    // **FALLBACK 2: Re-enable after short delay and navigate**
+                    // FALLBACK 2: Re-enable after short delay and navigate
                     buttonElement.disabled = true;
                     setTimeout(() => {
                         buttonElement.innerHTML = originalContent;
