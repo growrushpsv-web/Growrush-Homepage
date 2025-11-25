@@ -44,7 +44,8 @@
             color: var(--text-light); 
             font-family: 'Poppins', sans-serif; 
             text-align: center; 
-            padding: 50px 20px 20px; 
+            /* PERBAIKAN SEBELUMNYA: Menambahkan padding-bottom agar konten utama tidak tertutup tombol fixed */
+            padding: 50px 20px 150px; 
             min-height: 100vh;
         }
         .container { 
@@ -224,7 +225,8 @@
             border-radius: 8px;
             border: 2px solid #FF9800; 
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            z-index: 999;
+            /* PERBAIKAN Z-INDEX */
+            z-index: 1001; 
             display: none; 
             text-align: left;
             overflow-y: auto; 
@@ -278,7 +280,8 @@
             border-radius: 8px;
             border: 2px solid var(--main-blue);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            z-index: 999;
+            /* PERBAIKAN Z-INDEX */
+            z-index: 1001; 
             display: none; 
             text-align: left;
             overflow-y: auto; 
@@ -332,7 +335,8 @@
             border-radius: 8px;
             border: 2px solid var(--store-gold); 
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            z-index: 999;
+            /* PERBAIKAN Z-INDEX */
+            z-index: 1001; 
             display: none; 
             text-align: left;
             overflow-y: auto; 
@@ -406,7 +410,8 @@
             border-radius: 8px;
             border: 2px solid var(--main-blue);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            z-index: 999;
+            /* PERBAIKAN Z-INDEX */
+            z-index: 1001; 
             display: none; 
             text-align: left;
         }
@@ -678,7 +683,7 @@
 
                 // FALLBACK 2: Re-enable after short delay to allow manual copy and retry
                 buttonElement.disabled = true;
-                setTimeout(() => {
+                    setTimeout(() => {
                     buttonElement.innerHTML = originalContent;
                     buttonElement.style.backgroundColor = ''; // Reset color
                     buttonElement.disabled = false;
