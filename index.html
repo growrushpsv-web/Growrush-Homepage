@@ -163,7 +163,28 @@
         .tab-content.hidden {
             display: none;
         }
-        /* ... (CSS Panduan & List tetap sama) ... */
+        .guide-title { 
+            font-size: 15px; 
+            font-weight: 700; 
+            color: var(--text-light); 
+            margin-bottom: 10px;
+        }
+        .guide-list {
+            list-style-type: decimal;
+            margin-left: 20px;
+            font-size: 13px;
+            color: var(--text-dark);
+            text-align: left;
+            padding-left: 0;
+        }
+        .guide-list li {
+            margin-bottom: 8px;
+        }
+        .admin-note {
+            color: var(--warning-orange);
+            font-size: 12px;
+            margin-top: 10px;
+        }
 
         /* --- FLOATING BUTTONS (Kiri Bawah & Kanan Bawah) --- */
         #floating-feature-button, #floating-guide-button, #floating-store-button, #floating-social-button {
@@ -195,8 +216,43 @@
         #floating-store-button { bottom: 70px; right: 20px; background-color: var(--store-gold); color: #212121; }
         #floating-store-button:hover { background-color: #FFB300; }
 
+        /* --- Floating Content Boxes (Kecil) --- */
+        #floating-feature-content, #floating-guide-content, #floating-social-content {
+            position: fixed;
+            background-color: var(--bg-card); 
+            padding: 12px; 
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            z-index: 1001; 
+            display: none; 
+            text-align: left;
+            overflow-y: auto; 
+        }
+        
+        /* Setting size and position for small boxes */
+        #floating-feature-content {
+            bottom: 115px; left: 20px; width: 200px; max-height: 280px; 
+            border: 2px solid #FF9800; 
+        }
+        #floating-guide-content {
+            bottom: 65px; left: 20px; width: 200px; max-height: 280px; 
+            border: 2px solid var(--main-blue);
+        }
+        #floating-social-content {
+            bottom: 65px; right: 20px; width: 200px; 
+            border: 2px solid var(--main-blue);
+        }
+        
+        /* Content styling for small boxes */
+        #floating-feature-content .feature-title, #floating-guide-content .guide-title, #floating-social-content .social-title {
+            font-size: 14px; font-weight: 700; margin-bottom: 8px; 
+        }
+        #floating-feature-content .feature-list, #floating-guide-content .guide-list {
+            list-style-type: disc; margin-left: 15px; color: var(--text-dark); padding-left: 0; font-size: 12px; 
+        }
+        #floating-social-content .social-title { text-align: center; }
 
-        /* --- NEW: FULL-SCREEN STORE MODAL --- */
+        /* --- NEW: FULL-SCREEN STORE MODAL (Besar) --- */
         #full-store-modal {
             position: fixed;
             top: 0;
@@ -343,6 +399,34 @@
             color: #FFECB3;
         }
         
+        /* Social Media Button Styling (in small box) */
+        .social-links {
+            display: flex;
+            flex-direction: column; 
+            gap: 3px; 
+        }
+        .social-button {
+            color: var(--text-light);
+            font-size: 12px; 
+            font-weight: 500;
+            text-decoration: none;
+            padding: 5px 8px; 
+            border-radius: 6px;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-button);
+            justify-content: flex-start;
+            width: 100%;
+        }
+        .social-button:hover {
+            background-color: var(--bg-button-hover);
+        }
+        .social-icon {
+            margin-right: 4px; 
+            font-size: 13px; 
+            color: var(--main-blue);
+        }
 
     </style>
 </head>
@@ -433,7 +517,7 @@
     </button>
     
     <div id="floating-feature-content">
-        <p class="feature-title">🌟 Fitur Utama GrowRushPS:</p>
+        <p class="feature-title" style="color: #FF9800;">🌟 Fitur Utama GrowRushPS:</p>
         <ul class="feature-list">
             <li>Sistem Ekonomi Kustom & Stabil.</li>
             <li>Staff Aktif & Event Harian Menarik.</li>
@@ -448,8 +532,8 @@
     </button>
     
     <div id="floating-guide-content">
-        <p class="guide-title">🎮 Cara Bermain GrowRushPS:</p>
-        <ul class="guide-list">
+        <p class="guide-title" style="color: var(--main-blue);">🎮 Cara Bermain GrowRushPS:</p>
+        <ul class="guide-list" style="list-style-type: disc;">
             <li>Koneksi: Pastikan Anda sudah menggunakan salah satu metode di tab koneksi (PowerTunnel/iOS/Windows) untuk login.</li>
             <li>Login: Jika sudah login, pastikan untuk memasukkan Nama Server GrowRushPS saat bermain.</li>
             <li>Fitur Server: Gunakan perintah /help atau /commands untuk melihat semua fitur dan perintah unik.</li>
@@ -461,13 +545,13 @@
     <button id="floating-store-button" onclick="openFullStoreModal()">
         🛒 Toko
     </button>
-    
+
     <button id="floating-social-button" onclick="toggleSocial()">
         💬 Komunitas
     </button>
     
     <div id="floating-social-content">
-        <p class="social-title">💬 Komunitas & Media Sosial</p>
+        <p class="social-title" style="color: var(--main-blue);">💬 Komunitas & Media Sosial</p>
         <div class="social-links">
             <a href="https://discord.gg/kFDepPDe7G" target="_blank" class="social-button">
                 <span class="social-icon">💬</span> Discord
@@ -605,7 +689,7 @@
                 });
         }
 
-        // --- FUNGSI PROMPT PEMBELIAN DAN KIRIM KE WA ADMIN (Dipanggil dari dalam Modal) ---
+        // --- FUNGSI PROMPT PEMBELIAN DAN KIRIM KE WA ADMIN ---
         function promptPurchase(itemName, itemPrice) {
             
             // 1. Dapatkan IGN dan World menggunakan prompt
@@ -649,7 +733,7 @@ Saya siap untuk melakukan pembayaran. Mohon instruksi selanjutnya. Terima kasih!
             closeFullStoreModal(); 
         }
         
-        // --- FUNGSI MODAL TOKO BARU ---
+        // --- FUNGSI MODAL TOKO BARU (Besar) ---
         function openFullStoreModal() {
             document.getElementById('full-store-modal').style.display = 'flex';
             // Tutup semua kotak melayang yang lain
@@ -662,7 +746,7 @@ Saya siap untuk melakukan pembayaran. Mohon instruksi selanjutnya. Terima kasih!
             document.getElementById('full-store-modal').style.display = 'none';
         }
 
-        // --- FUNGSI TAB SWITCHING ---
+        // --- FUNGSI TAB SWITCHING (Tidak mengganggu floating widgets) ---
         function openGuide(evt, guideName) {
             var i, tabcontent, tablinks;
 
@@ -686,7 +770,7 @@ Saya siap untuk melakukan pembayaran. Mohon instruksi selanjutnya. Terima kasih!
             evt.currentTarget.classList.add("active");
         }
         
-        // --- FUNGSI TOGGLE FLOATING FEATURE (Kiri Bawah, Atas Guide) ---
+        // --- FUNGSI TOGGLE FLOATING FEATURE (Kecil) ---
         function toggleFeature() {
             var featureBox = document.getElementById('floating-feature-content');
             var guideBox = document.getElementById('floating-guide-content');
@@ -696,13 +780,13 @@ Saya siap untuk melakukan pembayaran. Mohon instruksi selanjutnya. Terima kasih!
                 featureBox.style.display = 'block';
                 guideBox.style.display = 'none'; 
                 socialBox.style.display = 'none';
-                closeFullStoreModal(); // Tutup modal store jika dibuka
+                closeFullStoreModal(); // Tutup modal store
             } else {
                 featureBox.style.display = 'none';
             }
         }
 
-        // --- FUNGSI TOGGLE FLOATING GUIDE (Kiri Bawah) ---
+        // --- FUNGSI TOGGLE FLOATING GUIDE (Kecil) ---
         function toggleGuide() {
             var guideBox = document.getElementById('floating-guide-content');
             var socialBox = document.getElementById('floating-social-content');
@@ -712,13 +796,13 @@ Saya siap untuk melakukan pembayaran. Mohon instruksi selanjutnya. Terima kasih!
                 guideBox.style.display = 'block';
                 socialBox.style.display = 'none'; 
                 featureBox.style.display = 'none';
-                closeFullStoreModal(); // Tutup modal store jika dibuka
+                closeFullStoreModal(); // Tutup modal store
             } else {
                 guideBox.style.display = 'none';
             }
         }
         
-        // --- FUNGSI TOGGLE FLOATING SOCIAL (Kanan Bawah) ---
+        // --- FUNGSI TOGGLE FLOATING SOCIAL (Kecil) ---
         function toggleSocial() {
             var socialBox = document.getElementById('floating-social-content');
             var guideBox = document.getElementById('floating-guide-content');
@@ -728,7 +812,7 @@ Saya siap untuk melakukan pembayaran. Mohon instruksi selanjutnya. Terima kasih!
                 socialBox.style.display = 'block';
                 guideBox.style.display = 'none'; 
                 featureBox.style.display = 'none';
-                closeFullStoreModal(); // Tutup modal store jika dibuka
+                closeFullStoreModal(); // Tutup modal store
             } else {
                 socialBox.style.display = 'none';
             }
