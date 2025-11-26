@@ -29,13 +29,12 @@
             --border-dark: #333333;
             --tab-border: #3d3d3d;
             --warning-orange: #FF9800;
-            --store-gold: #FFC107; /* Warna Emas untuk Toko */
-            --weather-teal: #00BCD4; /* Warna untuk Cuaca/Waktu */
+            --store-gold: #FFC107; 
+            --weather-teal: #00BCD4; 
         }
 
         /* CSS UMUM */
         body { 
-            /* BACKGROUND: Gradien + Pola Titik Halus (Tekstur) */
             background: 
                 radial-gradient(circle at center, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
                 linear-gradient(135deg, var(--bg-dark-1) 0%, var(--bg-dark-2) 50%, var(--bg-dark-1) 100%);
@@ -74,7 +73,6 @@
             text-shadow: 0 0 15px var(--main-blue-light), 0 0 3px var(--main-blue); 
         }
         
-        /* Tagline (Description) */
         .description { 
             color: #81D4FA;
             font-size: 13px;
@@ -240,9 +238,82 @@
         /* Posisi & Warna Kanan */
         #floating-social-button { bottom: 20px; right: 20px; background-color: #555; color: white; }
         #floating-social-button:hover { background-color: #666; }
-        /* Tombol Store sekarang membuka MODAL */
+        /* Tombol Store (Overlay Besar) */
         #floating-store-button { bottom: 70px; right: 20px; background-color: var(--store-gold); color: #212121; }
         #floating-store-button:hover { background-color: #FFB300; }
+
+        /* --- Floating Content Boxes (Kecil) --- */
+        #floating-feature-content, #floating-guide-content, #floating-social-content {
+            position: fixed;
+            width: 280px; /* Lebar Kotak Konten */
+            background-color: rgba(26, 26, 26, 0.95); /* bg-dark-2 semi-transparan */
+            color: var(--text-light);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            z-index: 999;
+            transition: opacity 0.3s, transform 0.3s;
+            display: none; /* Default hidden */
+            border: 1px solid var(--border-dark);
+            text-align: left;
+        }
+
+        /* Posisi Konten Kiri (Feature & Guide) */
+        #floating-feature-content { bottom: 70px; left: 165px; }
+        #floating-guide-content { bottom: 20px; left: 165px; }
+
+        /* Posisi Konten Kanan (Social) */
+        #floating-social-content { bottom: 20px; right: 165px; }
+
+        /* Konten styling untuk kotak kecil */
+        .feature-title, .guide-title, .social-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--border-dark);
+        }
+        
+        .feature-list, .guide-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            font-size: 13px;
+        }
+        .feature-list li, .guide-list li {
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+        }
+        .feature-list li strong { color: var(--text-light); margin-right: 5px; }
+        .feature-icon { margin-right: 10px; color: var(--main-blue); }
+
+        /* Social Media Button Styling (in small box) */
+        .social-title { text-align: center; }
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .social-button {
+            padding: 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            color: white;
+            transition: opacity 0.2s;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .social-button:hover {
+            opacity: 0.8;
+        }
+        .social-icon { margin-right: 8px; }
+        #discord-button { background-color: #7289DA; }
+        #whatsapp-button { background-color: #25D366; }
 
         /* --- FULL-SCREEN STORE MODAL (Besar) --- */
         #full-store-modal {
@@ -448,7 +519,7 @@
                 <p class="guide-title">⚙️ Panduan Penggunaan PowerTunnel:</p>
                 <ol class="guide-list">
                     <li>Pertama, unduh Aplikasi PowerTunnel dari tautan di tombol di atas.</li>
-                    <li>Kemudian, **klik tombol PowerTunnel tersebut. Ini akan menyalin tautan host PowerTunnel** ke clipboard Anda.</li>
+                    <li>Kemudian, klik tombol PowerTunnel tersebut. Ini akan menyalin tautan host PowerTunnel ke clipboard Anda.</li>
                     <li>Buka aplikasi PowerTunnel, klik ikon tiga garis, lalu klik ikon pengaturan host.</li>
                     <li>Tempel URL host yang sudah disalin. Ubah periode pembaruan host dari 12 jam menjadi 'on start'.</li>
                     <li>Sekarang, Anda bisa login ke GTPS (Growtopia Private Server) Anda!</li>
@@ -460,7 +531,7 @@
                 <ol class="guide-list">
                     <li>Unduh Aplikasi bernama: Surge 5 dari App Store.</li>
                     <li>Setelah menginstal, tekan OK.</li>
-                    <li>**Klik tombol iOS Host. Ini akan menyalin URL konfigurasi** ke clipboard Anda.</li>
+                    <li>Klik tombol iOS Host. Ini akan menyalin URL konfigurasi ke clipboard Anda.</li>
                     <li>Buka Surge, klik pada Default.conf.</li>
                     <li>Klik bagian IMPORT - Unduh Profil dari URL.</li>
                     <li>Tempel URL yang Anda salin, lalu klik OK dan Selesai.</li>
@@ -485,21 +556,56 @@
 
     </div>
     
-    <button id="floating-feature-button" onclick="window.open('https://discord.gg/kFDepPDe7G', '_blank')">
+    <button id="floating-feature-button" onclick="toggleFeature()">
         🌟 Fitur Unggulan
     </button>
     
-    <button id="floating-guide-button" onclick="scrollToTabs()">
+    <div id="floating-feature-content">
+        <p class="feature-title">🌟 Fitur Unggulan Server</p>
+        <ul class="feature-list">
+            <li><span class="feature-icon"><i class="fas fa-hammer"></i></span> <strong>Sistem Crafting</strong> Unik & Eksklusif.</li>
+            <li><span class="feature-icon"><i class="fas fa-chart-line"></i></span> <strong>Marketplace Stabil</strong> dan Terkendali.</li>
+            <li><span class="feature-icon"><i class="fas fa-trophy"></i></span> Event PVP & Minigames Berhadiah Setiap Minggu.</li>
+            <li><span class="feature-icon"><i class="fas fa-shield-alt"></i></span> Anti Cheat Terbaik untuk pengalaman bermain bersih.</li>
+        </ul>
+        <a href="https://discord.gg/kFDepPDe7G" target="_blank" id="discord-button" class="social-button" style="margin-top: 10px;"><i class="fab fa-discord social-icon"></i> Gabung Discord untuk Info Lengkap</a>
+    </div>
+
+    <button id="floating-guide-button" onclick="toggleGuide()">
         🎮 Cara Bermain
     </button>
+    
+    <div id="floating-guide-content">
+        <p class="guide-title">🎮 Panduan Cepat Bermain</p>
+        <ol class="guide-list">
+            <li>Lihat bagian **HOST & DOWNLOAD** di atas dan pilih metode koneksi yang sesuai (PowerTunnel/iOS/Windows).</li>
+            <li>Unduh file/aplikasi yang diperlukan (jika ada) dan ikuti petunjuk instalasi yang tertera di tab.</li>
+            <li>Buka Growtopia Anda dan login. Selamat datang!</li>
+        </ol>
+        <button onclick="scrollToTabs()" style="background: var(--main-blue); color: white; border: none; padding: 8px; border-radius: 5px; width: 100%; margin-top: 10px; cursor: pointer;">
+            Lihat Panduan Detail
+        </button>
+    </div>
     
     <button id="floating-store-button" onclick="openFullStoreModal()">
         🛒 Toko
     </button>
 
-    <button id="floating-social-button" onclick="window.open('https://chat.whatsapp.com/Elq453EwzudLyUIi4nuDik', '_blank')">
+    <button id="floating-social-button" onclick="toggleSocial()">
         💬 Komunitas
     </button>
+
+    <div id="floating-social-content">
+        <p class="social-title">💬 Bergabunglah dengan Kami!</p>
+        <div class="social-links">
+            <a href="https://discord.gg/kFDepPDe7G" target="_blank" id="discord-button" class="social-button">
+                <i class="fab fa-discord social-icon"></i> Discord Server
+            </a>
+            <a href="https://chat.whatsapp.com/Elq453EwzudLyUIi4nuDik" target="_blank" id="whatsapp-button" class="social-button">
+                <i class="fab fa-whatsapp social-icon"></i> Grup WhatsApp
+            </a>
+        </div>
+    </div>
 
 
     <div id="full-store-modal">
@@ -556,16 +662,13 @@
         
         // --- FUNGSI WIDGET CUACA & WAKTU BARU ---
         function updateWeatherWidget() {
-            // Placeholder/Dummy Weather
             const weather = {
                 text: "Cerah",
                 icon: "fas fa-sun",
                 temp: "28°C"
             };
 
-            // Update Waktu
             const now = new Date();
-            // Menggunakan opsi yang memastikan format 24 jam dan lokal Indonesia (WIB/WITA/WIT, tergantung setting perangkat)
             const timeString = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
 
             document.getElementById('weather-text').textContent = weather.text;
@@ -573,7 +676,6 @@
             document.querySelector('.weather-icon').innerHTML = `<i class="${weather.icon}"></i>`;
             document.getElementById('time-text').textContent = timeString;
 
-            // Update setiap 1 detik
             setTimeout(updateWeatherWidget, 1000);
         }
 
@@ -658,7 +760,6 @@
         // --- FUNGSI PROMPT PEMBELIAN DAN KIRIM KE WA ADMIN ---
         function promptPurchase(itemName, itemPrice) {
             
-            // 1. Dapatkan IGN dan World menggunakan prompt
             const ign = prompt("Masukkan In-Game Name (IGN) Anda:");
             if (!ign) {
                 alert("Pembelian dibatalkan. IGN tidak boleh kosong.");
@@ -671,7 +772,6 @@
                 return;
             }
 
-            // 2. Buat Teks Pesan 
             const message =
 `Halo Admin GrowRushPS, saya ingin melakukan PEMBELIAN ITEM.
 
@@ -685,22 +785,21 @@
 
 Saya siap untuk melakukan pembayaran. Mohon instruksi selanjutnya. Terima kasih!`;
 
-            // 3. URL Encoding
             const encodedMessage = encodeURIComponent(message);
-            
-            // 4. Admin WA Number (GANTI DENGAN NOMOR WA ADMIN ASLI ANDA!)
             const adminWhatsApp = '6281234567890'; 
-
-            // 5. Buka Link WhatsApp di tab baru
             const whatsappUrl = `https://wa.me/${adminWhatsApp}?text=${encodedMessage}`;
             window.open(whatsappUrl, '_blank');
             
-            // Optional: Tutup modal setelah membuka WA
             closeFullStoreModal(); 
         }
         
-        // --- FUNGSI MODAL TOKO (Besar) ---
+        // --- FUNGSI MODAL TOKO (Overlay Besar) ---
         function openFullStoreModal() {
+            // Tutup semua konten kecil sebelum membuka modal besar
+            document.getElementById('floating-feature-content').style.display = 'none';
+            document.getElementById('floating-guide-content').style.display = 'none';
+            document.getElementById('floating-social-content').style.display = 'none';
+            
             document.getElementById('full-store-modal').style.display = 'flex';
         }
 
@@ -708,8 +807,43 @@ Saya siap untuk melakukan pembayaran. Mohon instruksi selanjutnya. Terima kasih!
             document.getElementById('full-store-modal').style.display = 'none';
         }
 
-        // --- FUNGSI SCROLL UNTUK TOMBOL "CARA BERMAIN" ---
+        // --- FUNGSI TOGGLE KONTEN KECIL ---
+        // Utility function to toggle content and close others
+        function toggleContent(contentId) {
+            const allContentIds = ['floating-feature-content', 'floating-guide-content', 'floating-social-content'];
+            const currentContent = document.getElementById(contentId);
+            const isCurrentlyVisible = currentContent.style.display === 'block';
+
+            // Tutup semua konten
+            allContentIds.forEach(id => {
+                document.getElementById(id).style.display = 'none';
+            });
+            
+            // Tutup Modal Besar
+            document.getElementById('full-store-modal').style.display = 'none';
+
+
+            // Buka konten yang diminta, kecuali jika sudah terbuka (untuk toggle off)
+            if (!isCurrentlyVisible) {
+                currentContent.style.display = 'block';
+            }
+        }
+
+        function toggleFeature() {
+            toggleContent('floating-feature-content');
+        }
+
+        function toggleGuide() {
+            toggleContent('floating-guide-content');
+        }
+
+        function toggleSocial() {
+            toggleContent('floating-social-content');
+        }
+
+        // --- FUNGSI SCROLL UNTUK TOMBOL "Lihat Panduan Detail" di Konten Kecil ---
         function scrollToTabs() {
+            toggleContent('floating-guide-content'); // Tutup konten kecil setelah diklik
             document.getElementById('tabs-container').scrollIntoView({ behavior: 'smooth' });
         }
 
