@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GrowRushPS - Status Server & Download</title>
+    <title>GrowRushPS - Status Server, Cuaca & Download</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
         /* FIX KRUSIAL: Mencegah overflow padding */
@@ -29,6 +30,7 @@
             --tab-border: #3d3d3d;
             --warning-orange: #FF9800;
             --store-gold: #FFC107; /* Warna Emas untuk Toko */
+            --weather-teal: #00BCD4; /* Warna untuk Cuaca/Waktu */
         }
 
         /* CSS UMUM */
@@ -44,7 +46,6 @@
             color: var(--text-light); 
             font-family: 'Poppins', sans-serif; 
             text-align: center; 
-            /* PERBAIKAN: Menambahkan padding-bottom agar konten utama tidak tertutup tombol fixed */
             padding: 50px 20px 150px; 
             min-height: 100vh;
         }
@@ -79,16 +80,43 @@
             font-size: 13px;
             font-weight: 500;
             margin-top: 5px;
-            margin-bottom: 30px; 
+            margin-bottom: 20px; 
         }
         
+        /* --- WIDGET CUACA & WAKTU --- */
+        .weather-widget {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 15px;
+            margin-bottom: 30px;
+            background: var(--bg-dark-2);
+            border-radius: 8px;
+            border: 1px solid var(--weather-teal);
+            box-shadow: 0 0 10px rgba(0, 188, 212, 0.3);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--weather-teal);
+        }
+
+        .weather-info, .time-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .weather-icon, .time-icon {
+            font-size: 20px;
+            color: var(--weather-teal);
+        }
+
+        /* Status Server & Lainnya */
         .server-status { margin: 20px 0; font-size: 18px; font-weight: 600; }
         #status-text { 
             color: var(--main-blue);
             font-weight: 800; 
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); 
         }
-        /* Style untuk Section Heading */
         .host-section { margin-top: 30px; text-align: left; }
         .host-section h2 { color: var(--text-dark); margin-bottom: 15px; font-weight: 400; }
         
@@ -216,56 +244,20 @@
         #floating-store-button { bottom: 70px; right: 20px; background-color: var(--store-gold); color: #212121; }
         #floating-store-button:hover { background-color: #FFB300; }
 
-        /* --- Floating Content Boxes (Kecil) --- */
-        #floating-feature-content, #floating-guide-content, #floating-social-content {
-            position: fixed;
-            background-color: var(--bg-card); 
-            padding: 12px; 
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            z-index: 1001; 
-            display: none; 
-            text-align: left;
-            overflow-y: auto; 
-        }
-        
-        /* Setting size and position for small boxes */
-        #floating-feature-content {
-            bottom: 115px; left: 20px; width: 200px; max-height: 280px; 
-            border: 2px solid #FF9800; 
-        }
-        #floating-guide-content {
-            bottom: 65px; left: 20px; width: 200px; max-height: 280px; 
-            border: 2px solid var(--main-blue);
-        }
-        #floating-social-content {
-            bottom: 65px; right: 20px; width: 200px; 
-            border: 2px solid var(--main-blue);
-        }
-        
-        /* Content styling for small boxes */
-        #floating-feature-content .feature-title, #floating-guide-content .guide-title, #floating-social-content .social-title {
-            font-size: 14px; font-weight: 700; margin-bottom: 8px; 
-        }
-        #floating-feature-content .feature-list, #floating-guide-content .guide-list {
-            list-style-type: disc; margin-left: 15px; color: var(--text-dark); padding-left: 0; font-size: 12px; 
-        }
-        #floating-social-content .social-title { text-align: center; }
-
-        /* --- NEW: FULL-SCREEN STORE MODAL (Besar) --- */
+        /* --- FULL-SCREEN STORE MODAL (Besar) --- */
         #full-store-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.95); /* Sangat gelap */
+            background-color: rgba(0, 0, 0, 0.95); 
             backdrop-filter: blur(5px);
             z-index: 9999;
-            display: none; /* Dikelola oleh JS (flex saat terbuka) */
-            overflow-y: auto; /* Untuk perangkat kecil */
+            display: none; 
+            overflow-y: auto; 
             padding: 10px;
-            align-items: flex-start; /* Pusatkan konten ke atas */
+            align-items: flex-start; 
             justify-content: center;
         }
 
@@ -275,9 +267,9 @@
             border-radius: 12px;
             border: 3px solid var(--store-gold); 
             box-shadow: 0 0 40px rgba(255, 193, 7, 0.4);
-            width: 95%; /* Lebih besar di HP */
-            max-width: 650px; /* Lebar maksimum untuk desktop */
-            margin: 20px auto; /* Margin atas/bawah agar ada ruang */
+            width: 95%; 
+            max-width: 650px; 
+            margin: 20px auto; 
             padding: 25px;
             text-align: center;
         }
@@ -325,7 +317,7 @@
         }
         .qris-image {
             width: 100%; 
-            max-width: 200px; /* Diperbesar di modal */
+            max-width: 200px; 
             height: auto;
             border-radius: 6px;
             border: 5px solid #009688; 
@@ -398,42 +390,23 @@
         .store-item-button.custom-item .price-tag {
             color: #FFECB3;
         }
-        
-        /* Social Media Button Styling (in small box) */
-        .social-links {
-            display: flex;
-            flex-direction: column; 
-            gap: 3px; 
-        }
-        .social-button {
-            color: var(--text-light);
-            font-size: 12px; 
-            font-weight: 500;
-            text-decoration: none;
-            padding: 5px 8px; 
-            border-radius: 6px;
-            transition: background-color 0.3s;
-            display: flex;
-            align-items: center;
-            background-color: var(--bg-button);
-            justify-content: flex-start;
-            width: 100%;
-        }
-        .social-button:hover {
-            background-color: var(--bg-button-hover);
-        }
-        .social-icon {
-            margin-right: 4px; 
-            font-size: 13px; 
-            color: var(--main-blue);
-        }
-
     </style>
 </head>
-<body>
+<body onload="updateWeatherWidget()">
     <div class="container">
         <h1>GrowRushPS</h1>
         <p class="description">Rasakan pengalaman bermain di Growtopia private server dengan gameplay seru dan sistem yang stabil</p>
+
+        <div class="weather-widget">
+            <div class="weather-info">
+                <span class="weather-icon"><i class="fas fa-sun"></i></span>
+                <span id="weather-text">Cerah</span> | <span id="temperature-text">28°C</span>
+            </div>
+            <div class="time-info">
+                <span class="time-icon"><i class="fas fa-clock"></i></span>
+                <span id="time-text">00:00:00</span>
+            </div>
+        </div>
 
         <div class="server-status">
             Status Server: <span id="status-text">UP</span>
@@ -464,7 +437,7 @@
             <p class="note">⚠️ Rekomendasi klien iOS: Surge 5</p>
         </div>
 
-        <div class="tabs-container">
+        <div class="tabs-container" id="tabs-container">
             <div class="tab-buttons">
                 <button class="tab-button active" onclick="openGuide(event, 'PowerTunnel')">⚙️ PowerTunnel</button>
                 <button class="tab-button" onclick="openGuide(event, 'iOS')">🍏 iOS (Surge 5)</button>
@@ -512,58 +485,21 @@
 
     </div>
     
-    <button id="floating-feature-button" onclick="toggleFeature()">
+    <button id="floating-feature-button" onclick="window.open('https://discord.gg/kFDepPDe7G', '_blank')">
         🌟 Fitur Unggulan
     </button>
     
-    <div id="floating-feature-content">
-        <p class="feature-title" style="color: #FF9800;">🌟 Fitur Utama GrowRushPS:</p>
-        <ul class="feature-list">
-            <li>Sistem Ekonomi Kustom & Stabil.</li>
-            <li>Staff Aktif & Event Harian Menarik.</li>
-            <li>Item & World Unik (Non-P2W).</li>
-            <li>Sistem Anti-Cheat Robust.</li>
-            <li>Dukungan Multi-Platform (Android/iOS/PC).</li>
-        </ul>
-    </div>
-
-    <button id="floating-guide-button" onclick="toggleGuide()">
+    <button id="floating-guide-button" onclick="scrollToTabs()">
         🎮 Cara Bermain
     </button>
     
-    <div id="floating-guide-content">
-        <p class="guide-title" style="color: var(--main-blue);">🎮 Cara Bermain GrowRushPS:</p>
-        <ul class="guide-list" style="list-style-type: disc;">
-            <li>Koneksi: Pastikan Anda sudah menggunakan salah satu metode di tab koneksi (PowerTunnel/iOS/Windows) untuk login.</li>
-            <li>Login: Jika sudah login, pastikan untuk memasukkan Nama Server GrowRushPS saat bermain.</li>
-            <li>Fitur Server: Gunakan perintah /help atau /commands untuk melihat semua fitur dan perintah unik.</li>
-            <li>Warp: Untuk berpindah antar dunia fitur/jual beli, gunakan /warp &lt;nama_dunia&gt;.</li>
-            <li>Bantuan: Jika ada masalah serius, gunakan /report untuk memanggil staff atau hubungi komunitas Discord/Grup.</li>
-        </ul>
-    </div>
-
     <button id="floating-store-button" onclick="openFullStoreModal()">
         🛒 Toko
     </button>
 
-    <button id="floating-social-button" onclick="toggleSocial()">
+    <button id="floating-social-button" onclick="window.open('https://chat.whatsapp.com/Elq453EwzudLyUIi4nuDik', '_blank')">
         💬 Komunitas
     </button>
-    
-    <div id="floating-social-content">
-        <p class="social-title" style="color: var(--main-blue);">💬 Komunitas & Media Sosial</p>
-        <div class="social-links">
-            <a href="https://discord.gg/kFDepPDe7G" target="_blank" class="social-button">
-                <span class="social-icon">💬</span> Discord
-            </a>
-            <a href="https://chat.whatsapp.com/Elq453EwzudLyUIi4nuDik" target="_blank" class="social-button">
-                <span class="social-icon">📱</span> WhatsApp
-            </a>
-            <a href="Coming Soon" target="_blank" class="social-button">
-                <span class="social-icon">✈️</span> Telegram
-            </a>
-        </div>
-    </div>
 
 
     <div id="full-store-modal">
@@ -572,19 +508,25 @@
             <h2 class="store-title" style="font-size: 24px; margin-bottom: 20px;">🛒 GrowRushPS Store</h2>
 
             <div class="modal-store-section">
-                <h3 style="color: #009688;">💳 Pembayaran via QRIS (Deposit Nominal Bebas)</h3>
+                <h3 style="color: #009688;"><i class="fas fa-qrcode"></i> 1. Pembayaran via QRIS (Deposit Nominal Bebas)</h3>
                 <div class="qris-container">
-                    <img src="https://via.placeholder.com/150x150?text=QRIS+SCAN+ME" alt="QRIS Payment" class="qris-image">
-                    <p class="qris-instruction">Scan QRIS di atas, masukkan nominal yang diinginkan.</p>
+                    <img src="https://via.placeholder.com/200x200?text=QRIS+SCAN+ME" alt="QRIS Payment" class="qris-image">
+                    <p class="qris-instruction" style="font-size: 15px; font-weight: 700;">
+                        **Langkah 1: SCAN QRIS DI ATAS** melalui aplikasi bank/dompet digital Anda, lalu **Lakukan Pembayaran** dengan nominal yang diinginkan.
+                    </p>
                 </div>
                 
+                <p class="qris-instruction" style="color: #FFEB3B; font-weight: 600; margin: 15px 0;">
+                    ⚠️ **PENTING: PASTIKAN PEMBAYARAN SUDAH BERHASIL** (mendapat notifikasi sukses) sebelum menekan tombol di bawah!
+                </p>
+
                 <a href="https://wa.me/6281234567890?text=Halo%20Admin%20GrowRushPS,%20saya%20sudah%20melakukan%20pembayaran%20via%20QRIS.%20Mohon%20proses%20deposit/pembelian%20saya.%0A%0A[Tulis%20Nominal%20dan%20Nama%20GT%20Anda]" target="_blank" class="qris-note-action">
-                    ✅ Selesai Scan? Klik Di Sini untuk Konfirmasi ke Admin!
+                    ✅ 2. Pembayaran Berhasil! Klik Di Sini untuk Konfirmasi ke Admin
                 </a>
             </div>
 
             <div class="modal-store-section">
-                <h3>⭐ Beli Item Satuan (Chat Admin Otomatis)</h3>
+                <h3><i class="fas fa-tags"></i> Beli Item Satuan (Chat Admin Otomatis)</h3>
                 
                 <button class="store-item-button" onclick="promptPurchase('200 DL (Diamond Lock)', 'Rp 10.000')">
                     200 DL <span class="price-tag">Rp 10.000</span>
@@ -605,12 +547,36 @@
             </div>
         </div>
     </div>
+    
     <script>
         
         // Konstanta IP untuk fungsi Salin IP
         const SERVER_IP = '15.235.227.241'; 
         const COOLDOWN_SECONDS = 4;
         
+        // --- FUNGSI WIDGET CUACA & WAKTU BARU ---
+        function updateWeatherWidget() {
+            // Placeholder/Dummy Weather
+            const weather = {
+                text: "Cerah",
+                icon: "fas fa-sun",
+                temp: "28°C"
+            };
+
+            // Update Waktu
+            const now = new Date();
+            // Menggunakan opsi yang memastikan format 24 jam dan lokal Indonesia (WIB/WITA/WIT, tergantung setting perangkat)
+            const timeString = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+
+            document.getElementById('weather-text').textContent = weather.text;
+            document.getElementById('temperature-text').textContent = weather.temp;
+            document.querySelector('.weather-icon').innerHTML = `<i class="${weather.icon}"></i>`;
+            document.getElementById('time-text').textContent = timeString;
+
+            // Update setiap 1 detik
+            setTimeout(updateWeatherWidget, 1000);
+        }
+
         // --- FUNGSI UTILITY COOLDOWN ---
         function applyCooldown(buttonElement, originalContent) {
             let timeLeft = COOLDOWN_SECONDS;
@@ -706,7 +672,7 @@
             }
 
             // 2. Buat Teks Pesan 
-            const message = 
+            const message =
 `Halo Admin GrowRushPS, saya ingin melakukan PEMBELIAN ITEM.
 
 *Detail Pesanan:*
@@ -733,28 +699,23 @@ Saya siap untuk melakukan pembayaran. Mohon instruksi selanjutnya. Terima kasih!
             closeFullStoreModal(); 
         }
         
-        // --- FUNGSI MODAL TOKO BARU (Besar) ---
+        // --- FUNGSI MODAL TOKO (Besar) ---
         function openFullStoreModal() {
             document.getElementById('full-store-modal').style.display = 'flex';
-            // Tutup semua kotak melayang yang lain
-            document.getElementById('floating-guide-content').style.display = 'none';
-            document.getElementById('floating-social-content').style.display = 'none';
-            document.getElementById('floating-feature-content').style.display = 'none';
         }
 
         function closeFullStoreModal() {
             document.getElementById('full-store-modal').style.display = 'none';
         }
 
-        // --- FUNGSI TAB SWITCHING (Tidak mengganggu floating widgets) ---
+        // --- FUNGSI SCROLL UNTUK TOMBOL "CARA BERMAIN" ---
+        function scrollToTabs() {
+            document.getElementById('tabs-container').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- FUNGSI TAB SWITCHING ---
         function openGuide(evt, guideName) {
             var i, tabcontent, tablinks;
-
-            // Tutup floating widgets & modal saat tab dibuka
-            document.getElementById('floating-guide-content').style.display = 'none';
-            document.getElementById('floating-social-content').style.display = 'none';
-            document.getElementById('floating-feature-content').style.display = 'none';
-            document.getElementById('full-store-modal').style.display = 'none'; 
 
             tabcontent = document.getElementsByClassName("tab-content");
             for (i = 0; i < tabcontent.length; i++) {
@@ -769,54 +730,14 @@ Saya siap untuk melakukan pembayaran. Mohon instruksi selanjutnya. Terima kasih!
             document.getElementById(guideName).classList.remove("hidden");
             evt.currentTarget.classList.add("active");
         }
-        
-        // --- FUNGSI TOGGLE FLOATING FEATURE (Kecil) ---
-        function toggleFeature() {
-            var featureBox = document.getElementById('floating-feature-content');
-            var guideBox = document.getElementById('floating-guide-content');
-            var socialBox = document.getElementById('floating-social-content');
 
-            if (featureBox.style.display === 'none' || featureBox.style.display === '') {
-                featureBox.style.display = 'block';
-                guideBox.style.display = 'none'; 
-                socialBox.style.display = 'none';
-                closeFullStoreModal(); // Tutup modal store
-            } else {
-                featureBox.style.display = 'none';
+        // Set PowerTunnel tab sebagai default saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            const defaultTab = document.querySelector('.tab-button');
+            if (defaultTab) {
+                defaultTab.click();
             }
-        }
-
-        // --- FUNGSI TOGGLE FLOATING GUIDE (Kecil) ---
-        function toggleGuide() {
-            var guideBox = document.getElementById('floating-guide-content');
-            var socialBox = document.getElementById('floating-social-content');
-            var featureBox = document.getElementById('floating-feature-content');
-
-            if (guideBox.style.display === 'none' || guideBox.style.display === '') {
-                guideBox.style.display = 'block';
-                socialBox.style.display = 'none'; 
-                featureBox.style.display = 'none';
-                closeFullStoreModal(); // Tutup modal store
-            } else {
-                guideBox.style.display = 'none';
-            }
-        }
-        
-        // --- FUNGSI TOGGLE FLOATING SOCIAL (Kecil) ---
-        function toggleSocial() {
-            var socialBox = document.getElementById('floating-social-content');
-            var guideBox = document.getElementById('floating-guide-content');
-            var featureBox = document.getElementById('floating-feature-content');
-
-            if (socialBox.style.display === 'none' || socialBox.style.display === '') {
-                socialBox.style.display = 'block';
-                guideBox.style.display = 'none'; 
-                featureBox.style.display = 'none';
-                closeFullStoreModal(); // Tutup modal store
-            } else {
-                socialBox.style.display = 'none';
-            }
-        }
+        });
         
     </script>
 </body>
