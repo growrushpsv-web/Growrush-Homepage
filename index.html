@@ -345,34 +345,8 @@
             margin-bottom: 8px; 
             text-align: center;
         }
-        
-        /* Table styles inside store content */
-        #floating-store-content table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 12px;
-            margin-top: 10px;
-        }
-        #floating-store-content th, #floating-store-content td {
-            padding: 6px 4px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-dark);
-        }
-        #floating-store-content th {
-            color: #E0E0E0;
-            font-weight: 600;
-            background-color: rgba(255, 193, 7, 0.1);
-        }
-        #floating-store-content td {
-            color: var(--text-dark);
-        }
-        #floating-store-content .price {
-            color: var(--store-gold);
-            font-weight: 700;
-            text-align: right;
-        }
 
-        /* --- CSS BARU UNTUK QRIS --- */
+        /* --- CSS UNTUK QRIS --- */
         .qris-container {
             text-align: center;
             margin-bottom: 10px;
@@ -406,12 +380,56 @@
             font-weight: 600;
             color: var(--main-blue);
             text-decoration: none;
+            text-align: center;
             transition: background-color 0.3s;
         }
         .qris-note-action:hover {
             background-color: rgba(33, 150, 243, 0.4);
         }
 
+        /* --- CSS BARU UNTUK Tombol Item Toko --- */
+        .store-item-button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 8px;
+            background-color: var(--bg-button);
+            color: var(--text-light);
+            border: 1px solid var(--border-dark);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: left;
+        }
+        .store-item-button:hover {
+            background-color: var(--bg-button-hover);
+            border-color: var(--store-gold);
+        }
+        .store-item-button .price-tag {
+            color: var(--store-gold);
+            font-weight: 700;
+            font-size: 14px;
+        }
+        /* Style Spesifik Item */
+        .store-item-button.vip-item {
+            border-color: var(--main-blue);
+            color: #81D4FA;
+        }
+        .store-item-button.vip-item .price-tag {
+            color: #81D4FA;
+        }
+        .store-item-button.custom-item {
+            border-color: #FF9800;
+            color: #FFECB3;
+        }
+        .store-item-button.custom-item .price-tag {
+            color: #FFECB3;
+        }
+        
 
         /* FLOATING SOCIAL BUTTON & CONTENT (POJOK KANAN BAWAH) */
         #floating-social-button {
@@ -607,45 +625,34 @@
     </button>
     
     <div id="floating-store-content">
-        <p class="store-title" style="color: var(--store-gold); font-size: 16px; margin-bottom: 5px;">💳 PEMBAYARAN VIA QRIS</p>
+        <p class="store-title" style="color: var(--store-gold); font-size: 16px; margin-bottom: 10px;">💳 PILIH PEMBELIAN & KONFIRMASI</p>
+
+        <p class="store-title" style="color: #009688; font-size: 14px; margin-bottom: 5px;">Via QRIS (Deposit Nominal Bebas)</p>
         <div class="qris-container">
             <img src="https://via.placeholder.com/150x150?text=QRIS+SCAN+ME" alt="QRIS Payment" class="qris-image">
-            <p class="qris-instruction">Scan QRIS di atas, masukkan jumlah yang diinginkan.</p>
+            <p class="qris-instruction">Scan QRIS di atas, masukkan nominal yang diinginkan, lalu **WAJIB** konfirmasi ke Admin.</p>
         </div>
         
-        <a href="https://chat.whatsapp.com/Elq453EwzudLyUIi4nuDik" target="_blank" class="qris-note-action">
+        <a href="https://wa.me/6281234567890?text=Halo%20Admin%20GrowRushPS,%20saya%20sudah%20melakukan%20pembayaran%20via%20QRIS.%20Mohon%20proses%20deposit/pembelian%20saya.%0A%0A[Tulis%20Nominal%20dan%20Nama%20GT%20Anda]" target="_blank" class="qris-note-action">
             ✅ Selesai Scan? Klik Di Sini untuk Konfirmasi ke Admin!
         </a>
 
-        <hr style="border-color: var(--border-dark); margin: 10px 0;">
+        <hr style="border-color: var(--border-dark); margin: 15px 0 10px 0;">
 
-        <p class="store-title">⭐ Daftar Barang Dijual (Otomatis)</p>
-        <table>
-            <thead>
-                <tr>
-                    <th>Item</th>
-                    <th>Harga</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>200 DL (Diamond Lock)</td>
-                    <td class="price">Rp 10.000</td>
-                </tr>
-                <tr>
-                    <td>1000 WL (World Lock)</td>
-                    <td class="price">Rp 5.000</td>
-                </tr>
-                <tr>
-                    <td>VIP Pass (30 Hari)</td>
-                    <td class="price">Rp 25.000</td>
-                </tr>
-                <tr>
-                    <td>Custom Item Design</td>
-                    <td class="price">Rp 50.000</td>
-                </tr>
-            </tbody>
-        </table>
+        <p class="store-title" style="font-size: 14px; margin-bottom: 5px;">Via Chat Admin (Item Satuan)</p>
+        
+        <button class="store-item-button" onclick="promptPurchase('200 DL (Diamond Lock)', 'Rp 10.000')">
+            200 DL <span class="price-tag">Rp 10.000</span>
+        </button>
+        <button class="store-item-button" onclick="promptPurchase('1000 WL (World Lock)', 'Rp 5.000')">
+            1000 WL <span class="price-tag">Rp 5.000</span>
+        </button>
+        <button class="store-item-button vip-item" onclick="promptPurchase('VIP Pass (30 Hari)', 'Rp 25.000')">
+            VIP Pass (30 Hari) <span class="price-tag">Rp 25.000</span>
+        </button>
+        <button class="store-item-button custom-item" onclick="promptPurchase('Custom Item Design', 'Rp 50.000')">
+            Custom Item Design <span class="price-tag">Rp 50.000</span>
+        </button>
         
         <p class="admin-note" style="text-align: center; margin-top: 10px; font-size: 11px;">
             Item akan dikirim setelah konfirmasi pembayaran ke Admin.
@@ -782,6 +789,47 @@
                         buttonElement.disabled = false;
                     }, 4000);
                 });
+        }
+
+        // --- FUNGSI BARU: PROMPT PEMBELIAN DAN KIRIM KE WA ADMIN ---
+        function promptPurchase(itemName, itemPrice) {
+            
+            // 1. Dapatkan IGN dan World menggunakan prompt
+            const ign = prompt("Masukkan In-Game Name (IGN) Anda:");
+            if (!ign) {
+                alert("Pembelian dibatalkan. IGN tidak boleh kosong.");
+                return;
+            }
+
+            const world = prompt("Masukkan Nama World tempat Anda akan menerima item:");
+            if (!world) {
+                alert("Pembelian dibatalkan. Nama World tidak boleh kosong.");
+                return;
+            }
+
+            // 2. Buat Teks Pesan (Gunakan \n untuk baris baru)
+            const message = 
+`Halo Admin GrowRushPS, saya ingin melakukan PEMBELIAN ITEM.
+
+*Detail Pesanan:*
+🛒 Item: ${itemName}
+💰 Harga: ${itemPrice}
+
+*Data Pengiriman:*
+👤 IGN: ${ign}
+🏠 World: ${world}
+
+Saya siap untuk melakukan pembayaran. Mohon instruksi selanjutnya. Terima kasih!`;
+
+            // 3. URL Encoding
+            const encodedMessage = encodeURIComponent(message);
+            
+            // 4. Admin WA Number (GANTI DENGAN NOMOR WA ADMIN ASLI ANDA!)
+            const adminWhatsApp = '6281234567890'; 
+
+            // 5. Buka Link WhatsApp di tab baru
+            const whatsappUrl = `https://wa.me/${adminWhatsApp}?text=${encodedMessage}`;
+            window.open(whatsappUrl, '_blank');
         }
 
         // --- FUNGSI TAB SWITCHING ---
