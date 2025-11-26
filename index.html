@@ -44,7 +44,7 @@
             color: var(--text-light); 
             font-family: 'Poppins', sans-serif; 
             text-align: center; 
-            /* PERBAIKAN SEBELUMNYA: Menambahkan padding-bottom agar konten utama tidak tertutup tombol fixed */
+            /* PERBAIKAN: Menambahkan padding-bottom agar konten utama tidak tertutup tombol fixed */
             padding: 50px 20px 150px; 
             min-height: 100vh;
         }
@@ -225,7 +225,6 @@
             border-radius: 8px;
             border: 2px solid #FF9800; 
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            /* PERBAIKAN Z-INDEX */
             z-index: 1001; 
             display: none; 
             text-align: left;
@@ -280,7 +279,6 @@
             border-radius: 8px;
             border: 2px solid var(--main-blue);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            /* PERBAIKAN Z-INDEX */
             z-index: 1001; 
             display: none; 
             text-align: left;
@@ -329,13 +327,12 @@
             bottom: 115px; /* Di atas store button (70px) */
             right: 20px;
             width: 250px; /* Lebih lebar untuk tabel */
-            max-height: 280px; 
+            max-height: 450px; /* Diperbesar sedikit untuk QRIS */
             background-color: var(--bg-card); 
             padding: 12px; 
             border-radius: 8px;
             border: 2px solid var(--store-gold); 
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            /* PERBAIKAN Z-INDEX */
             z-index: 1001; 
             display: none; 
             text-align: left;
@@ -375,6 +372,46 @@
             text-align: right;
         }
 
+        /* --- CSS BARU UNTUK QRIS --- */
+        .qris-container {
+            text-align: center;
+            margin-bottom: 10px;
+            padding: 5px;
+            background-color: var(--bg-button);
+            border-radius: 8px;
+        }
+        .qris-image {
+            width: 100%; 
+            max-width: 150px; /* Ukuran maksimal QRIS */
+            height: auto;
+            border-radius: 6px;
+            border: 3px solid #009688; /* Warna QRIS/Hijau */
+            padding: 5px;
+            background-color: white; 
+            box-shadow: 0 0 10px rgba(0, 150, 136, 0.5);
+        }
+        .qris-instruction {
+            font-size: 12px;
+            color: var(--text-light);
+            margin: 5px 0 10px 0;
+            font-weight: 500;
+        }
+        .qris-note-action {
+            display: block;
+            margin-top: 8px;
+            padding: 8px;
+            background-color: rgba(33, 150, 243, 0.2);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--main-blue);
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .qris-note-action:hover {
+            background-color: rgba(33, 150, 243, 0.4);
+        }
+
 
         /* FLOATING SOCIAL BUTTON & CONTENT (POJOK KANAN BAWAH) */
         #floating-social-button {
@@ -410,7 +447,6 @@
             border-radius: 8px;
             border: 2px solid var(--main-blue);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            /* PERBAIKAN Z-INDEX */
             z-index: 1001; 
             display: none; 
             text-align: left;
@@ -571,6 +607,18 @@
     </button>
     
     <div id="floating-store-content">
+        <p class="store-title" style="color: var(--store-gold); font-size: 16px; margin-bottom: 5px;">💳 PEMBAYARAN VIA QRIS</p>
+        <div class="qris-container">
+            <img src="https://via.placeholder.com/150x150?text=QRIS+SCAN+ME" alt="QRIS Payment" class="qris-image">
+            <p class="qris-instruction">Scan QRIS di atas, masukkan jumlah yang diinginkan.</p>
+        </div>
+        
+        <a href="https://chat.whatsapp.com/Elq453EwzudLyUIi4nuDik" target="_blank" class="qris-note-action">
+            ✅ Selesai Scan? Klik Di Sini untuk Konfirmasi ke Admin!
+        </a>
+
+        <hr style="border-color: var(--border-dark); margin: 10px 0;">
+
         <p class="store-title">⭐ Daftar Barang Dijual (Otomatis)</p>
         <table>
             <thead>
@@ -598,8 +646,9 @@
                 </tr>
             </tbody>
         </table>
-        <p class="admin-note" style="text-align: center; margin-top: 10px;">
-            ⚠️ Hubungi Admin untuk pembelian manual.
+        
+        <p class="admin-note" style="text-align: center; margin-top: 10px; font-size: 11px;">
+            Item akan dikirim setelah konfirmasi pembayaran ke Admin.
         </p>
     </div>
 
