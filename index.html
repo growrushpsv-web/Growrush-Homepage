@@ -49,7 +49,7 @@
             min-height: 100vh;
         }
         
-        /* FIX KRUSIAL: Menjaga background gelap saat modal terbuka */
+        /* FIX KRUSIAL: Menjaga background gelap dan mengunci scroll saat modal terbuka */
         body.modal-open { 
             overflow: hidden; 
             background: 
@@ -232,7 +232,7 @@
             cursor: pointer;
             font-weight: 700;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-            z-index: 1000;
+            z-index: 1001; /* FIX KRUSIAL: Pastikan tombol selalu di atas konten (999) */
             transition: background-color 0.3s;
             display: flex;
             align-items: center;
@@ -270,9 +270,7 @@
             
             /* PENTING: Mencegah kotak konten (saat display:none) memblokir klik */
             pointer-events: none; 
-
-            /* Styling Positioning di atas tombol */
-            transform: translateX(-50%); 
+            transform: translateX(-50%); /* Dipakai di guide/feature */
         }
 
         /* PENTING: Override pointer-events ketika konten sedang ditampilkan */
@@ -284,21 +282,24 @@
 
         /* --- POSISI FINAL (MENGATASI CUT-OFF/TERPOTONG & OVERLAP) --- */
         
-        /* Posisi Konten Kiri (Feature & Guide) */
+        /* Konten Kiri (Feature & Guide) - Geser ke kanan tombol */
         #floating-feature-content { 
             bottom: 140px; 
-            left: 105px; 
+            left: 105px; /* Jarak yang aman agar tidak menimpa tombol lain */
+            transform: none; /* Hilangkan transform: translateX(-50%) */
         }
         #floating-guide-content { 
             bottom: 80px; 
-            left: 105px; 
+            left: 105px; /* Jarak yang aman agar tidak menimpa tombol lain */
+            transform: none;
         }
 
-        /* Posisi Konten Kanan (Social) */
+        /* Konten Kanan (Social) - Geser ke kiri tombol */
         #floating-social-content { 
             bottom: 80px; 
             right: 105px;
-            left: auto; 
+            left: auto; /* Pastikan posisi dikontrol dari kanan */
+            transform: none;
         }
         /* ------------------------------------- */
 
@@ -355,7 +356,7 @@
 
         /* --- FULL-SCREEN STORE MODAL (Besar) --- */
         #full-store-modal {
-            position: fixed; /* FIX: Paksa modal menutupi layar */
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -394,6 +395,7 @@
             cursor: pointer;
             line-height: 1;
             font-weight: 700;
+            z-index: 10000; /* Pastikan tombol tutup selalu di atas */
         }
         .close-button:hover { color: #FF0000; }
 
@@ -863,16 +865,17 @@
             toggleContent('floating-social-content');
         }
         
-        // Tutup kotak floating jika mengklik di luar
+        // Tutup kotak floating jika mengklik di luar (kecuali mengklik tombol floating itu sendiri)
         document.addEventListener('click', function(event) {
-            if (
-                !event.target.closest('#floating-feature-button') && 
-                !event.target.closest('#floating-guide-button') && 
-                !event.target.closest('#floating-social-button') &&
-                !event.target.closest('#floating-feature-content') &&
-                !event.target.closest('#floating-guide-content') &&
-                !event.target.closest('#floating-social-content')
-            ) {
+            const isFloatingButton = event.target.closest('#floating-feature-button') || 
+                                     event.target.closest('#floating-guide-button') || 
+                                     event.target.closest('#floating-social-button');
+                                     
+            const isFloatingContent = event.target.closest('#floating-feature-content') ||
+                                      event.target.closest('#floating-guide-content') ||
+                                      event.target.closest('#floating-social-content');
+
+            if (!isFloatingButton && !isFloatingContent) {
                 closeAllFloatingContents();
             }
         });
@@ -883,6 +886,7 @@
             document.getElementById('full-store-modal').style.display = 'flex';
             // FIX: Gunakan class CSS untuk mengontrol scroll body dan background
             document.body.classList.add('modal-open'); 
+            closeAllFloatingContents(); // Tutup kotak floating jika modal dibuka
         }
 
         function closeFullStoreModal() {
@@ -902,6 +906,7 @@
                     `Nama GT: ${gtName.trim()}\n` +
                     `\nMohon petunjuk pembayaran selanjutnya. Terima kasih!`
                 );
+                // Pastikan nomor WA sudah benar
                 window.open(`https://wa.me/${ADMIN_WA_NUMBER}?text=${message}`, '_blank');
             } else if (gtName !== null) {
                 alert("Nama GT tidak boleh kosong!");
