@@ -121,6 +121,8 @@
             white-space: normal; 
             text-align: left;
             min-height: 50px; 
+            /* Tambahan untuk tag <a> */
+            text-decoration: none; 
         }
         .action-button:hover { 
             background-color: var(--bg-button-hover); 
@@ -383,9 +385,9 @@
                 <span class="icon-placeholder">📋</span> Salin IP
             </button>
             
-            <button class="action-button" onclick="window.location.href='https://www.growrush.my.id/GrowRushPS.txt'">
+            <a href="https://www.growrush.my.id/GrowRushPS.txt" download="GrowRushPS.txt" class="action-button">
                 <span class="icon-placeholder">💾</span> Unduh Host File
-            </button>
+            </a>
             
             <button class="action-button" onclick="copyOnly(this, 'https://as.panel.growsoft.cc/android/355', 'URL Host PowerTunnel berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
                 <span class="icon-placeholder">🔗</span> PowerTunnel URL
@@ -412,7 +414,7 @@
                 <p class="guide-title">⚙️ Panduan Penggunaan PowerTunnel:</p>
                 <ol class="guide-list">
                     <li>Pertama, unduh Aplikasi PowerTunnel dari tautan di tombol di atas.</li>
-                    <li>Kemudian, klik tombol PowerTunnel tersebut. Ini akan menyalin tautan host PowerTunnel ke clipboard Anda.</li>
+                    <li>Kemudian, **klik tombol PowerTunnel tersebut.** Ini akan menyalin tautan host PowerTunnel ke clipboard Anda.</li>
                     <li>Buka aplikasi PowerTunnel, klik ikon tiga garis, lalu klik ikon pengaturan host.</li>
                     <li>Tempel URL host yang sudah disalin. Ubah periode pembaruan host dari 12 jam menjadi 'on start'.</li>
                     <li>Sekarang, Anda bisa login ke GTPS (Growtopia Private Server) Anda!</li>
@@ -615,8 +617,14 @@
                 timeLeft--;
                 if (timeLeft <= 0) {
                     clearInterval(countdownInterval);
-                    buttonElement.innerHTML = originalContent; 
-                    buttonElement.disabled = false; 
+                    // Karena tombol download sekarang tag <a>, kita cek dulu
+                    if (buttonElement.tagName === 'A') {
+                        buttonElement.innerHTML = originalContent;
+                        buttonElement.disabled = false; // Tautan tidak perlu disabled, tapi kita ikuti flow-nya
+                    } else {
+                        buttonElement.innerHTML = originalContent; 
+                        buttonElement.disabled = false; 
+                    }
                     buttonElement.style.cursor = 'pointer';
                     buttonElement.style.backgroundColor = ''; 
                 } else {
@@ -626,7 +634,8 @@
             }, 1000);
         }
 
-        // --- FUNGSI SALIN IP & TEKS ---
+
+        // --- FUNGSI SALIN IP & TEKS (TIDAK DIGUNAKAN UNTUK TOMBOL DOWNLOAD) ---
         function copyIP(buttonElement, ipValue) {
             const originalContent = buttonElement.innerHTML; 
             if (buttonElement.disabled) { return; }
