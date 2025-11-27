@@ -244,8 +244,9 @@
 
         /* --- Floating Content Boxes (Kecil) --- */
         #floating-feature-content, #floating-guide-content, #floating-social-content {
+            /* Fix: Mengurangi lebar agar tidak overlap */
+            width: 180px; 
             position: fixed;
-            width: 250px; /* Lebar Kotak Konten */
             background-color: rgba(26, 26, 26, 0.95); /* bg-dark-2 semi-transparan */
             color: var(--text-light);
             border-radius: 8px;
@@ -257,36 +258,36 @@
             border: 1px solid var(--border-dark);
             text-align: left;
             
-            /* PENTING: Mencegah kotak konten (saat display:none) memblokir klik pada elemen di bawahnya */
+            /* PENTING: Mencegah kotak konten (saat display:none) memblokir klik */
             pointer-events: none; 
 
             /* Styling Positioning di atas tombol */
             transform: translateX(-50%); 
         }
 
-        /* PENTING: Override pointer-events ketika konten sedang ditampilkan agar link bisa diklik */
+        /* PENTING: Override pointer-events ketika konten sedang ditampilkan */
         #floating-feature-content.active-content,
         #floating-guide-content.active-content,
         #floating-social-content.active-content {
             pointer-events: auto; 
         }
 
-        /* --- POSISI BARU (AGAR TIDAK OVERLAP) --- */
+        /* --- POSISI FINAL (MENGATASI CUT-OFF/TERPOTONG & OVERLAP) --- */
         
         /* Posisi Konten Kiri (Feature & Guide) */
         #floating-feature-content { 
-            bottom: 140px; /* Lebih tinggi */
-            left: 45px;    /* Lebih ke kiri */
+            bottom: 140px; 
+            left: 95px;    /* Fix Cut-off: Menggeser pusat ke 95px */
         }
         #floating-guide-content { 
             bottom: 80px;  
-            left: 45px;    /* Lebih ke kiri */
+            left: 95px;    /* Fix Cut-off: Menggeser pusat ke 95px */
         }
 
         /* Posisi Konten Kanan (Social) */
         #floating-social-content { 
             bottom: 80px;  
-            right: 45px;   /* Lebih ke kanan */
+            right: 95px;   /* Fix Cut-off: Menggeser pusat ke 95px dari kanan */
             left: auto;    
         }
         /* ------------------------------------- */
@@ -339,7 +340,6 @@
         }
         #discord-button { background-color: #7289DA; }
         #whatsapp-button { background-color: #25D366; }
-        /* NEW: Warna Telegram */
         #telegram-button { background-color: #0088CC; } 
 
         /* --- FULL-SCREEN STORE MODAL (Besar) --- */
@@ -413,6 +413,7 @@
             border-radius: 8px;
         }
         .qris-image {
+            /* Ganti src QRIS Anda di sini */
             width: 100%; 
             max-width: 200px; 
             height: auto;
