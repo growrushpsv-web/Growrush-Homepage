@@ -245,7 +245,7 @@
         /* --- Floating Content Boxes (Kecil) --- */
         #floating-feature-content, #floating-guide-content, #floating-social-content {
             position: fixed;
-            width: 280px; /* Lebar Kotak Konten */
+            width: 250px; /* Lebar Kotak Konten */
             background-color: rgba(26, 26, 26, 0.95); /* bg-dark-2 semi-transparan */
             color: var(--text-light);
             border-radius: 8px;
@@ -256,16 +256,29 @@
             display: none; /* Default hidden */
             border: 1px solid var(--border-dark);
             text-align: left;
+            
+            /* Tambahan untuk positioning di atas tombol */
+            transform: translateX(-50%); /* Pusatkan berdasarkan left/right 50% */
         }
 
         /* Posisi Konten Kiri (Feature & Guide) */
-        /* CSS Disesuaikan agar lebih tinggi dari tombol */
-        #floating-feature-content { bottom: 180px; left: 165px; } 
-        #floating-guide-content { bottom: 130px; left: 165px; }  
+        /* Akan muncul di atas tombol Feature & Guide */
+        #floating-feature-content { 
+            bottom: 130px; 
+            left: 75px;    
+        }
+        #floating-guide-content { 
+            bottom: 80px;  
+            left: 75px;    
+        }
 
         /* Posisi Konten Kanan (Social) */
-        /* CSS Disesuaikan agar lebih tinggi dari tombol */
-        #floating-social-content { bottom: 130px; right: 165px; } 
+        /* Akan muncul di atas tombol Social */
+        #floating-social-content { 
+            bottom: 80px;  
+            right: 75px;   
+            left: auto;    
+        }
 
         /* Konten styling untuk kotak kecil */
         .feature-title, .guide-title, .social-title {
@@ -598,283 +611,4 @@
     </button>
 
     <div id="floating-social-content">
-        <p class="social-title">💬 Bergabunglah dengan Kami!</p>
-        <div class="social-links">
-            <a href="https://discord.gg/kFDepPDe7G" target="_blank" id="discord-button" class="social-button">
-                <i class="fab fa-discord social-icon"></i> Discord Server
-            </a>
-            <a href="https://chat.whatsapp.com/Elq453EwzudLyUIi4nuDik" target="_blank" id="whatsapp-button" class="social-button">
-                <i class="fab fa-whatsapp social-icon"></i> Grup WhatsApp
-            </a>
-        </div>
-    </div>
-
-
-    <div id="full-store-modal">
-        <div class="modal-content-wrapper">
-            <button class="close-button" onclick="closeFullStoreModal()">✖</button>
-            <h2 class="store-title" style="font-size: 24px; margin-bottom: 20px;">🛒 GrowRushPS Store</h2>
-
-            <div class="modal-store-section">
-                <h3 style="color: #009688;"><i class="fas fa-qrcode"></i> 1. Pembayaran via QRIS (Deposit Nominal Bebas)</h3>
-                <div class="qris-container">
-                    <img src="https://via.placeholder.com/200x200?text=QRIS+SCAN+ME" alt="QRIS Payment" class="qris-image">
-                    <p class="qris-instruction" style="font-size: 15px; font-weight: 700;">
-                        **Langkah 1: SCAN QRIS DI ATAS** melalui aplikasi bank/dompet digital Anda, lalu **Lakukan Pembayaran** dengan nominal yang diinginkan.
-                    </p>
-                </div>
-                
-                <p class="qris-instruction" style="color: #FFEB3B; font-weight: 600; margin: 15px 0;">
-                    ⚠️ **PENTING: PASTIKAN PEMBAYARAN SUDAH BERHASIL** (mendapat notifikasi sukses) sebelum menekan tombol di bawah!
-                </p>
-
-                <a href="https://wa.me/6281234567890?text=Halo%20Admin%20GrowRushPS,%20saya%20sudah%20melakukan%20pembayaran%20via%20QRIS.%20Mohon%20proses%20deposit/pembelian%20saya.%0A%0A[Tulis%20Nominal%20dan%20Nama%20GT%20Anda]" target="_blank" class="qris-note-action">
-                    ✅ 2. Pembayaran Berhasil! Klik Di Sini untuk Konfirmasi ke Admin
-                </a>
-            </div>
-
-            <div class="modal-store-section">
-                <h3><i class="fas fa-tags"></i> Beli Item Satuan (Chat Admin Otomatis)</h3>
-                
-                <button class="store-item-button" onclick="promptPurchase('200 DL (Diamond Lock)', 'Rp 10.000')">
-                    200 DL <span class="price-tag">Rp 10.000</span>
-                </button>
-                <button class="store-item-button" onclick="promptPurchase('1000 WL (World Lock)', 'Rp 5.000')">
-                    1000 WL <span class="price-tag">Rp 5.000</span>
-                </button>
-                <button class="store-item-button vip-item" onclick="promptPurchase('VIP Pass (30 Hari)', 'Rp 25.000')">
-                    VIP Pass (30 Hari) <span class="price-tag">Rp 25.000</span>
-                </button>
-                <button class="store-item-button custom-item" onclick="promptPurchase('Custom Item Design', 'Rp 50.000')">
-                    Custom Item Design <span class="price-tag">Rp 50.000</span>
-                </button>
-
-                <p class="admin-note" style="text-align: center; margin-top: 10px; font-size: 13px;">
-                    ❗ Setelah menekan tombol 'Beli', isi format dan Anda akan diarahkan ke WhatsApp Admin untuk pembayaran.
-                </p>
-            </div>
-        </div>
-    </div>
-    
-    <script>
-        
-        // Konstanta IP untuk fungsi Salin IP
-        const SERVER_IP = '15.235.227.241'; 
-        const COOLDOWN_SECONDS = 4;
-        
-        // --- FUNGSI WIDGET CUACA & WAKTU BARU ---
-        function updateWeatherWidget() {
-            const weather = {
-                text: "Cerah",
-                icon: "fas fa-sun",
-                temp: "28°C"
-            };
-
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
-
-            document.getElementById('weather-text').textContent = weather.text;
-            document.getElementById('temperature-text').textContent = weather.temp;
-            document.querySelector('.weather-icon').innerHTML = `<i class="${weather.icon}"></i>`;
-            document.getElementById('time-text').textContent = timeString;
-
-            setTimeout(updateWeatherWidget, 1000);
-        }
-
-        // --- FUNGSI UTILITY COOLDOWN ---
-        function applyCooldown(buttonElement, originalContent) {
-            let timeLeft = COOLDOWN_SECONDS;
-            buttonElement.disabled = true;
-            buttonElement.style.cursor = 'wait';
-            
-            const countdownInterval = setInterval(() => {
-                timeLeft--;
-                if (timeLeft <= 0) {
-                    clearInterval(countdownInterval);
-                    buttonElement.innerHTML = originalContent; 
-                    buttonElement.disabled = false; 
-                    buttonElement.style.cursor = 'pointer';
-                    buttonElement.style.backgroundColor = ''; 
-                } else {
-                    const iconPlaceholder = originalContent.match(/<span class="icon-placeholder">.*?<\/span>/) ? originalContent.match(/<span class="icon-placeholder">.*?<\/span>/)[0] : '';
-                    buttonElement.innerHTML = `${iconPlaceholder} Tunggu ${timeLeft}s...`;
-                }
-            }, 1000);
-        }
-
-        // --- FUNGSI SALIN IP ---
-        function copyIP(buttonElement, ipValue) {
-            const originalContent = buttonElement.innerHTML; 
-            if (buttonElement.disabled) { return; }
-            
-            navigator.clipboard.writeText(ipValue).then(() => {
-                buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #4CAF50;">✅</span> Berhasil Disalin!`;
-                buttonElement.style.backgroundColor = '#4CAF50'; 
-                applyCooldown(buttonElement, originalContent);
-            }).catch(err => {
-                console.error('Gagal menyalin:', err);
-                buttonElement.style.backgroundColor = '#FF5722'; 
-                buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> GAGAL SALIN (Batas). IP: ${ipValue}`; 
-                try {
-                    if (window.confirm("Gagal Salin Otomatis (Batas Peramban). Apakah Anda ingin menyalin IP melalui jendela Pop-up? (Pilih 'OK')")) {
-                        prompt("Salin IP ini secara manual (CTRL+C atau tekan lama):", ipValue);
-                    }
-                } catch(e) {}
-                buttonElement.disabled = true;
-                setTimeout(() => {
-                    buttonElement.innerHTML = originalContent;
-                    buttonElement.style.backgroundColor = ''; 
-                    buttonElement.disabled = false;
-                }, 4000); 
-            });
-        }
-        
-        // --- FUNGSI SALIN TEKS SAJA ---
-        function copyOnly(buttonElement, value, successMessage) {
-            const originalContent = buttonElement.innerHTML;
-            if (buttonElement.disabled) { return; }
-
-            navigator.clipboard.writeText(value)
-                .then(() => {
-                    buttonElement.style.backgroundColor = '#4CAF50';
-                    const displayMessage = successMessage.split('!')[0] + '!'; 
-                    buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #4CAF50;">✅</span> ${displayMessage}`;
-                    applyCooldown(buttonElement, originalContent);
-                })
-                .catch(err => {
-                    console.error('Gagal menyalin:', err);
-                    buttonElement.style.backgroundColor = '#FF5722';
-                    buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> GAGAL SALIN. URL: ${value}`; 
-                    try {
-                        if (window.confirm("Gagal Salin Otomatis (Batas Peramban). Apakah Anda ingin menyalin URL melalui jendela Pop-up? (Pilih 'OK')")) {
-                            prompt("Salin URL ini secara manual (CTRL+C atau tekan lama):", value);
-                        }
-                    } catch(e) {}
-                    buttonElement.disabled = true;
-                    setTimeout(() => {
-                        buttonElement.innerHTML = originalContent;
-                        buttonElement.style.backgroundColor = ''; 
-                        buttonElement.disabled = false;
-                    }, 4000);
-                });
-        }
-
-        // --- FUNGSI PROMPT PEMBELIAN DAN KIRIM KE WA ADMIN ---
-        function promptPurchase(itemName, itemPrice) {
-            
-            const ign = prompt("Masukkan In-Game Name (IGN) Anda:");
-            if (!ign) {
-                alert("Pembelian dibatalkan. IGN tidak boleh kosong.");
-                return;
-            }
-
-            const world = prompt("Masukkan Nama World tempat Anda akan menerima item:");
-            if (!world) {
-                alert("Pembelian dibatalkan. Nama World tidak boleh kosong.");
-                return;
-            }
-
-            const message =
-`Halo Admin GrowRushPS, saya ingin melakukan PEMBELIAN ITEM.
-
-*Detail Pesanan:*
-🛒 Item: ${itemName}
-💰 Harga: ${itemPrice}
-
-*Data Pengiriman:*
-👤 IGN: ${ign}
-🏠 World: ${world}
-
-Saya siap untuk melakukan pembayaran. Mohon instruksi selanjutnya. Terima kasih!`;
-
-            const encodedMessage = encodeURIComponent(message);
-            const adminWhatsApp = '6281234567890'; 
-            const whatsappUrl = `https://wa.me/${adminWhatsApp}?text=${encodedMessage}`;
-            window.open(whatsappUrl, '_blank');
-            
-            closeFullStoreModal(); 
-        }
-        
-        // --- FUNGSI MODAL TOKO (Overlay Besar) ---
-        function openFullStoreModal() {
-            // Tutup semua konten kecil sebelum membuka modal besar
-            document.getElementById('floating-feature-content').style.display = 'none';
-            document.getElementById('floating-guide-content').style.display = 'none';
-            document.getElementById('floating-social-content').style.display = 'none';
-            
-            document.getElementById('full-store-modal').style.display = 'flex';
-        }
-
-        function closeFullStoreModal() {
-            document.getElementById('full-store-modal').style.display = 'none';
-        }
-
-        // --- FUNGSI TOGGLE KONTEN KECIL ---
-        // Utility function to toggle content and close others
-        function toggleContent(contentId) {
-            const allContentIds = ['floating-feature-content', 'floating-guide-content', 'floating-social-content'];
-            const currentContent = document.getElementById(contentId);
-            const isCurrentlyVisible = currentContent.style.display === 'block';
-
-            // Tutup semua konten
-            allContentIds.forEach(id => {
-                document.getElementById(id).style.display = 'none';
-            });
-            
-            // Tutup Modal Besar
-            document.getElementById('full-store-modal').style.display = 'none';
-
-
-            // Buka konten yang diminta, kecuali jika sudah terbuka (untuk toggle off)
-            if (!isCurrentlyVisible) {
-                currentContent.style.display = 'block';
-            }
-        }
-
-        function toggleFeature() {
-            toggleContent('floating-feature-content');
-        }
-
-        function toggleGuide() {
-            toggleContent('floating-guide-content');
-        }
-
-        function toggleSocial() {
-            toggleContent('floating-social-content');
-        }
-
-        // --- FUNGSI SCROLL UNTUK TOMBOL "Lihat Panduan Detail" di Konten Kecil ---
-        function scrollToTabs() {
-            toggleContent('floating-guide-content'); // Tutup konten kecil setelah diklik
-            document.getElementById('tabs-container').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // --- FUNGSI TAB SWITCHING ---
-        function openGuide(evt, guideName) {
-            var i, tabcontent, tablinks;
-
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].classList.add("hidden");
-            }
-
-            tablinks = document.getElementsByClassName("tab-button");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove("active");
-            }
-
-            document.getElementById(guideName).classList.remove("hidden");
-            evt.currentTarget.classList.add("active");
-        }
-
-        // Set PowerTunnel tab sebagai default saat halaman dimuat
-        document.addEventListener('DOMContentLoaded', () => {
-            const defaultTab = document.querySelector('.tab-button');
-            if (defaultTab) {
-                defaultTab.click();
-            }
-        });
-        
-    </script>
-</body>
-</html>
+        <p class="social-title">💬 Berg
