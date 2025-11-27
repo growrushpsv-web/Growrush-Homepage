@@ -224,7 +224,8 @@
         }
 
         /* --- FLOATING BUTTONS (Kiri Bawah & Kanan Bawah) --- */
-        #floating-feature-button, #floating-guide-button, #floating-store-button, #floating-social-button {
+        /* Z-INDEX DITINGKATKAN AGAR TIDAK TERTUTUP MODAL/KOTAK KONTEN */
+        .floating-button {
             position: fixed;
             padding: 10px 15px; 
             border: none;
@@ -232,7 +233,7 @@
             cursor: pointer;
             font-weight: 700;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-            z-index: 1001; /* FIX KRUSIAL: Pastikan tombol selalu di atas konten (999) */
+            z-index: 1001; 
             transition: background-color 0.3s;
             display: flex;
             align-items: center;
@@ -253,109 +254,8 @@
         #floating-store-button { bottom: 70px; right: 20px; background-color: var(--store-gold); color: #212121; }
         #floating-store-button:hover { background-color: #FFB300; }
 
-        /* --- Floating Content Boxes (Kecil) --- */
-        #floating-feature-content, #floating-guide-content, #floating-social-content {
-            width: 200px; 
-            position: fixed;
-            background-color: rgba(26, 26, 26, 0.95); /* bg-dark-2 semi-transparan */
-            color: var(--text-light);
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
-            padding: 15px;
-            z-index: 999;
-            transition: opacity 0.3s, transform 0.3s;
-            display: none; /* Default hidden */
-            border: 1px solid var(--border-dark);
-            text-align: left;
-            
-            /* PENTING: Mencegah kotak konten (saat display:none) memblokir klik */
-            pointer-events: none; 
-            transform: translateX(-50%); /* Dipakai di guide/feature */
-        }
-
-        /* PENTING: Override pointer-events ketika konten sedang ditampilkan */
-        #floating-feature-content.active-content,
-        #floating-guide-content.active-content,
-        #floating-social-content.active-content {
-            pointer-events: auto; 
-        }
-
-        /* --- POSISI FINAL (MENGATASI CUT-OFF/TERPOTONG & OVERLAP) --- */
-        
-        /* Konten Kiri (Feature & Guide) - Geser ke kanan tombol */
-        #floating-feature-content { 
-            bottom: 140px; 
-            left: 105px; /* Jarak yang aman agar tidak menimpa tombol lain */
-            transform: none; /* Hilangkan transform: translateX(-50%) */
-        }
-        #floating-guide-content { 
-            bottom: 80px; 
-            left: 105px; /* Jarak yang aman agar tidak menimpa tombol lain */
-            transform: none;
-        }
-
-        /* Konten Kanan (Social) - Geser ke kiri tombol */
-        #floating-social-content { 
-            bottom: 80px; 
-            right: 105px;
-            left: auto; /* Pastikan posisi dikontrol dari kanan */
-            transform: none;
-        }
-        /* ------------------------------------- */
-
-        /* Konten styling untuk kotak kecil */
-        .feature-title, .guide-title, .social-title {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid var(--border-dark);
-        }
-        
-        .feature-list, .guide-list {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            font-size: 13px;
-        }
-        .feature-list li, .guide-list li {
-            margin-bottom: 8px;
-            color: var(--text-dark);
-            display: flex;
-            align-items: center;
-        }
-        .feature-list li strong { color: var(--text-light); margin-right: 5px; }
-        .feature-icon { margin-right: 10px; color: var(--main-blue); }
-
-        /* Social Media Button Styling (in small box) */
-        .social-title { text-align: center; }
-        .social-links {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .social-button {
-            padding: 12px; 
-            border-radius: 8px; 
-            text-decoration: none;
-            font-weight: 700; 
-            color: white;
-            transition: opacity 0.2s;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); 
-        }
-        .social-button:hover {
-            opacity: 0.8;
-        }
-        #discord-button { background-color: #7289DA; }
-        #whatsapp-button { background-color: #25D366; }
-        #telegram-button { background-color: #0088CC; } 
-
-        /* --- FULL-SCREEN STORE MODAL (Besar) --- */
-        #full-store-modal {
+        /* --- MODAL FULL-SCREEN (Universal untuk semua floating content) --- */
+        .full-screen-modal {
             position: fixed;
             top: 0;
             left: 0;
@@ -364,7 +264,7 @@
             background-color: rgba(0, 0, 0, 0.95); 
             backdrop-filter: blur(5px);
             z-index: 9999;
-            display: none; 
+            display: none; /* Default hidden */
             overflow-y: auto; 
             padding: 10px;
             align-items: flex-start; 
@@ -375,7 +275,7 @@
             position: relative;
             background-color: var(--bg-card); 
             border-radius: 12px;
-            border: 3px solid var(--store-gold); 
+            border: 3px solid var(--store-gold); /* Warna border modal utama */
             box-shadow: 0 0 40px rgba(255, 193, 7, 0.4);
             width: 95%; 
             max-width: 650px; 
@@ -384,6 +284,12 @@
             text-align: center;
         }
         
+        /* Style Spesifik untuk Modal Selain Toko (Optional) */
+        #full-feature-modal .modal-content-wrapper { border-color: var(--main-blue); box-shadow: 0 0 40px var(--main-blue-dark); }
+        #full-guide-modal .modal-content-wrapper { border-color: #FF9800; box-shadow: 0 0 40px rgba(255, 152, 0, 0.4); }
+        #full-social-modal .modal-content-wrapper { border-color: #555; box-shadow: 0 0 40px rgba(85, 85, 85, 0.4); }
+
+
         .close-button {
             position: absolute;
             top: 10px;
@@ -395,20 +301,21 @@
             cursor: pointer;
             line-height: 1;
             font-weight: 700;
-            z-index: 10000; /* Pastikan tombol tutup selalu di atas */
+            z-index: 10000;
         }
         .close-button:hover { color: #FF0000; }
 
-        .modal-store-section {
+        .modal-section {
             margin-bottom: 25px;
             padding: 15px;
             background-color: var(--bg-dark-2);
             border-radius: 8px;
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
             border: 1px solid var(--border-dark);
+            text-align: left;
         }
 
-        .modal-store-section h3 {
+        .modal-section h3 {
             color: var(--store-gold);
             font-size: 18px;
             margin-bottom: 15px;
@@ -416,91 +323,66 @@
             padding-bottom: 5px;
             font-weight: 700;
         }
-
-        /* --- QRIS Styles (inside Modal) --- */
-        .qris-container {
-            text-align: center;
+        
+        /* Item List Styling (Dipakai di Modal Feature) */
+        .item-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            font-size: 14px;
+        }
+        .item-list li {
             margin-bottom: 10px;
-            padding: 5px;
-            background-color: var(--bg-button);
-            border-radius: 8px;
-        }
-        .qris-image {
-            /* Ganti src QRIS Anda di sini */
-            width: 100%; 
-            max-width: 200px; 
-            height: auto;
-            border-radius: 6px;
-            border: 5px solid #009688; 
-            padding: 10px;
-            background-color: white; 
-            box-shadow: 0 0 15px rgba(0, 150, 136, 0.7);
-        }
-        .qris-instruction {
-            font-size: 14px;
             color: var(--text-light);
-            margin: 10px 0;
-            font-weight: 500;
-        }
-        .qris-note-action {
-            display: block;
-            margin-top: 15px;
-            padding: 10px;
-            background-color: var(--main-blue);
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 700;
-            color: white;
-            text-decoration: none;
-            text-align: center;
-            transition: opacity 0.3s;
-        }
-        .qris-note-action:hover {
-            opacity: 0.8;
-        }
-
-        /* --- Item Button Styles (inside Modal) --- */
-        .store-item-button {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 10px;
-            background-color: var(--bg-button);
-            color: var(--text-light);
-            border: 1px solid var(--border-dark);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s, border-color 0.2s, transform 0.2s;
-            font-size: 14px;
-            font-weight: 600;
+            padding: 8px;
+            background: var(--bg-button);
+            border-radius: 5px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            text-align: left;
         }
-        .store-item-button:hover {
-            background-color: var(--bg-button-hover);
-            border-color: var(--store-gold);
-            transform: translateY(-2px);
+        .item-list li i {
+            margin-right: 10px;
+            color: var(--main-blue);
+            font-size: 18px;
         }
-        .store-item-button .price-tag {
-            color: var(--store-gold);
-            font-weight: 800;
-            font-size: 16px;
+
+        /* Social Media Styling (Dipakai di Modal Social) */
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
-        .store-item-button.vip-item {
-            border-color: var(--main-blue);
-            color: #81D4FA;
+        .social-button-large {
+            padding: 15px; 
+            border-radius: 8px; 
+            text-decoration: none;
+            font-weight: 700; 
+            color: white;
+            transition: opacity 0.2s;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5); 
         }
-        .store-item-button.vip-item .price-tag {
-            color: #81D4FA;
-        }
-        .store-item-button.custom-item {
-            border-color: #FF9800;
-            color: #FFECB3;
-        }
-        .store-item-button.custom-item .price-tag {
-            color: #FFECB3;
-        }
+        .social-button-large:hover { opacity: 0.8; }
+        #discord-button-large { background-color: #7289DA; }
+        #whatsapp-button-large { background-color: #25D366; }
+        #telegram-button-large { background-color: #0088CC; } 
+        
+        /* --- QRIS & Store Item Styling (Dipakai di Modal Toko) --- */
+        .qris-container { text-align: center; margin-bottom: 10px; padding: 5px; background-color: var(--bg-button); border-radius: 8px; }
+        .qris-image { width: 100%; max-width: 200px; height: auto; border-radius: 6px; border: 5px solid #009688; padding: 10px; background-color: white; box-shadow: 0 0 15px rgba(0, 150, 136, 0.7); }
+        .qris-instruction { font-size: 14px; color: var(--text-light); margin: 10px 0; font-weight: 500; }
+        .qris-note-action { display: block; margin-top: 15px; padding: 10px; background-color: var(--main-blue); border-radius: 6px; font-size: 14px; font-weight: 700; color: white; text-decoration: none; text-align: center; transition: opacity 0.3s; }
+        .qris-note-action:hover { opacity: 0.8; }
+        .store-item-button { width: 100%; padding: 12px; margin-bottom: 10px; background-color: var(--bg-button); color: var(--text-light); border: 1px solid var(--border-dark); border-radius: 8px; cursor: pointer; transition: background-color 0.2s, border-color 0.2s, transform 0.2s; font-size: 14px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; text-align: left; }
+        .store-item-button:hover { background-color: var(--bg-button-hover); border-color: var(--store-gold); transform: translateY(-2px); }
+        .store-item-button .price-tag { color: var(--store-gold); font-weight: 800; font-size: 16px; }
+        .store-item-button.vip-item { border-color: var(--main-blue); color: #81D4FA; }
+        .store-item-button.vip-item .price-tag { color: #81D4FA; }
+        .store-item-button.custom-item { border-color: #FF9800; color: #FFECB3; }
+        .store-item-button.custom-item .price-tag { color: #FFECB3; }
     </style>
 </head>
 <body onload="updateWeatherWidget()">
@@ -596,69 +478,27 @@
 
     </div>
     
-    <button id="floating-feature-button" onclick="toggleFeature()">
+    <button id="floating-feature-button" class="floating-button" onclick="openFullModal('full-feature-modal')">
         🌟 Fitur Unggulan
     </button>
     
-    <div id="floating-feature-content">
-        <p class="feature-title">🌟 Fitur Unggulan Server</p>
-        <ul class="feature-list">
-            <li><span class="feature-icon"><i class="fas fa-hammer"></i></span> <strong>Sistem Crafting</strong> Unik & Eksklusif.</li>
-            <li><span class="feature-icon"><i class="fas fa-chart-line"></i></span> <strong>Marketplace Stabil</strong> dan Terkendali.</li>
-            <li><span class="feature-icon"><i class="fas fa-trophy"></i></span> Event PVP & Minigames Berhadiah Setiap Minggu.</li>
-            <li><span class="feature-icon"><i class="fas fa-shield-alt"></i></span> Anti Cheat Terbaik untuk pengalaman bermain bersih.</li>
-        </ul>
-        <a href="https://discord.gg/kFDepPDe7G" target="_blank" id="discord-button" class="social-button" style="margin-top: 10px; padding: 12px; border-radius: 8px; font-weight: 700; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);">
-            <i class="fab fa-discord social-icon"></i> Gabung Discord untuk Info Lengkap
-        </a>
-    </div>
-
-    <button id="floating-guide-button" onclick="toggleGuide()">
+    <button id="floating-guide-button" class="floating-button" onclick="openFullModal('full-guide-modal')">
         🎮 Cara Bermain
     </button>
     
-    <div id="floating-guide-content">
-        <p class="guide-title">🎮 Panduan Cepat Bermain</p>
-        <ol class="guide-list">
-            <li>Lihat bagian **HOST & DOWNLOAD** di atas dan pilih metode koneksi yang sesuai (PowerTunnel/iOS/Windows).</li>
-            <li>Unduh file/aplikasi yang diperlukan (jika ada) dan ikuti petunjuk instalasi yang tertera di tab.</li>
-            <li>Buka Growtopia Anda dan login. Selamat datang!</li>
-        </ol>
-        <button onclick="scrollToTabs()" style="background: var(--main-blue); color: white; border: none; padding: 8px; border-radius: 5px; width: 100%; margin-top: 10px; cursor: pointer;">
-            Lihat Panduan Detail
-        </button>
-    </div>
-    
-    <button id="floating-store-button" onclick="openFullStoreModal()">
+    <button id="floating-store-button" class="floating-button" onclick="openFullModal('full-store-modal')">
         🛒 Toko
     </button>
 
-    <button id="floating-social-button" onclick="toggleSocial()">
+    <button id="floating-social-button" class="floating-button" onclick="openFullModal('full-social-modal')">
         💬 Komunitas
     </button>
-
-    <div id="floating-social-content">
-        <p class="social-title">💬 Bergabunglah dengan Kami!</p>
-        <div class="social-links">
-            <a href="https://discord.gg/kFDepPDe7G" target="_blank" id="discord-button" class="social-button">
-                <i class="fab fa-discord social-icon"></i> Discord Server
-            </a>
-            <a href="https://chat.whatsapp.com/Elq453EwzudLyUIi4nuDik" target="_blank" id="whatsapp-button" class="social-button">
-                <i class="fab fa-whatsapp social-icon"></i> Grup WhatsApp
-            </a>
-            <a href="https://t.me/yourtelegramchannel" target="_blank" id="telegram-button" class="social-button">
-                <i class="fab fa-telegram-plane social-icon"></i> Channel Telegram
-            </a>
-        </div>
-    </div>
-
-
-    <div id="full-store-modal">
+    <div id="full-store-modal" class="full-screen-modal">
         <div class="modal-content-wrapper">
-            <button class="close-button" onclick="closeFullStoreModal()">✖</button>
+            <button class="close-button" onclick="closeFullModal('full-store-modal')">✖</button>
             <h2 class="store-title" style="font-size: 24px; margin-bottom: 20px;">🛒 GrowRushPS Store</h2>
 
-            <div class="modal-store-section">
+            <div class="modal-section">
                 <h3 style="color: #009688;"><i class="fas fa-qrcode"></i> 1. Pembayaran via QRIS (Deposit Nominal Bebas)</h3>
                 <div class="qris-container">
                     <img src="https://via.placeholder.com/200x200?text=QRIS+SCAN+ME" alt="QRIS Payment" class="qris-image">
@@ -676,7 +516,7 @@
                 </a>
             </div>
 
-            <div class="modal-store-section">
+            <div class="modal-section">
                 <h3><i class="fas fa-tags"></i> Beli Item Satuan (Chat Admin Otomatis)</h3>
                 
                 <button class="store-item-button" onclick="promptPurchase('200 DL (Diamond Lock)', 'Rp 10.000')">
@@ -699,16 +539,95 @@
         </div>
     </div>
     
+    <div id="full-feature-modal" class="full-screen-modal">
+        <div class="modal-content-wrapper" style="border-color: var(--warning-orange);">
+            <button class="close-button" onclick="closeFullModal('full-feature-modal')">✖</button>
+            <h2 style="font-size: 24px; margin-bottom: 20px; color: var(--warning-orange);"><i class="fas fa-star"></i> Fitur Unggulan Server</h2>
+
+            <div class="modal-section">
+                <h3 style="color: var(--warning-orange);">⭐ Sistem Eksklusif</h3>
+                <ul class="item-list">
+                    <li><i class="fas fa-hammer" style="color: var(--warning-orange);"></i> **Crafting Unik:** Kombinasikan item langka untuk membuat item-item eksklusif.</li>
+                    <li><i class="fas fa-chart-line" style="color: var(--warning-orange);"></i> **Ekonomi Stabil:** Kontrol supply & demand untuk harga yang wajar dan anti-inflasi.</li>
+                    <li><i class="fas fa-gem" style="color: var(--warning-orange);"></i> **Item Custom:** Tampilan baru dan unik yang tidak ada di server lain.</li>
+                </ul>
+            </div>
+            
+            <div class="modal-section">
+                <h3 style="color: var(--warning-orange);">⚔️ Komunitas & Event</h3>
+                <ul class="item-list">
+                    <li><i class="fas fa-trophy" style="color: var(--warning-orange);"></i> **Event Mingguan:** PVP Arena, Parkour Race, dan Minigames berhadiah.</li>
+                    <li><i class="fab fa-discord" style="color: var(--warning-orange);"></i> **Komunitas Aktif:** Server Discord yang ramai dan suportif.</li>
+                    <li><i class="fas fa-shield-alt" style="color: var(--warning-orange);"></i> **Anti Cheat Maksimal:** Pengalaman bermain yang adil dan bersih.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="full-guide-modal" class="full-screen-modal">
+        <div class="modal-content-wrapper" style="border-color: var(--main-blue);">
+            <button class="close-button" onclick="closeFullModal('full-guide-modal')">✖</button>
+            <h2 style="font-size: 24px; margin-bottom: 20px; color: var(--main-blue);"><i class="fas fa-gamepad"></i> Panduan Lengkap Bermain</h2>
+
+            <div class="modal-section">
+                <h3 style="color: var(--main-blue);">1. Panduan Koneksi Awal</h3>
+                <p style="color: var(--text-dark);">Pilih metode koneksi di tab bawah, lalu ikuti langkahnya:</p>
+                <a href="#tabs-container" onclick="closeFullModal('full-guide-modal')" class="qris-note-action" style="background-color: var(--main-blue);">
+                    Lihat Panduan Detail (Scroll ke Bawah)
+                </a>
+            </div>
+            
+            <div class="modal-section">
+                <h3 style="color: var(--main-blue);">2. Petunjuk Awal di Game</h3>
+                <ol class="guide-list" style="list-style-type: decimal; color: var(--text-light);">
+                    <li>**Dapatkan Item Dasar:** Cari world **START** untuk mendapatkan item awal gratis.</li>
+                    <li>**Mulai Farming:** Farm item awal untuk mendapatkan modal WL/DL pertama Anda.</li>
+                    <li>**Cari World Populer:** Kunjungi world seperti **MARKET** atau **HUB** untuk berinteraksi dengan pemain lain dan mencari tahu harga item.</li>
+                    <li>**Jual/Beli:** Gunakan sistem trade atau market di world untuk transaksi item.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <div id="full-social-modal" class="full-screen-modal">
+        <div class="modal-content-wrapper" style="border-color: #888;">
+            <button class="close-button" onclick="closeFullModal('full-social-modal')">✖</button>
+            <h2 style="font-size: 24px; margin-bottom: 20px; color: #BBB;"><i class="fas fa-users"></i> Bergabunglah dengan Komunitas Kami!</h2>
+
+            <div class="modal-section">
+                <h3 style="color: #BBB;">Gabung di Platform Favoritmu:</h3>
+                <div class="social-links">
+                    <a href="https://discord.gg/kFDepPDe7G" target="_blank" id="discord-button-large" class="social-button-large">
+                        <i class="fab fa-discord social-icon" style="margin-right: 15px; font-size: 24px;"></i> Discord Server (Paling Aktif)
+                    </a>
+                    <a href="https://chat.whatsapp.com/Elq453EwzudLyUIi4nuDik" target="_blank" id="whatsapp-button-large" class="social-button-large">
+                        <i class="fab fa-whatsapp social-icon" style="margin-right: 15px; font-size: 24px;"></i> Grup WhatsApp
+                    </a>
+                    <a href="https://t.me/yourtelegramchannel" target="_blank" id="telegram-button-large" class="social-button-large">
+                        <i class="fab fa-telegram-plane social-icon" style="margin-right: 15px; font-size: 24px;"></i> Channel Telegram
+                    </a>
+                </div>
+            </div>
+            
+            <div class="modal-section">
+                <h3 style="color: #BBB;">Admin & Bantuan</h3>
+                <a href="https://wa.me/6281234567890?text=Halo%20Admin%2C%20saya%20membutuhkan%20bantuan%20terkait%20akun%2Fmasalah%20koneksi." target="_blank" class="qris-note-action" style="background-color: #26a69a;">
+                    <i class="fab fa-whatsapp"></i> Hubungi Admin via WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+
+
     <script>
         
-        // Konstanta IP untuk fungsi Salin IP
-        const SERVER_IP = '15.235.227.241'; 
+        // Konstanta
         const COOLDOWN_SECONDS = 4;
         const ADMIN_WA_NUMBER = '6281234567890'; // GANTI dengan nomor WA Admin Anda
 
         // --- FUNGSI WIDGET CUACA & WAKTU BARU ---
         function updateWeatherWidget() {
-            // Logika dummy untuk waktu dan cuaca (bisa diganti dengan API real)
+            // Logika dummy
             const weather = {
                 text: "Cerah",
                 icon: "fas fa-sun",
@@ -747,7 +666,7 @@
             }, 1000);
         }
 
-        // --- FUNGSI SALIN IP ---
+        // --- FUNGSI SALIN IP & TEKS ---
         function copyIP(buttonElement, ipValue) {
             const originalContent = buttonElement.innerHTML; 
             if (buttonElement.disabled) { return; }
@@ -757,15 +676,12 @@
                 buttonElement.style.backgroundColor = '#4CAF50'; 
                 applyCooldown(buttonElement, originalContent);
             }).catch(err => {
-                console.error('Gagal menyalin:', err);
-                // Fallback untuk gagal copy
                 buttonElement.style.backgroundColor = '#FF5722'; 
                 buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> GAGAL SALIN. IP: ${ipValue}`; 
-                applyCooldown(buttonElement, originalContent); // Terapkan cooldown meskipun gagal
+                applyCooldown(buttonElement, originalContent);
             });
         }
         
-        // --- FUNGSI SALIN TEKS SAJA ---
         function copyOnly(buttonElement, value, successMessage) {
             const originalContent = buttonElement.innerHTML;
             if (buttonElement.disabled) { return; }
@@ -778,7 +694,6 @@
                     applyCooldown(buttonElement, originalContent);
                 })
                 .catch(err => {
-                    console.error('Gagal menyalin:', err);
                     buttonElement.style.backgroundColor = '#FF5722';
                     buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> GAGAL SALIN (Coba Lagi)`;
                     applyCooldown(buttonElement, originalContent);
@@ -787,26 +702,21 @@
 
         // --- FUNGSI TAB GUIDE (PowerTunnel, iOS, Windows) ---
         function openGuide(evt, guideName) {
-            // Nonaktifkan semua konten tab
             const tabcontent = document.getElementsByClassName("tab-content");
             for (let i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].classList.add('hidden');
             }
 
-            // Hapus class 'active' dari semua tombol tab
             const tablinks = document.getElementsByClassName("tab-button");
             for (let i = 0; i < tablinks.length; i++) {
                 tablinks[i].classList.remove("active");
             }
 
-            // Tampilkan tab yang dipilih dan aktifkan tombolnya
             document.getElementById(guideName).classList.remove('hidden');
             evt.currentTarget.classList.add("active");
         }
         
-        // Pastikan tab PowerTunnel terbuka secara default saat halaman dimuat
         window.addEventListener('DOMContentLoaded', (event) => {
-            // Secara manual atur PowerTunnel sebagai aktif pertama kali (jika tidak ada event klik)
             document.getElementById('PowerTunnel').classList.remove('hidden');
             const defaultButton = document.querySelector('.tab-button');
             if (defaultButton) {
@@ -817,81 +727,34 @@
         // FUNGSI SCROLL
         function scrollToTabs() {
             document.getElementById('tabs-container').scrollIntoView({ behavior: 'smooth' });
-            closeAllFloatingContents();
         }
 
-        // --- FUNGSI FLOATING BUTTONS (TOGGLE) ---
-        
-        const FLOATING_CONTENTS = [
-            'floating-feature-content', 
-            'floating-guide-content', 
-            'floating-social-content'
-        ];
 
-        function closeAllFloatingContents() {
-            FLOATING_CONTENTS.forEach(id => {
-                const content = document.getElementById(id);
-                if (content) {
-                    content.style.display = 'none';
-                    content.classList.remove('active-content'); // Hapus pointer-events: auto
+        // --- FUNGSI UNIVERSAL MODAL FULL-SCREEN ---
+
+        const ALL_MODALS = ['full-store-modal', 'full-feature-modal', 'full-guide-modal', 'full-social-modal'];
+
+        function closeAllModals() {
+             ALL_MODALS.forEach(id => {
+                const modal = document.getElementById(id);
+                if (modal) {
+                    modal.style.display = 'none';
                 }
             });
         }
 
-        function toggleContent(contentId) {
-            const targetContent = document.getElementById(contentId);
+        function openFullModal(modalId) {
+            // Tutup semua modal lain terlebih dahulu (meskipun hanya 1 yang harusnya terbuka)
+            closeAllModals(); 
             
-            // Jika sudah aktif, maka tutup
-            if (targetContent.style.display === 'block') {
-                closeAllFloatingContents();
-            } else {
-                // Tutup yang lain, lalu buka yang baru
-                closeAllFloatingContents();
-                targetContent.style.display = 'block';
-                targetContent.classList.add('active-content');
-            }
-        }
-
-        // Fungsi spesifik untuk tombol
-        function toggleFeature() {
-            toggleContent('floating-feature-content');
-        }
-
-        function toggleGuide() {
-            toggleContent('floating-guide-content');
-        }
-
-        function toggleSocial() {
-            toggleContent('floating-social-content');
-        }
-        
-        // Tutup kotak floating jika mengklik di luar (kecuali mengklik tombol floating itu sendiri)
-        document.addEventListener('click', function(event) {
-            const isFloatingButton = event.target.closest('#floating-feature-button') || 
-                                     event.target.closest('#floating-guide-button') || 
-                                     event.target.closest('#floating-social-button');
-                                     
-            const isFloatingContent = event.target.closest('#floating-feature-content') ||
-                                      event.target.closest('#floating-guide-content') ||
-                                      event.target.closest('#floating-social-content');
-
-            if (!isFloatingButton && !isFloatingContent) {
-                closeAllFloatingContents();
-            }
-        });
-
-
-        // --- FUNGSI STORE MODAL (Full-Screen) ---
-        function openFullStoreModal() {
-            document.getElementById('full-store-modal').style.display = 'flex';
-            // FIX: Gunakan class CSS untuk mengontrol scroll body dan background
+            document.getElementById(modalId).style.display = 'flex';
+            // Kunci scroll body
             document.body.classList.add('modal-open'); 
-            closeAllFloatingContents(); // Tutup kotak floating jika modal dibuka
         }
 
-        function closeFullStoreModal() {
-            document.getElementById('full-store-modal').style.display = 'none';
-            // FIX: Hapus class CSS untuk mengembalikan scroll body dan background
+        function closeFullModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            // Kembalikan scroll body
             document.body.classList.remove('modal-open'); 
         }
 
@@ -906,7 +769,6 @@
                     `Nama GT: ${gtName.trim()}\n` +
                     `\nMohon petunjuk pembayaran selanjutnya. Terima kasih!`
                 );
-                // Pastikan nomor WA sudah benar
                 window.open(`https://wa.me/${ADMIN_WA_NUMBER}?text=${message}`, '_blank');
             } else if (gtName !== null) {
                 alert("Nama GT tidak boleh kosong!");
