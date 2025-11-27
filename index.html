@@ -245,7 +245,7 @@
         /* --- Floating Content Boxes (Kecil) --- */
         #floating-feature-content, #floating-guide-content, #floating-social-content {
             /* PERUBAHAN: Menambah lebar dari 180px menjadi 200px */
-            **width: 200px;** 
+            width: 200px; 
             position: fixed;
             background-color: rgba(26, 26, 26, 0.95); /* bg-dark-2 semi-transparan */
             color: var(--text-light);
@@ -277,17 +277,17 @@
         /* Posisi Konten Kiri (Feature & Guide) */
         #floating-feature-content { 
             bottom: 140px; 
-            **left: 105px;**    /* PERUBAHAN: Menyesuaikan pusat untuk width 200px (100px + 5px margin) */
+            left: 105px;    /* PERUBAHAN: Menyesuaikan pusat untuk width 200px (100px + 5px margin) */
         }
         #floating-guide-content { 
             bottom: 80px;  
-            **left: 105px;**    /* PERUBAHAN: Menyesuaikan pusat untuk width 200px (100px + 5px margin) */
+            left: 105px;    /* PERUBAHAN: Menyesuaikan pusat untuk width 200px (100px + 5px margin) */
         }
 
         /* Posisi Konten Kanan (Social) */
         #floating-social-content { 
             bottom: 80px;  
-            **right: 105px;**   /* PERUBAHAN: Menyesuaikan pusat untuk width 200px (100px + 5px margin) */
+            right: 105px;   /* PERUBAHAN: Menyesuaikan pusat untuk width 200px (100px + 5px margin) */
             left: auto;    
         }
         /* ------------------------------------- */
@@ -324,17 +324,17 @@
             gap: 10px;
         }
         .social-button {
-            **padding: 12px;** /* Ditingkatkan dari 10px */
-            **border-radius: 8px;** /* Ditingkatkan dari 6px */
+            padding: 12px; /* Ditingkatkan dari 10px */
+            border-radius: 8px; /* Ditingkatkan dari 6px */
             text-decoration: none;
-            **font-weight: 700;** /* Ditingkatkan dari 600 */
+            font-weight: 700; /* Ditingkatkan dari 600 */
             color: white;
             transition: opacity 0.2s;
             text-align: center;
             display: flex;
             align-items: center;
             justify-content: center;
-            **box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);** /* Tambah shadow */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Tambah shadow */
         }
         .social-button:hover {
             opacity: 0.8;
@@ -692,9 +692,11 @@
         // Konstanta IP untuk fungsi Salin IP
         const SERVER_IP = '15.235.227.241'; 
         const COOLDOWN_SECONDS = 4;
-        
+        const ADMIN_WA_NUMBER = '6281234567890'; // GANTI dengan nomor WA Admin Anda
+
         // --- FUNGSI WIDGET CUACA & WAKTU BARU ---
         function updateWeatherWidget() {
+            // Logika dummy untuk waktu dan cuaca (bisa diganti dengan API real)
             const weather = {
                 text: "Cerah",
                 icon: "fas fa-sun",
@@ -744,19 +746,10 @@
                 applyCooldown(buttonElement, originalContent);
             }).catch(err => {
                 console.error('Gagal menyalin:', err);
+                // Fallback untuk gagal copy
                 buttonElement.style.backgroundColor = '#FF5722'; 
-                buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> GAGAL SALIN (Batas). IP: ${ipValue}`; 
-                try {
-                    if (window.confirm("Gagal Salin Otomatis (Batas Peramban). Apakah Anda ingin menyalin IP melalui jendela Pop-up? (Pilih 'OK')")) {
-                        prompt("Salin IP ini secara manual (CTRL+C atau tekan lama):", ipValue);
-                    }
-                } catch(e) {}
-                buttonElement.disabled = true;
-                setTimeout(() => {
-                    buttonElement.innerHTML = originalContent;
-                    buttonElement.style.backgroundColor = ''; 
-                    buttonElement.disabled = false;
-                }, 4000); 
+                buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> GAGAL SALIN. IP: ${ipValue}`; 
+                applyCooldown(buttonElement, originalContent); // Terapkan cooldown meskipun gagal
             });
         }
         
@@ -768,141 +761,141 @@
             navigator.clipboard.writeText(value)
                 .then(() => {
                     buttonElement.style.backgroundColor = '#4CAF50';
-                    const displayMessage = successMessage.split('!')[0] + '!'; 
-                    buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #4CAF50;">✅</span> ${displayMessage}`;
+                    const iconPlaceholder = originalContent.match(/<span class="icon-placeholder">.*?<\/span>/) ? originalContent.match(/<span class="icon-placeholder">.*?<\/span>/)[0] : '';
+                    buttonElement.innerHTML = `${iconPlaceholder} ${successMessage}`;
                     applyCooldown(buttonElement, originalContent);
                 })
                 .catch(err => {
                     console.error('Gagal menyalin:', err);
-                    buttonElement.style.backgroundColor = '#FF5722'; 
-                    buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> GAGAL SALIN (Batas).`; 
-                    try {
-                        if (window.confirm("Gagal Salin Otomatis (Batas Peramban). Apakah Anda ingin menyalin URL host melalui jendela Pop-up? (Pilih 'OK')")) {
-                            prompt("Salin URL ini secara manual (CTRL+C atau tekan lama):", value);
-                        }
-                    } catch(e) {}
-                    buttonElement.disabled = true;
-                    setTimeout(() => {
-                        buttonElement.innerHTML = originalContent;
-                        buttonElement.style.backgroundColor = ''; 
-                        buttonElement.disabled = false;
-                    }, 4000); 
+                    buttonElement.style.backgroundColor = '#FF5722';
+                    buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> GAGAL SALIN (Coba Lagi)`;
+                    applyCooldown(buttonElement, originalContent);
                 });
         }
 
-        // --- FUNGSI TAB ---
+        // --- FUNGSI TAB GUIDE (PowerTunnel, iOS, Windows) ---
         function openGuide(evt, guideName) {
-            let i, tabcontent, tabbuttons;
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].classList.add("hidden");
+            // Nonaktifkan semua konten tab
+            const tabcontent = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.add('hidden');
             }
-            tabbuttons = document.getElementsByClassName("tab-button");
-            for (i = 0; i < tabbuttons.length; i++) {
-                tabbuttons[i].classList.remove("active");
+
+            // Hapus class 'active' dari semua tombol tab
+            const tablinks = document.getElementsByClassName("tab-button");
+            for (let i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
             }
-            document.getElementById(guideName).classList.remove("hidden");
+
+            // Tampilkan tab yang dipilih dan aktifkan tombolnya
+            document.getElementById(guideName).classList.remove('hidden');
             evt.currentTarget.classList.add("active");
         }
-
-        // Set PowerTunnel sebagai tab default
-        document.addEventListener("DOMContentLoaded", () => {
-            if (document.getElementById('PowerTunnel')) {
-                document.getElementById('PowerTunnel').classList.remove("hidden");
+        
+        // Pastikan tab PowerTunnel terbuka secara default saat halaman dimuat
+        window.addEventListener('DOMContentLoaded', (event) => {
+            // Secara manual atur PowerTunnel sebagai aktif pertama kali (jika tidak ada event klik)
+            document.getElementById('PowerTunnel').classList.remove('hidden');
+            const defaultButton = document.querySelector('.tab-button');
+            if (defaultButton) {
+                defaultButton.classList.add('active');
             }
         });
         
-        // --- FUNGSI FLOATING CONTENT (Toggle) ---
-        let activeFloatingContent = null;
+        // FUNGSI SCROLL
+        function scrollToTabs() {
+            document.getElementById('tabs-container').scrollIntoView({ behavior: 'smooth' });
+            closeAllFloatingContents();
+        }
 
-        function toggleContent(contentId, buttonId) {
-            const content = document.getElementById(contentId);
-            const button = document.getElementById(buttonId);
+        // --- FUNGSI FLOATING BUTTONS (TOGGLE) ---
+        
+        const FLOATING_CONTENTS = [
+            'floating-feature-content', 
+            'floating-guide-content', 
+            'floating-social-content'
+        ];
 
-            // Tutup semua konten floating lainnya
-            ['floating-feature-content', 'floating-guide-content', 'floating-social-content'].forEach(id => {
-                if (id !== contentId) {
-                    const otherContent = document.getElementById(id);
-                    if (otherContent) {
-                        otherContent.style.display = 'none';
-                        otherContent.classList.remove('active-content');
-                    }
+        function closeAllFloatingContents() {
+            FLOATING_CONTENTS.forEach(id => {
+                const content = document.getElementById(id);
+                if (content) {
+                    content.style.display = 'none';
+                    content.classList.remove('active-content'); // Hapus pointer-events: auto
                 }
             });
+        }
 
-            // Toggle konten yang diminta
-            if (content.style.display === 'block') {
-                content.style.display = 'none';
-                content.classList.remove('active-content');
-                activeFloatingContent = null;
+        function toggleContent(contentId) {
+            const targetContent = document.getElementById(contentId);
+            
+            // Jika sudah aktif, maka tutup
+            if (targetContent.style.display === 'block') {
+                closeAllFloatingContents();
             } else {
-                content.style.display = 'block';
-                content.classList.add('active-content');
-                activeFloatingContent = contentId;
+                // Tutup yang lain, lalu buka yang baru
+                closeAllFloatingContents();
+                targetContent.style.display = 'block';
+                targetContent.classList.add('active-content');
             }
         }
 
+        // Fungsi spesifik untuk tombol
         function toggleFeature() {
-            toggleContent('floating-feature-content', 'floating-feature-button');
-        }
-        function toggleGuide() {
-            toggleContent('floating-guide-content', 'floating-guide-button');
-        }
-        function toggleSocial() {
-            toggleContent('floating-social-content', 'floating-social-button');
+            toggleContent('floating-feature-content');
         }
 
-        // Tutup konten floating saat klik di luar kotak
+        function toggleGuide() {
+            toggleContent('floating-guide-content');
+        }
+
+        function toggleSocial() {
+            toggleContent('floating-social-content');
+        }
+        
+        // Tutup kotak floating jika mengklik di luar
         document.addEventListener('click', function(event) {
-            if (activeFloatingContent && !document.getElementById(activeFloatingContent).contains(event.target) && 
-                !document.getElementById('floating-feature-button').contains(event.target) &&
-                !document.getElementById('floating-guide-button').contains(event.target) &&
-                !document.getElementById('floating-social-button').contains(event.target)) {
-                
-                document.getElementById(activeFloatingContent).style.display = 'none';
-                document.getElementById(activeFloatingContent).classList.remove('active-content');
-                activeFloatingContent = null;
+            if (
+                !event.target.closest('#floating-feature-button') && 
+                !event.target.closest('#floating-guide-button') && 
+                !event.target.closest('#floating-social-button') &&
+                !event.target.closest('#floating-feature-content') &&
+                !event.target.closest('#floating-guide-content') &&
+                !event.target.closest('#floating-social-content')
+            ) {
+                closeAllFloatingContents();
             }
         });
 
 
-        // --- FUNGSI MODAL TOKO ---
+        // --- FUNGSI STORE MODAL (Full-Screen) ---
         function openFullStoreModal() {
             document.getElementById('full-store-modal').style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // Mencegah scrolling body di belakang modal
+            document.body.style.overflow = 'hidden'; // Mencegah scroll di body
         }
 
         function closeFullStoreModal() {
             document.getElementById('full-store-modal').style.display = 'none';
-            document.body.style.overflow = ''; // Mengembalikan scrolling body
+            document.body.style.overflow = ''; // Mengembalikan scroll
         }
 
-        // Tutup modal ketika klik di luar konten modal
-        document.getElementById('full-store-modal').addEventListener('click', function(e) {
-            if (e.target.id === 'full-store-modal') {
-                closeFullStoreModal();
-            }
-        });
-        
-        // --- FUNGSI PROMPT PEMBELIAN ---
         function promptPurchase(itemName, itemPrice) {
-            closeFullStoreModal();
-            
-            const gtName = prompt(`Beli ${itemName} (${itemPrice})! Masukkan Nama Growtopia Anda:`);
-            
-            if (gtName && gtName.trim() !== '') {
-                const encodedMessage = encodeURIComponent(`Halo Admin GrowRushPS, saya ingin membeli ${itemName} dengan harga ${itemPrice}. Nama Growtopia saya adalah: ${gtName.trim()}. Mohon diproses.`);
-                window.open(`https://wa.me/6281234567890?text=${encodedMessage}`, '_blank');
+            const gtName = prompt(`Format Pembelian ${itemName} (${itemPrice}):\n\nMasukkan Nama GT Anda (case-sensitive):`);
+            
+            if (gtName && gtName.trim() !== "") {
+                const message = encodeURIComponent(
+                    `Halo Admin GrowRushPS, saya ingin membeli:\n` +
+                    `\nItem: ${itemName}\n` +
+                    `Harga: ${itemPrice}\n` +
+                    `Nama GT: ${gtName.trim()}\n` +
+                    `\nMohon petunjuk pembayaran selanjutnya. Terima kasih!`
+                );
+                window.open(`https://wa.me/${ADMIN_WA_NUMBER}?text=${message}`, '_blank');
             } else if (gtName !== null) {
-                alert("Nama Growtopia tidak boleh kosong. Pembelian dibatalkan.");
+                alert("Nama GT tidak boleh kosong!");
             }
         }
 
-        // --- FUNGSI SCROLL KE TAB ---
-        function scrollToTabs() {
-            toggleContent('floating-guide-content', 'floating-guide-button');
-            document.getElementById('tabs-container').scrollIntoView({ behavior: 'smooth' });
-        }
     </script>
 </body>
 </html>
