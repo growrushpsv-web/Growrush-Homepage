@@ -271,22 +271,25 @@
             pointer-events: auto; 
         }
 
+        /* --- POSISI BARU (AGAR TIDAK OVERLAP) --- */
+        
         /* Posisi Konten Kiri (Feature & Guide) */
         #floating-feature-content { 
-            bottom: 130px; 
-            left: 75px;    
+            bottom: 140px; /* Lebih tinggi */
+            left: 45px;    /* Lebih ke kiri */
         }
         #floating-guide-content { 
             bottom: 80px;  
-            left: 75px;    
+            left: 45px;    /* Lebih ke kiri */
         }
 
         /* Posisi Konten Kanan (Social) */
         #floating-social-content { 
             bottom: 80px;  
-            right: 75px;   
+            right: 45px;   /* Lebih ke kanan */
             left: auto;    
         }
+        /* ------------------------------------- */
 
         /* Konten styling untuk kotak kecil */
         .feature-title, .guide-title, .social-title {
@@ -336,6 +339,8 @@
         }
         #discord-button { background-color: #7289DA; }
         #whatsapp-button { background-color: #25D366; }
+        /* NEW: Warna Telegram */
+        #telegram-button { background-color: #0088CC; } 
 
         /* --- FULL-SCREEN STORE MODAL (Besar) --- */
         #full-store-modal {
@@ -624,6 +629,9 @@
             </a>
             <a href="https://chat.whatsapp.com/Elq453EwzudLyUIi4nuDik" target="_blank" id="whatsapp-button" class="social-button">
                 <i class="fab fa-whatsapp social-icon"></i> Grup WhatsApp
+            </a>
+            <a href="https://t.me/yourtelegramchannel" target="_blank" id="telegram-button" class="social-button">
+                <i class="fab fa-telegram-plane social-icon"></i> Channel Telegram
             </a>
         </div>
     </div>
