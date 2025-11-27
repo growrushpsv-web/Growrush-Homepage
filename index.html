@@ -1,901 +1,913 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GrowRushPS - Status Server, Cuaca & Download</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <style>
-        /* FIX KRUSIAL: Mencegah overflow padding */
-        * {
-            box-sizing: border-box;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrowRushPS - Status Server, Cuaca & Download</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* FIX KRUSIAL: Mencegah overflow padding */
+        * {
+            box-sizing: border-box;
+        }
 
-        /* Definisi Warna */
-        :root {
-            --main-blue: #2196F3;
-            --main-blue-light: rgba(33, 150, 243, 0.4);
-            --main-blue-dark: rgba(33, 150, 243, 0.6);
-            --text-light: #E0E0E0;
-            --text-dark: #A0A0A0;
-            --bg-dark-1: #0d0d0d;
-            --bg-dark-2: #1a1a1a;
-            --bg-card: rgba(31, 31, 31, 0.95);
-            --bg-button: #2D2D2D;
-            --bg-button-hover: #404040;
-            --border-dark: #333333;
-            --tab-border: #3d3d3d;
-            --warning-orange: #FF9800;
-            --store-gold: #FFC107; 
-            --weather-teal: #00BCD4; 
-        }
+        /* Definisi Warna */
+        :root {
+            --main-blue: #2196F3;
+            --main-blue-light: rgba(33, 150, 243, 0.4);
+            --main-blue-dark: rgba(33, 150, 243, 0.6);
+            --text-light: #E0E0E0;
+            --text-dark: #A0A0A0;
+            --bg-dark-1: #0d0d0d;
+            --bg-dark-2: #1a1a1a;
+            --bg-card: rgba(31, 31, 31, 0.95);
+            --bg-button: #2D2D2D;
+            --bg-button-hover: #404040;
+            --border-dark: #333333;
+            --tab-border: #3d3d3d;
+            --warning-orange: #FF9800;
+            --store-gold: #FFC107; 
+            --weather-teal: #00BCD4; 
+        }
 
-        /* CSS UMUM */
-        body { 
-            background: 
-                radial-gradient(circle at center, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
-                linear-gradient(135deg, var(--bg-dark-1) 0%, var(--bg-dark-2) 50%, var(--bg-dark-1) 100%);
-            
-            background-size: 15px 15px;
-            background-attachment: fixed;
-            
-            color: var(--text-light); 
-            font-family: 'Poppins', sans-serif; 
-            text-align: center; 
-            padding: 50px 20px 150px; 
-            min-height: 100vh;
-        }
-        .container { 
-            max-width: 400px; 
-            margin: 0 auto; 
-            padding: 20px; 
-            background-color: var(--bg-card); 
-            border-radius: 12px;
-            box-shadow: 
-                0 4px 15px rgba(0, 0, 0, 0.8),
-                0 0 20px var(--main-blue-light); 
-            border: 1px solid var(--border-dark);
-        }
-        
-        /* LOGO (H1) */
-        h1 { 
-            font-size: 40px; 
-            margin-bottom: 5px; 
-            font-weight: 800; 
-            background: linear-gradient(90deg, #64B5F6 0%, #2196F3 100%); 
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-fill-color: transparent;
-            text-shadow: 0 0 15px var(--main-blue-light), 0 0 3px var(--main-blue); 
-        }
-        
-        .description { 
-            color: #81D4FA;
-            font-size: 13px;
-            font-weight: 500;
-            margin-top: 5px;
-            margin-bottom: 20px; 
-        }
-        
-        /* --- WIDGET CUACA & WAKTU --- */
-        .weather-widget {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 10px 15px;
-            margin-bottom: 30px;
-            background: var(--bg-dark-2);
-            border-radius: 8px;
-            border: 1px solid var(--weather-teal);
-            box-shadow: 0 0 10px rgba(0, 188, 212, 0.3);
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--weather-teal);
-        }
+        /* CSS UMUM */
+        body { 
+            background: 
+                radial-gradient(circle at center, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+                linear-gradient(135deg, var(--bg-dark-1) 0%, var(--bg-dark-2) 50%, var(--bg-dark-1) 100%);
+            
+            background-size: 15px 15px;
+            background-attachment: fixed;
+            
+            color: var(--text-light); 
+            font-family: 'Poppins', sans-serif; 
+            text-align: center; 
+            padding: 50px 20px 150px; 
+            min-height: 100vh;
+        }
+        
+        /* FIX KRUSIAL: Menjaga background gelap saat modal terbuka */
+        body.modal-open { 
+            overflow: hidden; 
+            background: 
+                radial-gradient(circle at center, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+                linear-gradient(135deg, var(--bg-dark-1) 0%, var(--bg-dark-2) 50%, var(--bg-dark-1) 100%) !important;
+            background-size: 15px 15px !important;
+            background-attachment: fixed !important;
+        }
+        
+        .container { 
+            max-width: 400px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background-color: var(--bg-card); 
+            border-radius: 12px;
+            box-shadow: 
+                0 4px 15px rgba(0, 0, 0, 0.8),
+                0 0 20px var(--main-blue-light); 
+            border: 1px solid var(--border-dark);
+        }
+        
+        /* LOGO (H1) */
+        h1 { 
+            font-size: 40px; 
+            margin-bottom: 5px; 
+            font-weight: 800; 
+            background: linear-gradient(90deg, #64B5F6 0%, #2196F3 100%); 
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            text-shadow: 0 0 15px var(--main-blue-light), 0 0 3px var(--main-blue); 
+        }
+        
+        .description { 
+            color: #81D4FA;
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 5px;
+            margin-bottom: 20px; 
+        }
+        
+        /* --- WIDGET CUACA & WAKTU --- */
+        .weather-widget {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 15px;
+            margin-bottom: 30px;
+            background: var(--bg-dark-2);
+            border-radius: 8px;
+            border: 1px solid var(--weather-teal);
+            box-shadow: 0 0 10px rgba(0, 188, 212, 0.3);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--weather-teal);
+        }
 
-        .weather-info, .time-info {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .weather-icon, .time-icon {
-            font-size: 20px;
-            color: var(--weather-teal);
-        }
+        .weather-info, .time-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .weather-icon, .time-icon {
+            font-size: 20px;
+            color: var(--weather-teal);
+        }
 
-        /* Status Server & Lainnya */
-        .server-status { margin: 20px 0; font-size: 18px; font-weight: 600; }
-        #status-text { 
-            color: var(--main-blue);
-            font-weight: 800; 
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); 
-        }
-        .host-section { margin-top: 30px; text-align: left; }
-        .host-section h2 { color: var(--text-dark); margin-bottom: 15px; font-weight: 400; }
-        
-        /* Tombol Aksi Utama & Cooldown */
-        .action-button {
-            width: 100%; 
-            padding: 15px; 
-            margin-bottom: 10px; 
-            background-color: var(--bg-button); 
-            color: var(--text-light); 
-            border: none; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            transition: background-color 0.3s, box-shadow 0.3s; 
-            font-size: 16px; 
-            font-weight: 600; 
-            display: flex; 
-            align-items: center; 
-            justify-content: flex-start; 
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4); 
-            white-space: normal; 
-            text-align: left;
-            min-height: 50px; 
-        }
-        .action-button:hover { 
-            background-color: var(--bg-button-hover); 
-            box-shadow: 
-                0 5px 10px rgba(0, 0, 0, 0.6),
-                0 0 8px var(--main-blue-dark);
-        }
-        .icon-placeholder { 
-            margin-right: 15px; 
-            font-size: 20px; 
-            color: var(--main-blue);
-            flex-shrink: 0; 
-        }
-        .action-button:disabled {
-            background-color: #404040 !important; 
-            box-shadow: none !important;
-        }
+        /* Status Server & Lainnya */
+        .server-status { margin: 20px 0; font-size: 18px; font-weight: 600; }
+        #status-text { 
+            color: var(--main-blue);
+            font-weight: 800; 
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); 
+        }
+        .host-section { margin-top: 30px; text-align: left; }
+        .host-section h2 { color: var(--text-dark); margin-bottom: 15px; font-weight: 400; }
+        
+        /* Tombol Aksi Utama & Cooldown */
+        .action-button {
+            width: 100%; 
+            padding: 15px; 
+            margin-bottom: 10px; 
+            background-color: var(--bg-button); 
+            color: var(--text-light); 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: background-color 0.3s, box-shadow 0.3s; 
+            font-size: 16px; 
+            font-weight: 600; 
+            display: flex; 
+            align-items: center; 
+            justify-content: flex-start; 
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4); 
+            white-space: normal; 
+            text-align: left;
+            min-height: 50px; 
+        }
+        .action-button:hover { 
+            background-color: var(--bg-button-hover); 
+            box-shadow: 
+                0 5px 10px rgba(0, 0, 0, 0.6),
+                0 0 8px var(--main-blue-dark);
+        }
+        .icon-placeholder { 
+            margin-right: 15px; 
+            font-size: 20px; 
+            color: var(--main-blue);
+            flex-shrink: 0; 
+        }
+        .action-button:disabled {
+            background-color: #404040 !important; 
+            box-shadow: none !important;
+        }
 
-        .note { font-size: 12px; color: var(--text-dark); margin-top: -5px; margin-bottom: 10px; text-align: left; padding-left: 10px; }
+        .note { font-size: 12px; color: var(--text-dark); margin-top: -5px; margin-bottom: 10px; text-align: left; padding-left: 10px; }
 
-        /* CSS TAB KONEKSI */
-        .tabs-container { margin-top: 20px; }
-        .tab-buttons { display: flex; margin-bottom: 10px; }
-        .tab-button {
-            flex-grow: 1;
-            padding: 10px 3px; 
-            background-color: var(--bg-button);
-            color: var(--text-dark);
-            border: none;
-            border-bottom: 3px solid var(--tab-border);
-            cursor: pointer;
-            font-weight: 600;
-            transition: background-color 0.3s, border-bottom-color 0.3s, color 0.3s;
-            font-size: 11px; 
-            margin: 0 1px;
-            min-width: 0; 
-        }
-        .tab-button.active {
-            background-color: var(--tab-border);
-            color: var(--main-blue);
-            border-bottom: 3px solid var(--main-blue);
-        }
-        .tab-content {
-            padding: 15px;
-            background-color: var(--bg-button); 
-            border-radius: 0 0 8px 8px;
-            text-align: left;
-        }
-        .tab-content.hidden {
-            display: none;
-        }
-        .guide-title { 
-            font-size: 15px; 
-            font-weight: 700; 
-            color: var(--text-light); 
-            margin-bottom: 10px;
-        }
-        .guide-list {
-            list-style-type: decimal;
-            margin-left: 20px;
-            font-size: 13px;
-            color: var(--text-dark);
-            text-align: left;
-            padding-left: 0;
-        }
-        .guide-list li {
-            margin-bottom: 8px;
-        }
-        .admin-note {
-            color: var(--warning-orange);
-            font-size: 12px;
-            margin-top: 10px;
-        }
+        /* CSS TAB KONEKSI */
+        .tabs-container { margin-top: 20px; }
+        .tab-buttons { display: flex; margin-bottom: 10px; }
+        .tab-button {
+            flex-grow: 1;
+            padding: 10px 3px; 
+            background-color: var(--bg-button);
+            color: var(--text-dark);
+            border: none;
+            border-bottom: 3px solid var(--tab-border);
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s, border-bottom-color 0.3s, color 0.3s;
+            font-size: 11px; 
+            margin: 0 1px;
+            min-width: 0; 
+        }
+        .tab-button.active {
+            background-color: var(--tab-border);
+            color: var(--main-blue);
+            border-bottom: 3px solid var(--main-blue);
+        }
+        .tab-content {
+            padding: 15px;
+            background-color: var(--bg-button); 
+            border-radius: 0 0 8px 8px;
+            text-align: left;
+        }
+        .tab-content.hidden {
+            display: none;
+        }
+        .guide-title { 
+            font-size: 15px; 
+            font-weight: 700; 
+            color: var(--text-light); 
+            margin-bottom: 10px;
+        }
+        .guide-list {
+            list-style-type: decimal;
+            margin-left: 20px;
+            font-size: 13px;
+            color: var(--text-dark);
+            text-align: left;
+            padding-left: 0;
+        }
+        .guide-list li {
+            margin-bottom: 8px;
+        }
+        .admin-note {
+            color: var(--warning-orange);
+            font-size: 12px;
+            margin-top: 10px;
+        }
 
-        /* --- FLOATING BUTTONS (Kiri Bawah & Kanan Bawah) --- */
-        #floating-feature-button, #floating-guide-button, #floating-store-button, #floating-social-button {
-            position: fixed;
-            padding: 10px 15px; 
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 700;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-            z-index: 1000;
-            transition: background-color 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px; 
-        }
-        
-        /* Posisi & Warna Kiri */
-        #floating-guide-button { bottom: 20px; left: 20px; background-color: var(--main-blue); color: white; }
-        #floating-guide-button:hover { background-color: #1976D2; }
-        #floating-feature-button { bottom: 70px; left: 20px; background-color: #FF9800; color: white; }
-        #floating-feature-button:hover { background-color: #F57C00; }
+        /* --- FLOATING BUTTONS (Kiri Bawah & Kanan Bawah) --- */
+        #floating-feature-button, #floating-guide-button, #floating-store-button, #floating-social-button {
+            position: fixed;
+            padding: 10px 15px; 
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px; 
+        }
+        
+        /* Posisi & Warna Kiri */
+        #floating-guide-button { bottom: 20px; left: 20px; background-color: var(--main-blue); color: white; }
+        #floating-guide-button:hover { background-color: #1976D2; }
+        #floating-feature-button { bottom: 70px; left: 20px; background-color: #FF9800; color: white; }
+        #floating-feature-button:hover { background-color: #F57C00; }
 
-        /* Posisi & Warna Kanan */
-        #floating-social-button { bottom: 20px; right: 20px; background-color: #555; color: white; }
-        #floating-social-button:hover { background-color: #666; }
-        /* Tombol Store (Overlay Besar) */
-        #floating-store-button { bottom: 70px; right: 20px; background-color: var(--store-gold); color: #212121; }
-        #floating-store-button:hover { background-color: #FFB300; }
+        /* Posisi & Warna Kanan */
+        #floating-social-button { bottom: 20px; right: 20px; background-color: #555; color: white; }
+        #floating-social-button:hover { background-color: #666; }
+        /* Tombol Store (Overlay Besar) */
+        #floating-store-button { bottom: 70px; right: 20px; background-color: var(--store-gold); color: #212121; }
+        #floating-store-button:hover { background-color: #FFB300; }
 
-        /* --- Floating Content Boxes (Kecil) --- */
-        #floating-feature-content, #floating-guide-content, #floating-social-content {
-            /* PERUBAHAN: Menambah lebar dari 180px menjadi 200px */
-            width: 200px; 
-            position: fixed;
-            background-color: rgba(26, 26, 26, 0.95); /* bg-dark-2 semi-transparan */
-            color: var(--text-light);
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
-            padding: 15px;
-            z-index: 999;
-            transition: opacity 0.3s, transform 0.3s;
-            display: none; /* Default hidden */
-            border: 1px solid var(--border-dark);
-            text-align: left;
-            
-            /* PENTING: Mencegah kotak konten (saat display:none) memblokir klik */
-            pointer-events: none; 
+        /* --- Floating Content Boxes (Kecil) --- */
+        #floating-feature-content, #floating-guide-content, #floating-social-content {
+            width: 200px; 
+            position: fixed;
+            background-color: rgba(26, 26, 26, 0.95); /* bg-dark-2 semi-transparan */
+            color: var(--text-light);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            z-index: 999;
+            transition: opacity 0.3s, transform 0.3s;
+            display: none; /* Default hidden */
+            border: 1px solid var(--border-dark);
+            text-align: left;
+            
+            /* PENTING: Mencegah kotak konten (saat display:none) memblokir klik */
+            pointer-events: none; 
 
-            /* Styling Positioning di atas tombol */
-            transform: translateX(-50%); 
-        }
+            /* Styling Positioning di atas tombol */
+            transform: translateX(-50%); 
+        }
 
-        /* PENTING: Override pointer-events ketika konten sedang ditampilkan */
-        #floating-feature-content.active-content,
-        #floating-guide-content.active-content,
-        #floating-social-content.active-content {
-            pointer-events: auto; 
-        }
+        /* PENTING: Override pointer-events ketika konten sedang ditampilkan */
+        #floating-feature-content.active-content,
+        #floating-guide-content.active-content,
+        #floating-social-content.active-content {
+            pointer-events: auto; 
+        }
 
-        /* --- POSISI FINAL (MENGATASI CUT-OFF/TERPOTONG & OVERLAP) --- */
-        
-        /* Posisi Konten Kiri (Feature & Guide) */
-        #floating-feature-content { 
-            bottom: 140px; 
-            left: 105px;    /* PERUBAHAN: Menyesuaikan pusat untuk width 200px (100px + 5px margin) */
-        }
-        #floating-guide-content { 
-            bottom: 80px;  
-            left: 105px;    /* PERUBAHAN: Menyesuaikan pusat untuk width 200px (100px + 5px margin) */
-        }
+        /* --- POSISI FINAL (MENGATASI CUT-OFF/TERPOTONG & OVERLAP) --- */
+        
+        /* Posisi Konten Kiri (Feature & Guide) */
+        #floating-feature-content { 
+            bottom: 140px; 
+            left: 105px; 
+        }
+        #floating-guide-content { 
+            bottom: 80px; 
+            left: 105px; 
+        }
 
-        /* Posisi Konten Kanan (Social) */
-        #floating-social-content { 
-            bottom: 80px;  
-            right: 105px;   /* PERUBAHAN: Menyesuaikan pusat untuk width 200px (100px + 5px margin) */
-            left: auto;    
-        }
-        /* ------------------------------------- */
+        /* Posisi Konten Kanan (Social) */
+        #floating-social-content { 
+            bottom: 80px; 
+            right: 105px;
+            left: auto; 
+        }
+        /* ------------------------------------- */
 
-        /* Konten styling untuk kotak kecil */
-        .feature-title, .guide-title, .social-title {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid var(--border-dark);
-        }
-        
-        .feature-list, .guide-list {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            font-size: 13px;
-        }
-        .feature-list li, .guide-list li {
-            margin-bottom: 8px;
-            color: var(--text-dark);
-            display: flex;
-            align-items: center;
-        }
-        .feature-list li strong { color: var(--text-light); margin-right: 5px; }
-        .feature-icon { margin-right: 10px; color: var(--main-blue); }
+        /* Konten styling untuk kotak kecil */
+        .feature-title, .guide-title, .social-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--border-dark);
+        }
+        
+        .feature-list, .guide-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            font-size: 13px;
+        }
+        .feature-list li, .guide-list li {
+            margin-bottom: 8px;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+        }
+        .feature-list li strong { color: var(--text-light); margin-right: 5px; }
+        .feature-icon { margin-right: 10px; color: var(--main-blue); }
 
-        /* Social Media Button Styling (in small box) */
-        .social-title { text-align: center; }
-        .social-links {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .social-button {
-            padding: 12px; /* Ditingkatkan dari 10px */
-            border-radius: 8px; /* Ditingkatkan dari 6px */
-            text-decoration: none;
-            font-weight: 700; /* Ditingkatkan dari 600 */
-            color: white;
-            transition: opacity 0.2s;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Tambah shadow */
-        }
-        .social-button:hover {
-            opacity: 0.8;
-        }
-        #discord-button { background-color: #7289DA; }
-        #whatsapp-button { background-color: #25D366; }
-        #telegram-button { background-color: #0088CC; } 
+        /* Social Media Button Styling (in small box) */
+        .social-title { text-align: center; }
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .social-button {
+            padding: 12px; 
+            border-radius: 8px; 
+            text-decoration: none;
+            font-weight: 700; 
+            color: white;
+            transition: opacity 0.2s;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); 
+        }
+        .social-button:hover {
+            opacity: 0.8;
+        }
+        #discord-button { background-color: #7289DA; }
+        #whatsapp-button { background-color: #25D366; }
+        #telegram-button { background-color: #0088CC; } 
 
-        /* --- FULL-SCREEN STORE MODAL (Besar) --- */
-        #full-store-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.95); 
-            backdrop-filter: blur(5px);
-            z-index: 9999;
-            display: none; 
-            overflow-y: auto; 
-            padding: 10px;
-            align-items: flex-start; 
-            justify-content: center;
-        }
+        /* --- FULL-SCREEN STORE MODAL (Besar) --- */
+        #full-store-modal {
+            position: fixed; /* FIX: Paksa modal menutupi layar */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95); 
+            backdrop-filter: blur(5px);
+            z-index: 9999;
+            display: none; 
+            overflow-y: auto; 
+            padding: 10px;
+            align-items: flex-start; 
+            justify-content: center;
+        }
 
-        .modal-content-wrapper {
-            position: relative;
-            background-color: var(--bg-card); 
-            border-radius: 12px;
-            border: 3px solid var(--store-gold); 
-            box-shadow: 0 0 40px rgba(255, 193, 7, 0.4);
-            width: 95%; 
-            max-width: 650px; 
-            margin: 20px auto; 
-            padding: 25px;
-            text-align: center;
-        }
-        
-        .close-button {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            background: none;
-            border: none;
-            color: var(--text-light);
-            font-size: 35px;
-            cursor: pointer;
-            line-height: 1;
-            font-weight: 700;
-        }
-        .close-button:hover { color: #FF0000; }
+        .modal-content-wrapper {
+            position: relative;
+            background-color: var(--bg-card); 
+            border-radius: 12px;
+            border: 3px solid var(--store-gold); 
+            box-shadow: 0 0 40px rgba(255, 193, 7, 0.4);
+            width: 95%; 
+            max-width: 650px; 
+            margin: 20px auto; 
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 35px;
+            cursor: pointer;
+            line-height: 1;
+            font-weight: 700;
+        }
+        .close-button:hover { color: #FF0000; }
 
-        .modal-store-section {
-            margin-bottom: 25px;
-            padding: 15px;
-            background-color: var(--bg-dark-2);
-            border-radius: 8px;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--border-dark);
-        }
+        .modal-store-section {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: var(--bg-dark-2);
+            border-radius: 8px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-dark);
+        }
 
-        .modal-store-section h3 {
-            color: var(--store-gold);
-            font-size: 18px;
-            margin-bottom: 15px;
-            border-bottom: 1px solid var(--border-dark);
-            padding-bottom: 5px;
-            font-weight: 700;
-        }
+        .modal-store-section h3 {
+            color: var(--store-gold);
+            font-size: 18px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-dark);
+            padding-bottom: 5px;
+            font-weight: 700;
+        }
 
-        /* --- QRIS Styles (inside Modal) --- */
-        .qris-container {
-            text-align: center;
-            margin-bottom: 10px;
-            padding: 5px;
-            background-color: var(--bg-button);
-            border-radius: 8px;
-        }
-        .qris-image {
-            /* Ganti src QRIS Anda di sini */
-            width: 100%; 
-            max-width: 200px; 
-            height: auto;
-            border-radius: 6px;
-            border: 5px solid #009688; 
-            padding: 10px;
-            background-color: white; 
-            box-shadow: 0 0 15px rgba(0, 150, 136, 0.7);
-        }
-        .qris-instruction {
-            font-size: 14px;
-            color: var(--text-light);
-            margin: 10px 0;
-            font-weight: 500;
-        }
-        .qris-note-action {
-            display: block;
-            margin-top: 15px;
-            padding: 10px;
-            background-color: var(--main-blue);
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 700;
-            color: white;
-            text-decoration: none;
-            text-align: center;
-            transition: opacity 0.3s;
-        }
-        .qris-note-action:hover {
-            opacity: 0.8;
-        }
+        /* --- QRIS Styles (inside Modal) --- */
+        .qris-container {
+            text-align: center;
+            margin-bottom: 10px;
+            padding: 5px;
+            background-color: var(--bg-button);
+            border-radius: 8px;
+        }
+        .qris-image {
+            /* Ganti src QRIS Anda di sini */
+            width: 100%; 
+            max-width: 200px; 
+            height: auto;
+            border-radius: 6px;
+            border: 5px solid #009688; 
+            padding: 10px;
+            background-color: white; 
+            box-shadow: 0 0 15px rgba(0, 150, 136, 0.7);
+        }
+        .qris-instruction {
+            font-size: 14px;
+            color: var(--text-light);
+            margin: 10px 0;
+            font-weight: 500;
+        }
+        .qris-note-action {
+            display: block;
+            margin-top: 15px;
+            padding: 10px;
+            background-color: var(--main-blue);
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            transition: opacity 0.3s;
+        }
+        .qris-note-action:hover {
+            opacity: 0.8;
+        }
 
-        /* --- Item Button Styles (inside Modal) --- */
-        .store-item-button {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 10px;
-            background-color: var(--bg-button);
-            color: var(--text-light);
-            border: 1px solid var(--border-dark);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s, border-color 0.2s, transform 0.2s;
-            font-size: 14px;
-            font-weight: 600;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-align: left;
-        }
-        .store-item-button:hover {
-            background-color: var(--bg-button-hover);
-            border-color: var(--store-gold);
-            transform: translateY(-2px);
-        }
-        .store-item-button .price-tag {
-            color: var(--store-gold);
-            font-weight: 800;
-            font-size: 16px;
-        }
-        .store-item-button.vip-item {
-            border-color: var(--main-blue);
-            color: #81D4FA;
-        }
-        .store-item-button.vip-item .price-tag {
-            color: #81D4FA;
-        }
-        .store-item-button.custom-item {
-            border-color: #FF9800;
-            color: #FFECB3;
-        }
-        .store-item-button.custom-item .price-tag {
-            color: #FFECB3;
-        }
-    </style>
+        /* --- Item Button Styles (inside Modal) --- */
+        .store-item-button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            background-color: var(--bg-button);
+            color: var(--text-light);
+            border: 1px solid var(--border-dark);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s, transform 0.2s;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: left;
+        }
+        .store-item-button:hover {
+            background-color: var(--bg-button-hover);
+            border-color: var(--store-gold);
+            transform: translateY(-2px);
+        }
+        .store-item-button .price-tag {
+            color: var(--store-gold);
+            font-weight: 800;
+            font-size: 16px;
+        }
+        .store-item-button.vip-item {
+            border-color: var(--main-blue);
+            color: #81D4FA;
+        }
+        .store-item-button.vip-item .price-tag {
+            color: #81D4FA;
+        }
+        .store-item-button.custom-item {
+            border-color: #FF9800;
+            color: #FFECB3;
+        }
+        .store-item-button.custom-item .price-tag {
+            color: #FFECB3;
+        }
+    </style>
 </head>
 <body onload="updateWeatherWidget()">
-    <div class="container">
-        <h1>GrowRushPS</h1>
-        <p class="description">Rasakan pengalaman bermain di Growtopia private server dengan gameplay seru dan sistem yang stabil</p>
+    <div class="container">
+        <h1>GrowRushPS</h1>
+        <p class="description">Rasakan pengalaman bermain di Growtopia private server dengan gameplay seru dan sistem yang stabil</p>
 
-        <div class="weather-widget">
-            <div class="weather-info">
-                <span class="weather-icon"><i class="fas fa-sun"></i></span>
-                <span id="weather-text">Cerah</span> | <span id="temperature-text">28°C</span>
-            </div>
-            <div class="time-info">
-                <span class="time-icon"><i class="fas fa-clock"></i></span>
-                <span id="time-text">00:00:00</span>
-            </div>
-        </div>
+        <div class="weather-widget">
+            <div class="weather-info">
+                <span class="weather-icon"><i class="fas fa-sun"></i></span>
+                <span id="weather-text">Cerah</span> | <span id="temperature-text">28°C</span>
+            </div>
+            <div class="time-info">
+                <span class="time-icon"><i class="fas fa-clock"></i></span>
+                <span id="time-text">00:00:00</span>
+            </div>
+        </div>
 
-        <div class="server-status">
-            Status Server: <span id="status-text">UP</span>
-        </div>
+        <div class="server-status">
+            Status Server: <span id="status-text">UP</span>
+        </div>
 
-        <div class="host-section">
-            <h2>HOST & DOWNLOAD</h2>
-            
-            <button class="action-button" onclick="copyIP(this, '15.235.227.241')">
-                <span class="icon-placeholder">📋</span> Salin IP
-            </button>
-            
-            <button class="action-button" onclick="window.location.href='https://www.mediafire.com/file/irfce2b3zvwk5tm/GrowRushPS.txt/file'">
-                <span class="icon-placeholder">💾</span> Unduh Host File
-            </button>
-            
-            <button class="action-button" onclick="copyOnly(this, 'https://as.panel.growsoft.cc/android/355', 'URL Host PowerTunnel berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
-                <span class="icon-placeholder">🔗</span> PowerTunnel URL
-            </button>
-            
-            <button class="action-button" onclick="window.location.href='hostgo://15.235.227.241/growtopia1.com,growtopia2.com,www.growtopia1.com,www.growtopia2.com'">
-                <span class="icon-placeholder">🌐</span> Host GO URL
-            </button>
-            
-            <button class="action-button" onclick="copyOnly(this, 'https://as.panel.growsoft.cc/ios/355', 'URL Konfigurasi Host iOS berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
-                <span class="icon-placeholder">🍏</span> iOS Host Configuration
-            </button>
-            <p class="note">⚠️ Rekomendasi klien iOS: Surge 5</p>
-        </div>
+        <div class="host-section">
+            <h2>HOST & DOWNLOAD</h2>
+            
+            <button class="action-button" onclick="copyIP(this, '15.235.227.241')">
+                <span class="icon-placeholder">📋</span> Salin IP
+            </button>
+            
+            <button class="action-button" onclick="window.location.href='https://www.mediafire.com/file/irfce2b3zvwk5tm/GrowRushPS.txt/file'">
+                <span class="icon-placeholder">💾</span> Unduh Host File
+            </button>
+            
+            <button class="action-button" onclick="copyOnly(this, 'https://as.panel.growsoft.cc/android/355', 'URL Host PowerTunnel berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
+                <span class="icon-placeholder">🔗</span> PowerTunnel URL
+            </button>
+            
+            <button class="action-button" onclick="window.location.href='hostgo://15.235.227.241/growtopia1.com,growtopia2.com,www.growtopia1.com,www.growtopia2.com'">
+                <span class="icon-placeholder">🌐</span> Host GO URL
+            </button>
+            
+            <button class="action-button" onclick="copyOnly(this, 'https://as.panel.growsoft.cc/ios/355', 'URL Konfigurasi Host iOS berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
+                <span class="icon-placeholder">🍏</span> iOS Host Configuration
+            </button>
+            <p class="note">⚠️ Rekomendasi klien iOS: Surge 5</p>
+        </div>
 
-        <div class="tabs-container" id="tabs-container">
-            <div class="tab-buttons">
-                <button class="tab-button active" onclick="openGuide(event, 'PowerTunnel')">⚙️ PowerTunnel</button>
-                <button class="tab-button" onclick="openGuide(event, 'iOS')">🍏 iOS (Surge 5)</button>
-                <button class="tab-button" onclick="openGuide(event, 'Windows')">💻 Windows</button>
-            </div>
+        <div class="tabs-container" id="tabs-container">
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="openGuide(event, 'PowerTunnel')">⚙️ PowerTunnel</button>
+                <button class="tab-button" onclick="openGuide(event, 'iOS')">🍏 iOS (Surge 5)</button>
+                <button class="tab-button" onclick="openGuide(event, 'Windows')">💻 Windows</button>
+            </div>
 
-            <div id="PowerTunnel" class="tab-content">
-                <p class="guide-title">⚙️ Panduan Penggunaan PowerTunnel:</p>
-                <ol class="guide-list">
-                    <li>Pertama, unduh Aplikasi PowerTunnel dari tautan di tombol di atas.</li>
-                    <li>Kemudian, klik tombol PowerTunnel tersebut. Ini akan menyalin tautan host PowerTunnel ke clipboard Anda.</li>
-                    <li>Buka aplikasi PowerTunnel, klik ikon tiga garis, lalu klik ikon pengaturan host.</li>
-                    <li>Tempel URL host yang sudah disalin. Ubah periode pembaruan host dari 12 jam menjadi 'on start'.</li>
-                    <li>Sekarang, Anda bisa login ke GTPS (Growtopia Private Server) Anda!</li>
-                </ol>
-            </div>
+            <div id="PowerTunnel" class="tab-content">
+                <p class="guide-title">⚙️ Panduan Penggunaan PowerTunnel:</p>
+                <ol class="guide-list">
+                    <li>Pertama, unduh Aplikasi PowerTunnel dari tautan di tombol di atas.</li>
+                    <li>Kemudian, klik tombol PowerTunnel tersebut. Ini akan menyalin tautan host PowerTunnel ke clipboard Anda.</li>
+                    <li>Buka aplikasi PowerTunnel, klik ikon tiga garis, lalu klik ikon pengaturan host.</li>
+                    <li>Tempel URL host yang sudah disalin. Ubah periode pembaruan host dari 12 jam menjadi 'on start'.</li>
+                    <li>Sekarang, Anda bisa login ke GTPS (Growtopia Private Server) Anda!</li>
+                </ol>
+            </div>
 
-            <div id="iOS" class="tab-content hidden">
-                <p class="guide-title">🍏 Panduan Penggunaan iOS (Surge 5):</p>
-                <ol class="guide-list">
-                    <li>Unduh Aplikasi bernama: Surge 5 dari App Store.</li>
-                    <li>Setelah menginstal, tekan OK.</li>
-                    <li>Klik tombol iOS Host. Ini akan menyalin URL konfigurasi ke clipboard Anda.</li>
-                    <li>Buka Surge, klik pada Default.conf.</li>
-                    <li>Klik bagian IMPORT - Unduh Profil dari URL.</li>
-                    <li>Tempel URL yang Anda salin, lalu klik OK dan Selesai.</li>
-                    <li>Tekan SETUP (Pengaturan) dan setujui kebijakan dengan mengklik OK dan Izinkan untuk Konfigurasi VPN!</li>
-                    <li>Selesai, buka aplikasi Growtopia dan sambungkan!</li>
-                </ol>
-            </div>
+            <div id="iOS" class="tab-content hidden">
+                <p class="guide-title">🍏 Panduan Penggunaan iOS (Surge 5):</p>
+                <ol class="guide-list">
+                    <li>Unduh Aplikasi bernama: Surge 5 dari App Store.</li>
+                    <li>Setelah menginstal, tekan OK.</li>
+                    <li>Klik tombol iOS Host. Ini akan menyalin URL konfigurasi ke clipboard Anda.</li>
+                    <li>Buka Surge, klik pada Default.conf.</li>
+                    <li>Klik bagian IMPORT - Unduh Profil dari URL.</li>
+                    <li>Tempel URL yang Anda salin, lalu klik OK dan Selesai.</li>
+                    <li>Tekan SETUP (Pengaturan) dan setujui kebijakan dengan mengklik OK dan Izinkan untuk Konfigurasi VPN!</li>
+                    <li>Selesai, buka aplikasi Growtopia dan sambungkan!</li>
+                </ol>
+            </div>
 
-            <div id="Windows" class="tab-content hidden">
-                <p class="guide-title">💻 Panduan Penggunaan Windows (Host File):</p>
-                <ol class="guide-list">
-                    <li>Tekan ⊞ Win+R (Tombol Windows + R) untuk membuka jendela Run (Jalankan).</li>
-                    <li>Ketik `C:\Windows\System32\drivers\etc` di kotak teks.</li>
-                    <li>Cari file bernama hosts.</li>
-                    <li>Klik kanan pada file hosts dan edit dengan Notepad atau editor teks.</li>
-                    <li>Tambahkan baris IP/Domain yang Anda dapatkan dari tombol Unduh Host di bagian paling bawah file.</li>
-                    <li>Kemudian Simpan (Save) dan segera login ke Growtopia Anda.</li>
-                </ol>
-                <p class="admin-note">❗ PENTING: Anda harus menjalankan Notepad/editor teks sebagai Administrator agar dapat menyimpan perubahan pada file hosts.</p>
-            </div>
-        </div>
+            <div id="Windows" class="tab-content hidden">
+                <p class="guide-title">💻 Panduan Penggunaan Windows (Host File):</p>
+                <ol class="guide-list">
+                    <li>Tekan ⊞ Win+R (Tombol Windows + R) untuk membuka jendela Run (Jalankan).</li>
+                    <li>Ketik `C:\Windows\System32\drivers\etc` di kotak teks.</li>
+                    <li>Cari file bernama hosts.</li>
+                    <li>Klik kanan pada file hosts dan edit dengan Notepad atau editor teks.</li>
+                    <li>Tambahkan baris IP/Domain yang Anda dapatkan dari tombol Unduh Host di bagian paling bawah file.</li>
+                    <li>Kemudian Simpan (Save) dan segera login ke Growtopia Anda.</li>
+                </ol>
+                <p class="admin-note">❗ PENTING: Anda harus menjalankan Notepad/editor teks sebagai Administrator agar dapat menyimpan perubahan pada file hosts.</p>
+            </div>
+        </div>
 
-    </div>
-    
-    <button id="floating-feature-button" onclick="toggleFeature()">
-        🌟 Fitur Unggulan
-    </button>
-    
-    <div id="floating-feature-content">
-        <p class="feature-title">🌟 Fitur Unggulan Server</p>
-        <ul class="feature-list">
-            <li><span class="feature-icon"><i class="fas fa-hammer"></i></span> <strong>Sistem Crafting</strong> Unik & Eksklusif.</li>
-            <li><span class="feature-icon"><i class="fas fa-chart-line"></i></span> <strong>Marketplace Stabil</strong> dan Terkendali.</li>
-            <li><span class="feature-icon"><i class="fas fa-trophy"></i></span> Event PVP & Minigames Berhadiah Setiap Minggu.</li>
-            <li><span class="feature-icon"><i class="fas fa-shield-alt"></i></span> Anti Cheat Terbaik untuk pengalaman bermain bersih.</li>
-        </ul>
-        <a href="https://discord.gg/kFDepPDe7G" target="_blank" id="discord-button" class="social-button" style="margin-top: 10px; padding: 12px; border-radius: 8px; font-weight: 700; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);">
-            <i class="fab fa-discord social-icon"></i> Gabung Discord untuk Info Lengkap
-        </a>
-    </div>
+    </div>
+    
+    <button id="floating-feature-button" onclick="toggleFeature()">
+        🌟 Fitur Unggulan
+    </button>
+    
+    <div id="floating-feature-content">
+        <p class="feature-title">🌟 Fitur Unggulan Server</p>
+        <ul class="feature-list">
+            <li><span class="feature-icon"><i class="fas fa-hammer"></i></span> <strong>Sistem Crafting</strong> Unik & Eksklusif.</li>
+            <li><span class="feature-icon"><i class="fas fa-chart-line"></i></span> <strong>Marketplace Stabil</strong> dan Terkendali.</li>
+            <li><span class="feature-icon"><i class="fas fa-trophy"></i></span> Event PVP & Minigames Berhadiah Setiap Minggu.</li>
+            <li><span class="feature-icon"><i class="fas fa-shield-alt"></i></span> Anti Cheat Terbaik untuk pengalaman bermain bersih.</li>
+        </ul>
+        <a href="https://discord.gg/kFDepPDe7G" target="_blank" id="discord-button" class="social-button" style="margin-top: 10px; padding: 12px; border-radius: 8px; font-weight: 700; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);">
+            <i class="fab fa-discord social-icon"></i> Gabung Discord untuk Info Lengkap
+        </a>
+    </div>
 
-    <button id="floating-guide-button" onclick="toggleGuide()">
-        🎮 Cara Bermain
-    </button>
-    
-    <div id="floating-guide-content">
-        <p class="guide-title">🎮 Panduan Cepat Bermain</p>
-        <ol class="guide-list">
-            <li>Lihat bagian **HOST & DOWNLOAD** di atas dan pilih metode koneksi yang sesuai (PowerTunnel/iOS/Windows).</li>
-            <li>Unduh file/aplikasi yang diperlukan (jika ada) dan ikuti petunjuk instalasi yang tertera di tab.</li>
-            <li>Buka Growtopia Anda dan login. Selamat datang!</li>
-        </ol>
-        <button onclick="scrollToTabs()" style="background: var(--main-blue); color: white; border: none; padding: 8px; border-radius: 5px; width: 100%; margin-top: 10px; cursor: pointer;">
-            Lihat Panduan Detail
-        </button>
-    </div>
-    
-    <button id="floating-store-button" onclick="openFullStoreModal()">
-        🛒 Toko
-    </button>
+    <button id="floating-guide-button" onclick="toggleGuide()">
+        🎮 Cara Bermain
+    </button>
+    
+    <div id="floating-guide-content">
+        <p class="guide-title">🎮 Panduan Cepat Bermain</p>
+        <ol class="guide-list">
+            <li>Lihat bagian **HOST & DOWNLOAD** di atas dan pilih metode koneksi yang sesuai (PowerTunnel/iOS/Windows).</li>
+            <li>Unduh file/aplikasi yang diperlukan (jika ada) dan ikuti petunjuk instalasi yang tertera di tab.</li>
+            <li>Buka Growtopia Anda dan login. Selamat datang!</li>
+        </ol>
+        <button onclick="scrollToTabs()" style="background: var(--main-blue); color: white; border: none; padding: 8px; border-radius: 5px; width: 100%; margin-top: 10px; cursor: pointer;">
+            Lihat Panduan Detail
+        </button>
+    </div>
+    
+    <button id="floating-store-button" onclick="openFullStoreModal()">
+        🛒 Toko
+    </button>
 
-    <button id="floating-social-button" onclick="toggleSocial()">
-        💬 Komunitas
-    </button>
+    <button id="floating-social-button" onclick="toggleSocial()">
+        💬 Komunitas
+    </button>
 
-    <div id="floating-social-content">
-        <p class="social-title">💬 Bergabunglah dengan Kami!</p>
-        <div class="social-links">
-            <a href="https://discord.gg/kFDepPDe7G" target="_blank" id="discord-button" class="social-button">
-                <i class="fab fa-discord social-icon"></i> Discord Server
-            </a>
-            <a href="https://chat.whatsapp.com/Elq453EwzudLyUIi4nuDik" target="_blank" id="whatsapp-button" class="social-button">
-                <i class="fab fa-whatsapp social-icon"></i> Grup WhatsApp
-            </a>
-            <a href="https://t.me/yourtelegramchannel" target="_blank" id="telegram-button" class="social-button">
-                <i class="fab fa-telegram-plane social-icon"></i> Channel Telegram
-            </a>
-        </div>
-    </div>
-
-
-    <div id="full-store-modal">
-        <div class="modal-content-wrapper">
-            <button class="close-button" onclick="closeFullStoreModal()">✖</button>
-            <h2 class="store-title" style="font-size: 24px; margin-bottom: 20px;">🛒 GrowRushPS Store</h2>
-
-            <div class="modal-store-section">
-                <h3 style="color: #009688;"><i class="fas fa-qrcode"></i> 1. Pembayaran via QRIS (Deposit Nominal Bebas)</h3>
-                <div class="qris-container">
-                    <img src="https://via.placeholder.com/200x200?text=QRIS+SCAN+ME" alt="QRIS Payment" class="qris-image">
-                    <p class="qris-instruction" style="font-size: 15px; font-weight: 700;">
-                        **Langkah 1: SCAN QRIS DI ATAS** melalui aplikasi bank/dompet digital Anda, lalu **Lakukan Pembayaran** dengan nominal yang diinginkan.
-                    </p>
-                </div>
-                
-                <p class="qris-instruction" style="color: #FFEB3B; font-weight: 600; margin: 15px 0;">
-                    ⚠️ **PENTING: PASTIKAN PEMBAYARAN SUDAH BERHASIL** (mendapat notifikasi sukses) sebelum menekan tombol di bawah!
-                </p>
-
-                <a href="https://wa.me/6281234567890?text=Halo%20Admin%20GrowRushPS,%20saya%20sudah%20melakukan%20pembayaran%20via%20QRIS.%20Mohon%20proses%20deposit/pembelian%20saya.%0A%0A[Tulis%20Nominal%20dan%20Nama%20GT%20Anda]" target="_blank" class="qris-note-action">
-                    ✅ 2. Pembayaran Berhasil! Klik Di Sini untuk Konfirmasi ke Admin
-                </a>
-            </div>
-
-            <div class="modal-store-section">
-                <h3><i class="fas fa-tags"></i> Beli Item Satuan (Chat Admin Otomatis)</h3>
-                
-                <button class="store-item-button" onclick="promptPurchase('200 DL (Diamond Lock)', 'Rp 10.000')">
-                    200 DL <span class="price-tag">Rp 10.000</span>
-                </button>
-                <button class="store-item-button" onclick="promptPurchase('1000 WL (World Lock)', 'Rp 5.000')">
-                    1000 WL <span class="price-tag">Rp 5.000</span>
-                </button>
-                <button class="store-item-button vip-item" onclick="promptPurchase('VIP Pass (30 Hari)', 'Rp 25.000')">
-                    VIP Pass (30 Hari) <span class="price-tag">Rp 25.000</span>
-                </button>
-                <button class="store-item-button custom-item" onclick="promptPurchase('Custom Item Design', 'Rp 50.000')">
-                    Custom Item Design <span class="price-tag">Rp 50.000</span>
-                </button>
-
-                <p class="admin-note" style="text-align: center; margin-top: 10px; font-size: 13px;">
-                    ❗ Setelah menekan tombol 'Beli', isi format dan Anda akan diarahkan ke WhatsApp Admin untuk pembayaran.
-                </p>
-            </div>
-        </div>
-    </div>
-    
-    <script>
-        
-        // Konstanta IP untuk fungsi Salin IP
-        const SERVER_IP = '15.235.227.241'; 
-        const COOLDOWN_SECONDS = 4;
-        const ADMIN_WA_NUMBER = '6281234567890'; // GANTI dengan nomor WA Admin Anda
-
-        // --- FUNGSI WIDGET CUACA & WAKTU BARU ---
-        function updateWeatherWidget() {
-            // Logika dummy untuk waktu dan cuaca (bisa diganti dengan API real)
-            const weather = {
-                text: "Cerah",
-                icon: "fas fa-sun",
-                temp: "28°C"
-            };
-
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
-
-            document.getElementById('weather-text').textContent = weather.text;
-            document.getElementById('temperature-text').textContent = weather.temp;
-            document.querySelector('.weather-icon').innerHTML = `<i class="${weather.icon}"></i>`;
-            document.getElementById('time-text').textContent = timeString;
-
-            setTimeout(updateWeatherWidget, 1000);
-        }
-
-        // --- FUNGSI UTILITY COOLDOWN ---
-        function applyCooldown(buttonElement, originalContent) {
-            let timeLeft = COOLDOWN_SECONDS;
-            buttonElement.disabled = true;
-            buttonElement.style.cursor = 'wait';
-            
-            const countdownInterval = setInterval(() => {
-                timeLeft--;
-                if (timeLeft <= 0) {
-                    clearInterval(countdownInterval);
-                    buttonElement.innerHTML = originalContent; 
-                    buttonElement.disabled = false; 
-                    buttonElement.style.cursor = 'pointer';
-                    buttonElement.style.backgroundColor = ''; 
-                } else {
-                    const iconPlaceholder = originalContent.match(/<span class="icon-placeholder">.*?<\/span>/) ? originalContent.match(/<span class="icon-placeholder">.*?<\/span>/)[0] : '';
-                    buttonElement.innerHTML = `${iconPlaceholder} Tunggu ${timeLeft}s...`;
-                }
-            }, 1000);
-        }
-
-        // --- FUNGSI SALIN IP ---
-        function copyIP(buttonElement, ipValue) {
-            const originalContent = buttonElement.innerHTML; 
-            if (buttonElement.disabled) { return; }
-            
-            navigator.clipboard.writeText(ipValue).then(() => {
-                buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #4CAF50;">✅</span> Berhasil Disalin!`;
-                buttonElement.style.backgroundColor = '#4CAF50'; 
-                applyCooldown(buttonElement, originalContent);
-            }).catch(err => {
-                console.error('Gagal menyalin:', err);
-                // Fallback untuk gagal copy
-                buttonElement.style.backgroundColor = '#FF5722'; 
-                buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> GAGAL SALIN. IP: ${ipValue}`; 
-                applyCooldown(buttonElement, originalContent); // Terapkan cooldown meskipun gagal
-            });
-        }
-        
-        // --- FUNGSI SALIN TEKS SAJA ---
-        function copyOnly(buttonElement, value, successMessage) {
-            const originalContent = buttonElement.innerHTML;
-            if (buttonElement.disabled) { return; }
-
-            navigator.clipboard.writeText(value)
-                .then(() => {
-                    buttonElement.style.backgroundColor = '#4CAF50';
-                    const iconPlaceholder = originalContent.match(/<span class="icon-placeholder">.*?<\/span>/) ? originalContent.match(/<span class="icon-placeholder">.*?<\/span>/)[0] : '';
-                    buttonElement.innerHTML = `${iconPlaceholder} ${successMessage}`;
-                    applyCooldown(buttonElement, originalContent);
-                })
-                .catch(err => {
-                    console.error('Gagal menyalin:', err);
-                    buttonElement.style.backgroundColor = '#FF5722';
-                    buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> GAGAL SALIN (Coba Lagi)`;
-                    applyCooldown(buttonElement, originalContent);
-                });
-        }
-
-        // --- FUNGSI TAB GUIDE (PowerTunnel, iOS, Windows) ---
-        function openGuide(evt, guideName) {
-            // Nonaktifkan semua konten tab
-            const tabcontent = document.getElementsByClassName("tab-content");
-            for (let i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].classList.add('hidden');
-            }
-
-            // Hapus class 'active' dari semua tombol tab
-            const tablinks = document.getElementsByClassName("tab-button");
-            for (let i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove("active");
-            }
-
-            // Tampilkan tab yang dipilih dan aktifkan tombolnya
-            document.getElementById(guideName).classList.remove('hidden');
-            evt.currentTarget.classList.add("active");
-        }
-        
-        // Pastikan tab PowerTunnel terbuka secara default saat halaman dimuat
-        window.addEventListener('DOMContentLoaded', (event) => {
-            // Secara manual atur PowerTunnel sebagai aktif pertama kali (jika tidak ada event klik)
-            document.getElementById('PowerTunnel').classList.remove('hidden');
-            const defaultButton = document.querySelector('.tab-button');
-            if (defaultButton) {
-                defaultButton.classList.add('active');
-            }
-        });
-        
-        // FUNGSI SCROLL
-        function scrollToTabs() {
-            document.getElementById('tabs-container').scrollIntoView({ behavior: 'smooth' });
-            closeAllFloatingContents();
-        }
-
-        // --- FUNGSI FLOATING BUTTONS (TOGGLE) ---
-        
-        const FLOATING_CONTENTS = [
-            'floating-feature-content', 
-            'floating-guide-content', 
-            'floating-social-content'
-        ];
-
-        function closeAllFloatingContents() {
-            FLOATING_CONTENTS.forEach(id => {
-                const content = document.getElementById(id);
-                if (content) {
-                    content.style.display = 'none';
-                    content.classList.remove('active-content'); // Hapus pointer-events: auto
-                }
-            });
-        }
-
-        function toggleContent(contentId) {
-            const targetContent = document.getElementById(contentId);
-            
-            // Jika sudah aktif, maka tutup
-            if (targetContent.style.display === 'block') {
-                closeAllFloatingContents();
-            } else {
-                // Tutup yang lain, lalu buka yang baru
-                closeAllFloatingContents();
-                targetContent.style.display = 'block';
-                targetContent.classList.add('active-content');
-            }
-        }
-
-        // Fungsi spesifik untuk tombol
-        function toggleFeature() {
-            toggleContent('floating-feature-content');
-        }
-
-        function toggleGuide() {
-            toggleContent('floating-guide-content');
-        }
-
-        function toggleSocial() {
-            toggleContent('floating-social-content');
-        }
-        
-        // Tutup kotak floating jika mengklik di luar
-        document.addEventListener('click', function(event) {
-            if (
-                !event.target.closest('#floating-feature-button') && 
-                !event.target.closest('#floating-guide-button') && 
-                !event.target.closest('#floating-social-button') &&
-                !event.target.closest('#floating-feature-content') &&
-                !event.target.closest('#floating-guide-content') &&
-                !event.target.closest('#floating-social-content')
-            ) {
-                closeAllFloatingContents();
-            }
-        });
+    <div id="floating-social-content">
+        <p class="social-title">💬 Bergabunglah dengan Kami!</p>
+        <div class="social-links">
+            <a href="https://discord.gg/kFDepPDe7G" target="_blank" id="discord-button" class="social-button">
+                <i class="fab fa-discord social-icon"></i> Discord Server
+            </a>
+            <a href="https://chat.whatsapp.com/Elq453EwzudLyUIi4nuDik" target="_blank" id="whatsapp-button" class="social-button">
+                <i class="fab fa-whatsapp social-icon"></i> Grup WhatsApp
+            </a>
+            <a href="https://t.me/yourtelegramchannel" target="_blank" id="telegram-button" class="social-button">
+                <i class="fab fa-telegram-plane social-icon"></i> Channel Telegram
+            </a>
+        </div>
+    </div>
 
 
-        // --- FUNGSI STORE MODAL (Full-Screen) ---
-        function openFullStoreModal() {
-            document.getElementById('full-store-modal').style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // Mencegah scroll di body
-        }
+    <div id="full-store-modal">
+        <div class="modal-content-wrapper">
+            <button class="close-button" onclick="closeFullStoreModal()">✖</button>
+            <h2 class="store-title" style="font-size: 24px; margin-bottom: 20px;">🛒 GrowRushPS Store</h2>
 
-        function closeFullStoreModal() {
-            document.getElementById('full-store-modal').style.display = 'none';
-            document.body.style.overflow = ''; // Mengembalikan scroll
-        }
+            <div class="modal-store-section">
+                <h3 style="color: #009688;"><i class="fas fa-qrcode"></i> 1. Pembayaran via QRIS (Deposit Nominal Bebas)</h3>
+                <div class="qris-container">
+                    <img src="https://via.placeholder.com/200x200?text=QRIS+SCAN+ME" alt="QRIS Payment" class="qris-image">
+                    <p class="qris-instruction" style="font-size: 15px; font-weight: 700;">
+                        **Langkah 1: SCAN QRIS DI ATAS** melalui aplikasi bank/dompet digital Anda, lalu **Lakukan Pembayaran** dengan nominal yang diinginkan.
+                    </p>
+                </div>
+                
+                <p class="qris-instruction" style="color: #FFEB3B; font-weight: 600; margin: 15px 0;">
+                    ⚠️ **PENTING: PASTIKAN PEMBAYARAN SUDAH BERHASIL** (mendapat notifikasi sukses) sebelum menekan tombol di bawah!
+                </p>
 
-        function promptPurchase(itemName, itemPrice) {
-            const gtName = prompt(`Format Pembelian ${itemName} (${itemPrice}):\n\nMasukkan Nama GT Anda (case-sensitive):`);
-            
-            if (gtName && gtName.trim() !== "") {
-                const message = encodeURIComponent(
-                    `Halo Admin GrowRushPS, saya ingin membeli:\n` +
-                    `\nItem: ${itemName}\n` +
-                    `Harga: ${itemPrice}\n` +
-                    `Nama GT: ${gtName.trim()}\n` +
-                    `\nMohon petunjuk pembayaran selanjutnya. Terima kasih!`
-                );
-                window.open(`https://wa.me/${ADMIN_WA_NUMBER}?text=${message}`, '_blank');
-            } else if (gtName !== null) {
-                alert("Nama GT tidak boleh kosong!");
-            }
-        }
+                <a href="https://wa.me/6281234567890?text=Halo%20Admin%20GrowRushPS,%20saya%20sudah%20melakukan%20pembayaran%20via%20QRIS.%20Mohon%20proses%20deposit/pembelian%20saya.%0A%0A[Tulis%20Nominal%20dan%20Nama%20GT%20Anda]" target="_blank" class="qris-note-action">
+                    ✅ 2. Pembayaran Berhasil! Klik Di Sini untuk Konfirmasi ke Admin
+                </a>
+            </div>
 
-    </script>
+            <div class="modal-store-section">
+                <h3><i class="fas fa-tags"></i> Beli Item Satuan (Chat Admin Otomatis)</h3>
+                
+                <button class="store-item-button" onclick="promptPurchase('200 DL (Diamond Lock)', 'Rp 10.000')">
+                    200 DL <span class="price-tag">Rp 10.000</span>
+                </button>
+                <button class="store-item-button" onclick="promptPurchase('1000 WL (World Lock)', 'Rp 5.000')">
+                    1000 WL <span class="price-tag">Rp 5.000</span>
+                </button>
+                <button class="store-item-button vip-item" onclick="promptPurchase('VIP Pass (30 Hari)', 'Rp 25.000')">
+                    VIP Pass (30 Hari) <span class="price-tag">Rp 25.000</span>
+                </button>
+                <button class="store-item-button custom-item" onclick="promptPurchase('Custom Item Design', 'Rp 50.000')">
+                    Custom Item Design <span class="price-tag">Rp 50.000</span>
+                </button>
+
+                <p class="admin-note" style="text-align: center; margin-top: 10px; font-size: 13px;">
+                    ❗ Setelah menekan tombol 'Beli', isi format dan Anda akan diarahkan ke WhatsApp Admin untuk pembayaran.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        
+        // Konstanta IP untuk fungsi Salin IP
+        const SERVER_IP = '15.235.227.241'; 
+        const COOLDOWN_SECONDS = 4;
+        const ADMIN_WA_NUMBER = '6281234567890'; // GANTI dengan nomor WA Admin Anda
+
+        // --- FUNGSI WIDGET CUACA & WAKTU BARU ---
+        function updateWeatherWidget() {
+            // Logika dummy untuk waktu dan cuaca (bisa diganti dengan API real)
+            const weather = {
+                text: "Cerah",
+                icon: "fas fa-sun",
+                temp: "28°C"
+            };
+
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+
+            document.getElementById('weather-text').textContent = weather.text;
+            document.getElementById('temperature-text').textContent = weather.temp;
+            document.querySelector('.weather-icon').innerHTML = `<i class="${weather.icon}"></i>`;
+            document.getElementById('time-text').textContent = timeString;
+
+            setTimeout(updateWeatherWidget, 1000);
+        }
+
+        // --- FUNGSI UTILITY COOLDOWN ---
+        function applyCooldown(buttonElement, originalContent) {
+            let timeLeft = COOLDOWN_SECONDS;
+            buttonElement.disabled = true;
+            buttonElement.style.cursor = 'wait';
+            
+            const countdownInterval = setInterval(() => {
+                timeLeft--;
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    buttonElement.innerHTML = originalContent; 
+                    buttonElement.disabled = false; 
+                    buttonElement.style.cursor = 'pointer';
+                    buttonElement.style.backgroundColor = ''; 
+                } else {
+                    const iconPlaceholder = originalContent.match(/<span class="icon-placeholder">.*?<\/span>/) ? originalContent.match(/<span class="icon-placeholder">.*?<\/span>/)[0] : '';
+                    buttonElement.innerHTML = `${iconPlaceholder} Tunggu ${timeLeft}s...`;
+                }
+            }, 1000);
+        }
+
+        // --- FUNGSI SALIN IP ---
+        function copyIP(buttonElement, ipValue) {
+            const originalContent = buttonElement.innerHTML; 
+            if (buttonElement.disabled) { return; }
+            
+            navigator.clipboard.writeText(ipValue).then(() => {
+                buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #4CAF50;">✅</span> Berhasil Disalin!`;
+                buttonElement.style.backgroundColor = '#4CAF50'; 
+                applyCooldown(buttonElement, originalContent);
+            }).catch(err => {
+                console.error('Gagal menyalin:', err);
+                // Fallback untuk gagal copy
+                buttonElement.style.backgroundColor = '#FF5722'; 
+                buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> GAGAL SALIN. IP: ${ipValue}`; 
+                applyCooldown(buttonElement, originalContent); // Terapkan cooldown meskipun gagal
+            });
+        }
+        
+        // --- FUNGSI SALIN TEKS SAJA ---
+        function copyOnly(buttonElement, value, successMessage) {
+            const originalContent = buttonElement.innerHTML;
+            if (buttonElement.disabled) { return; }
+
+            navigator.clipboard.writeText(value)
+                .then(() => {
+                    buttonElement.style.backgroundColor = '#4CAF50';
+                    const iconPlaceholder = originalContent.match(/<span class="icon-placeholder">.*?<\/span>/) ? originalContent.match(/<span class="icon-placeholder">.*?<\/span>/)[0] : '';
+                    buttonElement.innerHTML = `${iconPlaceholder} ${successMessage}`;
+                    applyCooldown(buttonElement, originalContent);
+                })
+                .catch(err => {
+                    console.error('Gagal menyalin:', err);
+                    buttonElement.style.backgroundColor = '#FF5722';
+                    buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> GAGAL SALIN (Coba Lagi)`;
+                    applyCooldown(buttonElement, originalContent);
+                });
+        }
+
+        // --- FUNGSI TAB GUIDE (PowerTunnel, iOS, Windows) ---
+        function openGuide(evt, guideName) {
+            // Nonaktifkan semua konten tab
+            const tabcontent = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.add('hidden');
+            }
+
+            // Hapus class 'active' dari semua tombol tab
+            const tablinks = document.getElementsByClassName("tab-button");
+            for (let i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+
+            // Tampilkan tab yang dipilih dan aktifkan tombolnya
+            document.getElementById(guideName).classList.remove('hidden');
+            evt.currentTarget.classList.add("active");
+        }
+        
+        // Pastikan tab PowerTunnel terbuka secara default saat halaman dimuat
+        window.addEventListener('DOMContentLoaded', (event) => {
+            // Secara manual atur PowerTunnel sebagai aktif pertama kali (jika tidak ada event klik)
+            document.getElementById('PowerTunnel').classList.remove('hidden');
+            const defaultButton = document.querySelector('.tab-button');
+            if (defaultButton) {
+                defaultButton.classList.add('active');
+            }
+        });
+        
+        // FUNGSI SCROLL
+        function scrollToTabs() {
+            document.getElementById('tabs-container').scrollIntoView({ behavior: 'smooth' });
+            closeAllFloatingContents();
+        }
+
+        // --- FUNGSI FLOATING BUTTONS (TOGGLE) ---
+        
+        const FLOATING_CONTENTS = [
+            'floating-feature-content', 
+            'floating-guide-content', 
+            'floating-social-content'
+        ];
+
+        function closeAllFloatingContents() {
+            FLOATING_CONTENTS.forEach(id => {
+                const content = document.getElementById(id);
+                if (content) {
+                    content.style.display = 'none';
+                    content.classList.remove('active-content'); // Hapus pointer-events: auto
+                }
+            });
+        }
+
+        function toggleContent(contentId) {
+            const targetContent = document.getElementById(contentId);
+            
+            // Jika sudah aktif, maka tutup
+            if (targetContent.style.display === 'block') {
+                closeAllFloatingContents();
+            } else {
+                // Tutup yang lain, lalu buka yang baru
+                closeAllFloatingContents();
+                targetContent.style.display = 'block';
+                targetContent.classList.add('active-content');
+            }
+        }
+
+        // Fungsi spesifik untuk tombol
+        function toggleFeature() {
+            toggleContent('floating-feature-content');
+        }
+
+        function toggleGuide() {
+            toggleContent('floating-guide-content');
+        }
+
+        function toggleSocial() {
+            toggleContent('floating-social-content');
+        }
+        
+        // Tutup kotak floating jika mengklik di luar
+        document.addEventListener('click', function(event) {
+            if (
+                !event.target.closest('#floating-feature-button') && 
+                !event.target.closest('#floating-guide-button') && 
+                !event.target.closest('#floating-social-button') &&
+                !event.target.closest('#floating-feature-content') &&
+                !event.target.closest('#floating-guide-content') &&
+                !event.target.closest('#floating-social-content')
+            ) {
+                closeAllFloatingContents();
+            }
+        });
+
+
+        // --- FUNGSI STORE MODAL (Full-Screen) ---
+        function openFullStoreModal() {
+            document.getElementById('full-store-modal').style.display = 'flex';
+            // FIX: Gunakan class CSS untuk mengontrol scroll body dan background
+            document.body.classList.add('modal-open'); 
+        }
+
+        function closeFullStoreModal() {
+            document.getElementById('full-store-modal').style.display = 'none';
+            // FIX: Hapus class CSS untuk mengembalikan scroll body dan background
+            document.body.classList.remove('modal-open'); 
+        }
+
+        function promptPurchase(itemName, itemPrice) {
+            const gtName = prompt(`Format Pembelian ${itemName} (${itemPrice}):\n\nMasukkan Nama GT Anda (case-sensitive):`);
+            
+            if (gtName && gtName.trim() !== "") {
+                const message = encodeURIComponent(
+                    `Halo Admin GrowRushPS, saya ingin membeli:\n` +
+                    `\nItem: ${itemName}\n` +
+                    `Harga: ${itemPrice}\n` +
+                    `Nama GT: ${gtName.trim()}\n` +
+                    `\nMohon petunjuk pembayaran selanjutnya. Terima kasih!`
+                );
+                window.open(`https://wa.me/${ADMIN_WA_NUMBER}?text=${message}`, '_blank');
+            } else if (gtName !== null) {
+                alert("Nama GT tidak boleh kosong!");
+            }
+        }
+
+    </script>
 </body>
 </html>
