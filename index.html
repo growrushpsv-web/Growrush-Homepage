@@ -461,7 +461,7 @@
             <div class="modal-section">
                 <h3 style="color: #009688;"><i class="fas fa-qrcode"></i> 1. Pembayaran via QRIS (Deposit Nominal Bebas)</h3>
                 <div class="qris-container">
-                    <img src="https://via.placeholder.com/200x200?text=QRIS+SCAN+ME" alt="QRIS Payment" class="qris-image">
+                    <img src="https://via.placeholder.com/200x200?text=QRIS+SCAN+ME" alt="QRIS Payment" class="qris-image"> 
                     <p class="qris-instruction" style="font-size: 15px; font-weight: 700;">
                         **Langkah 1: SCAN QRIS DI ATAS** melalui aplikasi bank/dompet digital Anda, lalu **Lakukan Pembayaran** dengan nominal yang diinginkan.
                     </p>
@@ -580,39 +580,18 @@
 
 
     <script>
-        
         // Konstanta
         const COOLDOWN_SECONDS = 4;
-        const ADMIN_WA_NUMBER = '6281234567890'; // GANTI dengan nomor WA Admin Anda
-        const API_ENDPOINT = '/api/checkstatus'; // PASTIKAN INI SESUAI LOKASI API BACKEND ANDA
+        const ADMIN_WA_NUMBER = '6281234567890'; 
 
-        // --- FUNGSI CHECK STATUS SERVER DINAMIS ---
-        async function checkServerStatus() {
+        // --- FUNGSI INI MENGGANTIKAN checkServerStatus (SELALU UP) ---
+        function initHardcodedStatus() {
             const statusTextElement = document.getElementById('status-text');
             
-            statusTextElement.textContent = 'Memuat...';
-            statusTextElement.style.color = '#FFC107'; 
-            statusTextElement.style.textShadow = '0 0 5px rgba(255, 193, 7, 0.5)';
-
-            try {
-                const response = await fetch(API_ENDPOINT);
-                const data = await response.json();
-
-                if (data.success && data.server.status === 'online') {
-                    statusTextElement.textContent = 'UP';
-                    statusTextElement.style.color = '#4CAF50'; // Hijau
-                    statusTextElement.style.textShadow = '0 0 5px rgba(76, 175, 80, 0.5)';
-                } else {
-                    statusTextElement.textContent = 'DOWN';
-                    statusTextElement.style.color = '#F44336'; // Merah
-                    statusTextElement.style.textShadow = '0 0 5px rgba(244, 67, 54, 0.5)';
-                }
-            } catch (error) {
-                console.error("Gagal terhubung ke API:", error);
-                statusTextElement.textContent = 'ERROR API';
-                statusTextElement.style.color = '#FF9800'; // Orange
-                statusTextElement.style.textShadow = '0 0 5px rgba(255, 152, 0, 0.5)';
-            }
+            // Hardcode status: UP (Hijau)
+            statusTextElement.textContent = 'UP';
+            statusTextElement.style.color = '#4CAF50'; // Hijau
+            statusTextElement.style.textShadow = '0 0 5px rgba(76, 175, 80, 0.5)';
         }
         
         // --- FUNGSI UTILITY COOLDOWN ---
@@ -664,53 +643,40 @@
                     applyCooldown(buttonElement, originalContent);
                 })
                 .catch(err => {
-                    buttonElement.style.backgroundColor = '#FF5722';
-                    buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> GAGAL SALIN (Coba Lagi)`;
+                    buttonElement.style.backgroundColor = '#FF5722'; 
+                    buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> GAGAL SALIN.`; 
                     applyCooldown(buttonElement, originalContent);
                 });
         }
 
-        // --- FUNGSI TAB GUIDE (PowerTunnel, iOS, Windows) ---
-        function openGuide(evt, guideName) {
-            const tabcontent = document.getElementsByClassName("tab-content");
-            for (let i = 0; i < tabcontent.length; i++) {
+        // --- FUNGSI TAB & MODAL ---
+        function openGuide(evt, tabName) {
+            let i, tabcontent, tablinks;
+            
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
                 tabcontent[i].classList.add('hidden');
             }
-
-            const tablinks = document.getElementsByClassName("tab-button");
-            for (let i = 0; i < tablinks.length; i++) {
+            
+            tablinks = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].classList.remove("active");
             }
-
-            document.getElementById(guideName).classList.remove('hidden');
-            evt.currentTarget.classList.add("active");
-        }
-        
-        window.addEventListener('DOMContentLoaded', (event) => {
-            // Panggil cek status server
-            checkServerStatus(); 
-            // Inisialisasi tab guide
-            document.getElementById('PowerTunnel').classList.remove('hidden');
-            const defaultButton = document.querySelector('.tab-button');
-            if (defaultButton) {
-                defaultButton.classList.add('active');
-            }
-        });
-        
-        // FUNGSI MODAL FULL-SCREEN
-        const ALL_MODALS = ['full-store-modal', 'full-feature-modal', 'full-guide-modal', 'full-social-modal'];
-
-        function closeAllModals() {
-             ALL_MODALS.forEach(id => {
-                const modal = document.getElementById(id);
-                if (modal) {
-                    modal.style.display = 'none';
+            
+            document.getElementById(tabName).classList.remove('hidden');
+            if (evt) {
+                evt.currentTarget.classList.add("active");
+            } else {
+                // Jika dipanggil tanpa event (misal: saat onload), set tab PowerTunnel aktif
+                // Cari tombol pertama dalam tab-buttons dan tambahkan kelas 'active'
+                const firstTabButton = document.querySelector('.tab-buttons .tab-button');
+                if (firstTabButton) {
+                    firstTabButton.classList.add("active");
                 }
-            });
+            }
         }
 
         function openFullModal(modalId) {
-            closeAllModals(); 
             document.getElementById(modalId).style.display = 'flex';
             document.body.classList.add('modal-open'); 
         }
@@ -720,23 +686,24 @@
             document.body.classList.remove('modal-open'); 
         }
 
-        function promptPurchase(itemName, itemPrice) {
-            const gtName = prompt(`Format Pembelian ${itemName} (${itemPrice}):\n\nMasukkan Nama GT Anda (case-sensitive):`);
+        function promptPurchase(itemName, price) {
+            const gtName = prompt(`Masukkan NAMA GrowID Anda untuk pembelian ${itemName} (${price}):`);
             
-            if (gtName && gtName.trim() !== "") {
-                const message = encodeURIComponent(
-                    `Halo Admin GrowRushPS, saya ingin membeli:\n` +
-                    `\nItem: ${itemName}\n` +
-                    `Harga: ${itemPrice}\n` +
-                    `Nama GT: ${gtName.trim()}\n` +
-                    `\nMohon petunjuk pembayaran selanjutnya. Terima kasih!`
-                );
-                window.open(`https://wa.me/${ADMIN_WA_NUMBER}?text=${message}`, '_blank');
+            if (gtName) {
+                const message = `Halo Admin GrowRushPS, saya mau beli: %0A%0AItem: ${itemName}%0AHarga: ${price}%0ANama GrowID: ${gtName}%0A%0ASaya akan melakukan pembayaran sekarang. Mohon diproses.`;
+                const waUrl = `https://wa.me/${ADMIN_WA_NUMBER}?text=${message}`;
+                window.open(waUrl, '_blank');
             } else if (gtName !== null) {
-                alert("Nama GT tidak boleh kosong!");
+                alert("Nama GrowID tidak boleh kosong!");
             }
         }
 
+        // Panggil fungsi status dan inisialisasi tab saat halaman dimuat
+        window.onload = function() {
+            initHardcodedStatus();
+            // Memastikan tab PowerTunnel terbuka saat halaman dimuat
+            openGuide(null, 'PowerTunnel'); 
+        };
     </script>
 </body>
 </html>
