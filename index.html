@@ -354,10 +354,10 @@
             padding: 10px; 
             background-color: white; 
             box-shadow: 0 0 15px rgba(0, 150, 136, 0.7); 
-            /* Ganti dengan gambar QRIS asli Anda */
-            /* ❗ START GANTI QRIS DI SINI ❗ */
+            
+            /* ❗ GANTI TAUTAN GAMBAR QRIS DI SINI ❗ */
             content: url(https://via.placeholder.com/200x200?text=GANTI+DENGAN+QRIS+ASLI); 
-            /* ❗ END GANTI QRIS DI SINI ❗ */
+            /* ❗ AKHIR GANTI TAUTAN GAMBAR QRIS ❗ */
         }
         .qris-instruction { font-size: 14px; color: var(--text-light); margin: 10px 0; font-weight: 500; }
         .qris-note-action { display: block; margin-top: 15px; padding: 10px; background-color: var(--main-blue); border-radius: 6px; font-size: 14px; font-weight: 700; color: white; text-decoration: none; text-align: center; transition: opacity 0.3s; }
@@ -399,8 +399,8 @@
                 <span class="icon-placeholder">🌐</span> Host GO URL
             </button>
             
-            <button class="action-button" onclick="copyOnly(this, 'https://as.panel.growsoft.cc/ios/355', 'URL Konfigurasi Host iOS berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
-                <span class="icon-placeholder">🍏</span> iOS Host Configuration
+            <button class="action-button" onclick="copyOnly(this, 'https://www.growrush.my.id/GrowRushPS.conf', 'URL Konfigurasi Host iOS kustom berhasil disalin!')">
+                <span class="icon-placeholder">🍏</span> iOS Host Configuration (Custom)
             </button>
             <p class="note">⚠️ Rekomendasi klien iOS: Surge 5</p>
         </div>
@@ -428,7 +428,7 @@
                 <ol class="guide-list">
                     <li>Unduh Aplikasi bernama: Surge 5 dari App Store.</li>
                     <li>Setelah menginstal, tekan OK.</li>
-                    <li>Klik tombol iOS Host. Ini akan menyalin URL konfigurasi ke clipboard Anda.</li>
+                    <li>Klik tombol iOS Host. Ini akan menyalin URL konfigurasi **kustom** Anda ke clipboard.</li>
                     <li>Buka Surge, klik pada Default.conf.</li>
                     <li>Klik bagian IMPORT - Unduh Profil dari URL.</li>
                     <li>Tempel URL yang Anda salin, lalu klik OK dan Selesai.</li>
@@ -476,6 +476,7 @@
             <div class="modal-section">
                 <h3 style="color: #009688;"><i class="fas fa-qrcode"></i> 1. Pembayaran via QRIS (Deposit Nominal Bebas)</h3>
                 <div class="qris-container">
+                    
                     <img src="https://via.placeholder.com/200x200?text=QRIS+SCAN+ME" alt="QRIS Payment" class="qris-image"> 
                     <p class="qris-instruction" style="font-size: 15px; font-weight: 700;">
                         **Langkah 1: SCAN QRIS DI ATAS** melalui aplikasi bank/dompet digital Anda, lalu **Lakukan Pembayaran** dengan nominal yang diinginkan.
@@ -597,9 +598,12 @@
     <script>
         // Konstanta
         const COOLDOWN_SECONDS = 4;
-        // ❗ START GANTI WHATSAPP DI SINI ❗
+        
+        /* ❗ GANTI NOMOR WHATSAPP DI BAWAH INI DENGAN NOMOR ASLI ANDA (contoh: '6281234xxxx') 
+        */
         const ADMIN_WA_NUMBER = '6281234567890'; 
-        // ❗ END GANTI WHATSAPP DI SINI ❗
+        /* ❗ AKHIR GANTI NOMOR WHATSAPP ❗
+        */
 
         // --- FUNGSI INI MENGGANTIKAN checkServerStatus (SELALU UP) ---
         function initHardcodedStatus() {
@@ -689,7 +693,7 @@
             if (evt) {
                 evt.currentTarget.classList.add("active");
             } else {
-                // Jika dipanggil tanpa event (misal: saat onload), set tab PowerTunnel aktif
+                // Memastikan tab PowerTunnel terbuka saat halaman dimuat
                 const firstTabButton = document.querySelector('.tab-buttons .tab-button');
                 if (firstTabButton) {
                     firstTabButton.classList.add("active");
@@ -711,6 +715,7 @@
             const gtName = prompt(`Masukkan NAMA GrowID Anda untuk pembelian ${itemName} (${price}):`);
             
             if (gtName) {
+                // Menggunakan ADMIN_WA_NUMBER dari konstanta JavaScript
                 const message = `Halo Admin GrowRushPS, saya mau beli: %0A%0AItem: ${itemName}%0AHarga: ${price}%0ANama GrowID: ${gtName}%0A%0ASaya akan melakukan pembayaran sekarang. Mohon diproses.`;
                 const waUrl = `https://wa.me/${ADMIN_WA_NUMBER}?text=${message}`;
                 window.open(waUrl, '_blank');
