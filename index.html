@@ -3,18 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GrowRushPS - Status Server, Cuaca & Download</title>
+    <title>GrowRushPS - Status Server</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
-        /* FIX KRUSIAL: Mencegah overflow padding */
+        /* [Kode CSS Anda tetap sama di sini] */
         * {
             box-sizing: border-box;
         }
-
-        /* Definisi Warna */
         :root {
             --main-blue: #2196F3;
             --main-blue-light: rgba(33, 150, 243, 0.4);
@@ -30,26 +28,19 @@
             --tab-border: #3d3d3d;
             --warning-orange: #FF9800;
             --store-gold: #FFC107; 
-            --weather-teal: #00BCD4; 
         }
-
-        /* CSS UMUM */
         body { 
             background: 
                 radial-gradient(circle at center, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
                 linear-gradient(135deg, var(--bg-dark-1) 0%, var(--bg-dark-2) 50%, var(--bg-dark-1) 100%);
-            
             background-size: 15px 15px;
             background-attachment: fixed;
-            
             color: var(--text-light); 
             font-family: 'Poppins', sans-serif; 
             text-align: center; 
             padding: 50px 20px 150px; 
             min-height: 100vh;
         }
-        
-        /* FIX KRUSIAL: Menjaga background gelap dan mengunci scroll saat modal terbuka */
         body.modal-open { 
             overflow: hidden; 
             background: 
@@ -58,7 +49,6 @@
             background-size: 15px 15px !important;
             background-attachment: fixed !important;
         }
-        
         .container { 
             max-width: 400px; 
             margin: 0 auto; 
@@ -70,8 +60,6 @@
                 0 0 20px var(--main-blue-light); 
             border: 1px solid var(--border-dark);
         }
-        
-        /* LOGO (H1) */
         h1 { 
             font-size: 40px; 
             margin-bottom: 5px; 
@@ -83,7 +71,6 @@
             text-fill-color: transparent;
             text-shadow: 0 0 15px var(--main-blue-light), 0 0 3px var(--main-blue); 
         }
-        
         .description { 
             color: #81D4FA;
             font-size: 13px;
@@ -91,45 +78,14 @@
             margin-top: 5px;
             margin-bottom: 20px; 
         }
-        
-        /* --- WIDGET CUACA & WAKTU --- */
-        .weather-widget {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 10px 15px;
-            margin-bottom: 30px;
-            background: var(--bg-dark-2);
-            border-radius: 8px;
-            border: 1px solid var(--weather-teal);
-            box-shadow: 0 0 10px rgba(0, 188, 212, 0.3);
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--weather-teal);
-        }
-
-        .weather-info, .time-info {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .weather-icon, .time-icon {
-            font-size: 20px;
-            color: var(--weather-teal);
-        }
-
-        /* Status Server & Lainnya */
-        .server-status { margin: 20px 0; font-size: 18px; font-weight: 600; }
+        .server-status { margin: 10px 0 20px 0; font-size: 18px; font-weight: 600; }
         #status-text { 
-            color: var(--main-blue);
+            /* Warna dan bayangan akan diatur oleh JS (defaultnya UP) */
             font-weight: 800; 
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3); 
+            transition: color 0.5s, text-shadow 0.5s; /* Animasi status */
         }
         .host-section { margin-top: 30px; text-align: left; }
         .host-section h2 { color: var(--text-dark); margin-bottom: 15px; font-weight: 400; }
-        
-        /* Tombol Aksi Utama & Cooldown */
         .action-button {
             width: 100%; 
             padding: 15px; 
@@ -166,10 +122,7 @@
             background-color: #404040 !important; 
             box-shadow: none !important;
         }
-
         .note { font-size: 12px; color: var(--text-dark); margin-top: -5px; margin-bottom: 10px; text-align: left; padding-left: 10px; }
-
-        /* CSS TAB KONEKSI */
         .tabs-container { margin-top: 20px; }
         .tab-buttons { display: flex; margin-bottom: 10px; }
         .tab-button {
@@ -222,9 +175,6 @@
             font-size: 12px;
             margin-top: 10px;
         }
-
-        /* --- FLOATING BUTTONS (Kiri Bawah & Kanan Bawah) --- */
-        /* Z-INDEX DITINGKATKAN AGAR TIDAK TERTUTUP MODAL/KOTAK KONTEN */
         .floating-button {
             position: fixed;
             padding: 10px 15px; 
@@ -240,21 +190,14 @@
             gap: 8px;
             font-size: 14px; 
         }
-        
-        /* Posisi & Warna Kiri */
         #floating-guide-button { bottom: 20px; left: 20px; background-color: var(--main-blue); color: white; }
         #floating-guide-button:hover { background-color: #1976D2; }
         #floating-feature-button { bottom: 70px; left: 20px; background-color: #FF9800; color: white; }
         #floating-feature-button:hover { background-color: #F57C00; }
-
-        /* Posisi & Warna Kanan */
         #floating-social-button { bottom: 20px; right: 20px; background-color: #555; color: white; }
         #floating-social-button:hover { background-color: #666; }
-        /* Tombol Store (Overlay Besar) */
         #floating-store-button { bottom: 70px; right: 20px; background-color: var(--store-gold); color: #212121; }
         #floating-store-button:hover { background-color: #FFB300; }
-
-        /* --- MODAL FULL-SCREEN (Universal untuk semua floating content) --- */
         .full-screen-modal {
             position: fixed;
             top: 0;
@@ -264,18 +207,17 @@
             background-color: rgba(0, 0, 0, 0.95); 
             backdrop-filter: blur(5px);
             z-index: 9999;
-            display: none; /* Default hidden */
+            display: none; 
             overflow-y: auto; 
             padding: 10px;
             align-items: flex-start; 
             justify-content: center;
         }
-
         .modal-content-wrapper {
             position: relative;
             background-color: var(--bg-card); 
             border-radius: 12px;
-            border: 3px solid var(--store-gold); /* Warna border modal utama */
+            border: 3px solid var(--store-gold); 
             box-shadow: 0 0 40px rgba(255, 193, 7, 0.4);
             width: 95%; 
             max-width: 650px; 
@@ -283,13 +225,9 @@
             padding: 25px;
             text-align: center;
         }
-        
-        /* Style Spesifik untuk Modal Selain Toko (Optional) */
-        #full-feature-modal .modal-content-wrapper { border-color: var(--main-blue); box-shadow: 0 0 40px var(--main-blue-dark); }
-        #full-guide-modal .modal-content-wrapper { border-color: #FF9800; box-shadow: 0 0 40px rgba(255, 152, 0, 0.4); }
-        #full-social-modal .modal-content-wrapper { border-color: #555; box-shadow: 0 0 40px rgba(85, 85, 85, 0.4); }
-
-
+        #full-feature-modal .modal-content-wrapper { border-color: var(--warning-orange); box-shadow: 0 0 40px rgba(255, 152, 0, 0.4); }
+        #full-guide-modal .modal-content-wrapper { border-color: var(--main-blue); box-shadow: 0 0 40px var(--main-blue-dark); }
+        #full-social-modal .modal-content-wrapper { border-color: #888; box-shadow: 0 0 40px rgba(85, 85, 85, 0.4); }
         .close-button {
             position: absolute;
             top: 10px;
@@ -304,7 +242,6 @@
             z-index: 10000;
         }
         .close-button:hover { color: #FF0000; }
-
         .modal-section {
             margin-bottom: 25px;
             padding: 15px;
@@ -314,7 +251,6 @@
             border: 1px solid var(--border-dark);
             text-align: left;
         }
-
         .modal-section h3 {
             color: var(--store-gold);
             font-size: 18px;
@@ -323,8 +259,6 @@
             padding-bottom: 5px;
             font-weight: 700;
         }
-        
-        /* Item List Styling (Dipakai di Modal Feature) */
         .item-list {
             list-style-type: none;
             padding: 0;
@@ -345,8 +279,6 @@
             color: var(--main-blue);
             font-size: 18px;
         }
-
-        /* Social Media Styling (Dipakai di Modal Social) */
         .social-links {
             display: flex;
             flex-direction: column;
@@ -369,8 +301,6 @@
         #discord-button-large { background-color: #7289DA; }
         #whatsapp-button-large { background-color: #25D366; }
         #telegram-button-large { background-color: #0088CC; } 
-        
-        /* --- QRIS & Store Item Styling (Dipakai di Modal Toko) --- */
         .qris-container { text-align: center; margin-bottom: 10px; padding: 5px; background-color: var(--bg-button); border-radius: 8px; }
         .qris-image { width: 100%; max-width: 200px; height: auto; border-radius: 6px; border: 5px solid #009688; padding: 10px; background-color: white; box-shadow: 0 0 15px rgba(0, 150, 136, 0.7); }
         .qris-instruction { font-size: 14px; color: var(--text-light); margin: 10px 0; font-weight: 500; }
@@ -385,25 +315,13 @@
         .store-item-button.custom-item .price-tag { color: #FFECB3; }
     </style>
 </head>
-<body onload="updateWeatherWidget()">
+<body>
     <div class="container">
         <h1>GrowRushPS</h1>
         <p class="description">Rasakan pengalaman bermain di Growtopia private server dengan gameplay seru dan sistem yang stabil</p>
 
-        <div class="weather-widget">
-            <div class="weather-info">
-                <span class="weather-icon"><i class="fas fa-sun"></i></span>
-                <span id="weather-text">Cerah</span> | <span id="temperature-text">28°C</span>
-            </div>
-            <div class="time-info">
-                <span class="time-icon"><i class="fas fa-clock"></i></span>
-                <span id="time-text">00:00:00</span>
-            </div>
-        </div>
-
         <div class="server-status">
-            Status Server: <span id="status-text">UP</span>
-        </div>
+            Status Server: <span id="status-text">Memuat...</span> </div>
 
         <div class="host-section">
             <h2>HOST & DOWNLOAD</h2>
@@ -556,7 +474,7 @@
             <div class="modal-section">
                 <h3 style="color: var(--warning-orange);">⚔️ Komunitas & Event</h3>
                 <ul class="item-list">
-                    <li><i class="fas fa-trophy" style="color: var(--warning-orange);"></i> **Event Mingguan:** PVP Arena, Parkour Race, dan Minigames berhadiah.</li>
+                    <li><i class="fas fa-trophy" style="color: var(--warning-orange);"></i> **Event Mingguan:** PVP Arena, Parkour Race, dan Minigames berhadiah Setiap Minggu.</li>
                     <li><i class="fab fa-discord" style="color: var(--warning-orange);"></i> **Komunitas Aktif:** Server Discord yang ramai dan suportif.</li>
                     <li><i class="fas fa-shield-alt" style="color: var(--warning-orange);"></i> **Anti Cheat Maksimal:** Pengalaman bermain yang adil dan bersih.</li>
                 </ul>
@@ -625,26 +543,38 @@
         const COOLDOWN_SECONDS = 4;
         const ADMIN_WA_NUMBER = '6281234567890'; // GANTI dengan nomor WA Admin Anda
 
-        // --- FUNGSI WIDGET CUACA & WAKTU BARU ---
-        function updateWeatherWidget() {
-            // Logika dummy
-            const weather = {
-                text: "Cerah",
-                icon: "fas fa-sun",
-                temp: "28°C"
-            };
+        // --- FUNGSI CHECK STATUS SERVER DINAMIS ---
+        async function checkServerStatus() {
+            const statusTextElement = document.getElementById('status-text');
+            
+            // PASTIKAN ENDPOINT INI SESUAI DENGAN LOKASI API ANDA (misalnya: /api/checkstatus)
+            const API_ENDPOINT = '/api/checkstatus'; 
 
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+            statusTextElement.textContent = 'Memuat...';
+            statusTextElement.style.color = '#FFC107'; 
+            statusTextElement.style.textShadow = '0 0 5px rgba(255, 193, 7, 0.5)';
 
-            document.getElementById('weather-text').textContent = weather.text;
-            document.getElementById('temperature-text').textContent = weather.temp;
-            document.querySelector('.weather-icon').innerHTML = `<i class="${weather.icon}"></i>`;
-            document.getElementById('time-text').textContent = timeString;
+            try {
+                const response = await fetch(API_ENDPOINT);
+                const data = await response.json();
 
-            setTimeout(updateWeatherWidget, 1000);
+                if (data.success && data.server.status === 'online') {
+                    statusTextElement.textContent = 'UP';
+                    statusTextElement.style.color = '#4CAF50'; // Hijau
+                    statusTextElement.style.textShadow = '0 0 5px rgba(76, 175, 80, 0.5)';
+                } else {
+                    statusTextElement.textContent = 'DOWN';
+                    statusTextElement.style.color = '#F44336'; // Merah
+                    statusTextElement.style.textShadow = '0 0 5px rgba(244, 67, 54, 0.5)';
+                }
+            } catch (error) {
+                console.error("Gagal terhubung ke API:", error);
+                statusTextElement.textContent = 'ERROR API';
+                statusTextElement.style.color = '#FF9800'; // Orange
+                statusTextElement.style.textShadow = '0 0 5px rgba(255, 152, 0, 0.5)';
+            }
         }
-
+        
         // --- FUNGSI UTILITY COOLDOWN ---
         function applyCooldown(buttonElement, originalContent) {
             let timeLeft = COOLDOWN_SECONDS;
@@ -717,6 +647,9 @@
         }
         
         window.addEventListener('DOMContentLoaded', (event) => {
+            // Panggil cek status server
+            checkServerStatus(); 
+            // Inisialisasi tab guide
             document.getElementById('PowerTunnel').classList.remove('hidden');
             const defaultButton = document.querySelector('.tab-button');
             if (defaultButton) {
@@ -724,14 +657,7 @@
             }
         });
         
-        // FUNGSI SCROLL
-        function scrollToTabs() {
-            document.getElementById('tabs-container').scrollIntoView({ behavior: 'smooth' });
-        }
-
-
-        // --- FUNGSI UNIVERSAL MODAL FULL-SCREEN ---
-
+        // FUNGSI MODAL FULL-SCREEN
         const ALL_MODALS = ['full-store-modal', 'full-feature-modal', 'full-guide-modal', 'full-social-modal'];
 
         function closeAllModals() {
@@ -744,17 +670,13 @@
         }
 
         function openFullModal(modalId) {
-            // Tutup semua modal lain terlebih dahulu (meskipun hanya 1 yang harusnya terbuka)
             closeAllModals(); 
-            
             document.getElementById(modalId).style.display = 'flex';
-            // Kunci scroll body
             document.body.classList.add('modal-open'); 
         }
 
         function closeFullModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
-            // Kembalikan scroll body
             document.body.classList.remove('modal-open'); 
         }
 
