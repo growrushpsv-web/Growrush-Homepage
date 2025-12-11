@@ -52,7 +52,7 @@
             min-height: 100vh;
         }
 
-        /* EFEK DEKORASI KRUSIAL BARU: GLOW ELEGAN */
+        /* EFEK DEKORASI KRUSIAL LEVEL 1: GLOW ELEGAN */
         body::before {
             content: '';
             position: fixed;
@@ -60,17 +60,55 @@
             left: 50%;
             width: 600px; /* Ukuran besar */
             height: 600px;
-            background: radial-gradient(circle, rgba(33, 150, 243, 0.2) 0%, rgba(33, 150, 243, 0) 70%); /* Biru transparan */
-            filter: blur(120px); /* Efek blur yang sangat kuat dan lebih besar */
+            background: radial-gradient(circle, rgba(33, 150, 243, 0.25) 0%, rgba(33, 150, 243, 0) 70%); /* Biru transparan lebih terang */
+            filter: blur(140px); /* Efek blur yang sangat kuat dan lebih besar */
             transform: translate(-50%, -50%);
             z-index: -1; /* Di belakang konten */
-            pointer-events: none; /* Tidak mengganggu interaksi */
+            pointer-events: none;
             animation: pulseGlow 20s infinite alternate; /* Animasi lembut */
         }
         
         @keyframes pulseGlow {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-            100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.9; }
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
+            100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+        }
+        
+        /* LAPISAN DEKORASI KRUSIAL LEVEL 2: ANIMASI GARIS FUTURISTIK */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(33, 150, 243, 0.05),
+                rgba(33, 150, 243, 0.05) 1px,
+                transparent 1px,
+                transparent 30px
+            ),
+            repeating-linear-gradient(
+                90deg,
+                rgba(33, 150, 243, 0.05),
+                rgba(33, 150, 243, 0.05) 1px,
+                transparent 1px,
+                transparent 30px
+            );
+            background-size: 100% 100%, 100% 100%;
+            z-index: -2; /* Di belakang body::before */
+            animation: moveGrid 30s linear infinite;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        @keyframes moveGrid {
+            from {
+                background-position: 0 0, 0 0;
+            }
+            to {
+                background-position: 300px 300px, 300px 300px; /* Bergerak perlahan */
+            }
         }
         
         /* FIX KRUSIAL: Menjaga background gelap dan mengunci scroll saat modal terbuka */
@@ -95,8 +133,36 @@
                 0 4px 15px rgba(0, 0, 0, 0.8),
                 0 0 20px var(--main-blue-light);
             border: 1px solid var(--border-dark);
+            
+            /* DEKORASI BARU: CONTAINER BORDER GLOW ANIMASI */
+            position: relative; 
+            overflow: hidden; 
         }
-        
+
+        /* DEKORASI: ANIMASI BORDER CONTAINER UTAMA */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            bottom: -5px;
+            left: -5px;
+            border: 3px solid transparent;
+            border-radius: 15px; 
+            background: linear-gradient(45deg, #2196F3, #FFC107, #2196F3); /* Gradien Warna Dinamis */
+            background-size: 400% 400%;
+            filter: blur(8px);
+            z-index: -1;
+            animation: neonBorder 15s ease infinite;
+        }
+
+        @keyframes neonBorder {
+            0% { background-position: 0% 50%; opacity: 0.6; }
+            50% { background-position: 100% 50%; opacity: 1; }
+            100% { background-position: 0% 50%; opacity: 0.6; }
+        }
+
+
         /* LOGO (H1) */
         h1 { 
             font-size: 40px;
@@ -721,8 +787,6 @@
         /* ❗ AKHIR GANTI NOMOR WHATSAPP ❗
         */
 
-        // Catatan: Fungsi initHardcodedStatus dihapus karena status 'UP' sudah di-hardcode di HTML.
-        
         // --- FUNGSI UTILITY COOLDOWN ---
         function applyCooldown(buttonElement, originalContent) {
             let timeLeft = COOLDOWN_SECONDS;
