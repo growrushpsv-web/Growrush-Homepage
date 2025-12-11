@@ -53,7 +53,7 @@ body::before {
     filter: blur(140px); /* Efek blur yang sangat kuat dan lebih besar */
     transform: translate(-50%, -50%);
     z-index: -1; /* Di belakang konten */
-    pointer-events: none; /* Sudah ada */
+    pointer-events: none;
     animation: pulseGlow 20s infinite alternate; /* Animasi lembut */
 }
 
@@ -87,7 +87,7 @@ body::after {
     background-size: 100% 100%, 100% 100%;
     z-index: -2; /* Di belakang body::before */
     animation: moveGrid 30s linear infinite;
-    pointer-events: none; /* Sudah ada */
+    pointer-events: none;
     opacity: 0.5;
 }
 
@@ -222,6 +222,10 @@ h1 {
     min-height: 50px; 
     /* Tambahan untuk tag <a> */
     text-decoration: none;
+    
+    /* FIX KRUSIAL: Memastikan tombol berada di atas elemen pseudo kontainer */
+    position: relative; 
+    z-index: 1; 
 }
 .action-button:hover { 
     background-color: var(--bg-button-hover);
