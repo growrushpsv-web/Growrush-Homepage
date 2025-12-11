@@ -51,6 +51,27 @@
             padding: 50px 20px 150px; 
             min-height: 100vh;
         }
+
+        /* EFEK DEKORASI KRUSIAL BARU: GLOW ELEGAN */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 600px; /* Ukuran besar */
+            height: 600px;
+            background: radial-gradient(circle, rgba(33, 150, 243, 0.2) 0%, rgba(33, 150, 243, 0) 70%); /* Biru transparan */
+            filter: blur(120px); /* Efek blur yang sangat kuat dan lebih besar */
+            transform: translate(-50%, -50%);
+            z-index: -1; /* Di belakang konten */
+            pointer-events: none; /* Tidak mengganggu interaksi */
+            animation: pulseGlow 20s infinite alternate; /* Animasi lembut */
+        }
+        
+        @keyframes pulseGlow {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.9; }
+        }
         
         /* FIX KRUSIAL: Menjaga background gelap dan mengunci scroll saat modal terbuka */
         body.modal-open { 
