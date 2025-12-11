@@ -9,7 +9,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
-        /* FIX KRUSIAL: Mencegah overflow padding */
+        /* ======================================================= */
+        /* === KRUSIAL FIX: Z-INDEX, LAYER, DAN FUNGSI TOMBOL ==== */
+        /* ======================================================= */
+        
         * {
             box-sizing: border-box;
         }
@@ -32,18 +35,14 @@
             --store-gold: #FFC107;
         }
 
-        /* CSS UMUM (BACKGROUND HD/ELEGANT BARU) */
+        /* CSS UMUM */
         body { 
-            /* BACKGROUND BARU: Kombinasi Gradien Dalam dan Tekstur 'Bintang' */
+            /* BACKGROUND: Kombinasi Gradien Dalam dan Tekstur 'Bintang' */
             background: 
-                /* Lapisan 1: Gradien yang sangat gelap dan kaya (untuk kesan mendalam) */
-                linear-gradient(160deg, #0a0a0f 0%, #1c1c2a 50%, #0a0a0f 100%),
-                /* Lapisan 2: Tekstur Bintang/Titik halus */
-                radial-gradient(circle at center, rgba(33, 150, 243, 0.05) 1px, transparent 1px);
-                
-            background-size: 100% 100%, 40px 40px; /* Ukuran 100% untuk gradien, 40px untuk tekstur bintang */
+                radial-gradient(circle at center, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+                linear-gradient(135deg, var(--bg-dark-1) 0%, var(--bg-dark-2) 50%, var(--bg-dark-1) 100%);
+            background-size: 15px 15px;
             background-attachment: fixed;
-            background-repeat: no-repeat, repeat; /* Gradien tidak diulang, tekstur diulang */
             
             color: var(--text-light); 
             font-family: 'Poppins', sans-serif; 
@@ -52,77 +51,16 @@
             min-height: 100vh;
         }
 
-        /* EFEK DEKORASI KRUSIAL LEVEL 1: GLOW ELEGAN */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            width: 600px; /* Ukuran besar */
-            height: 600px;
-            background: radial-gradient(circle, rgba(33, 150, 243, 0.25) 0%, rgba(33, 150, 243, 0) 70%); /* Biru transparan lebih terang */
-            filter: blur(140px); /* Efek blur yang sangat kuat dan lebih besar */
-            transform: translate(-50%, -50%);
-            z-index: -1; /* Di belakang konten */
-            pointer-events: none;
-            animation: pulseGlow 20s infinite alternate; /* Animasi lembut */
-        }
-        
-        @keyframes pulseGlow {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
-            100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
-        }
-        
-        /* LAPISAN DEKORASI KRUSIAL LEVEL 2: ANIMASI GARIS FUTURISTIK */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(33, 150, 243, 0.05),
-                rgba(33, 150, 243, 0.05) 1px,
-                transparent 1px,
-                transparent 30px
-            ),
-            repeating-linear-gradient(
-                90deg,
-                rgba(33, 150, 243, 0.05),
-                rgba(33, 150, 243, 0.05) 1px,
-                transparent 1px,
-                transparent 30px
-            );
-            background-size: 100% 100%, 100% 100%;
-            z-index: -2; /* Di belakang body::before */
-            animation: moveGrid 30s linear infinite;
-            pointer-events: none;
-            opacity: 0.5;
-        }
-
-        @keyframes moveGrid {
-            from {
-                background-position: 0 0, 0 0;
-            }
-            to {
-                background-position: 300px 300px, 300px 300px; /* Bergerak perlahan */
-            }
-        }
-        
         /* FIX KRUSIAL: Menjaga background gelap dan mengunci scroll saat modal terbuka */
         body.modal-open { 
             overflow: hidden;
-            /* Pastikan modal-open menggunakan background yang sama */
             background: 
-                linear-gradient(160deg, #0a0a0f 0%, #1c1c2a 50%, #0a0a0f 100%),
-                radial-gradient(circle at center, rgba(33, 150, 243, 0.05) 1px, transparent 1px) !important;
-            background-size: 100% 100%, 40px 40px !important;
+                radial-gradient(circle at center, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+                linear-gradient(135deg, var(--bg-dark-1) 0%, var(--bg-dark-2) 50%, var(--bg-dark-1) 100%) !important;
+            background-size: 15px 15px !important;
             background-attachment: fixed !important;
-            background-repeat: no-repeat, repeat !important;
         }
-        
+
         .container { 
             max-width: 400px;
             margin: 0 auto; 
@@ -133,35 +71,10 @@
                 0 4px 15px rgba(0, 0, 0, 0.8),
                 0 0 20px var(--main-blue-light);
             border: 1px solid var(--border-dark);
-            
-            /* DEKORASI BARU: CONTAINER BORDER GLOW ANIMASI */
+            /* KRUSIAL FIX: Tambahkan posisi relatif dan z-index */
             position: relative; 
-            overflow: hidden; 
+            z-index: 5;
         }
-
-        /* DEKORASI: ANIMASI BORDER CONTAINER UTAMA */
-        .container::before {
-            content: '';
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            bottom: -5px;
-            left: -5px;
-            border: 3px solid transparent;
-            border-radius: 15px; 
-            background: linear-gradient(45deg, #2196F3, #FFC107, #2196F3); /* Gradien Warna Dinamis */
-            background-size: 400% 400%;
-            filter: blur(8px);
-            z-index: -1;
-            animation: neonBorder 15s ease infinite;
-        }
-
-        @keyframes neonBorder {
-            0% { background-position: 0% 50%; opacity: 0.6; }
-            50% { background-position: 100% 50%; opacity: 1; }
-            100% { background-position: 0% 50%; opacity: 0.6; }
-        }
-
 
         /* LOGO (H1) */
         h1 { 
@@ -175,7 +88,7 @@
             text-fill-color: transparent;
             text-shadow: 0 0 15px var(--main-blue-light), 0 0 3px var(--main-blue); 
         }
-        
+
         .description { 
             color: #81D4FA;
             font-size: 13px;
@@ -183,21 +96,20 @@
             margin-top: 5px;
             margin-bottom: 20px; 
         }
-        
+
         /* Status Server & Lainnya */
         .server-status { margin: 10px 0 20px 0;
             font-size: 18px; font-weight: 600; }
         #status-text { 
-            /* Warna dan bayangan sudah diatur inline di HTML agar langsung 'UP' */
             font-weight: 800;
-            transition: color 0.5s, text-shadow 0.5s; /* Animasi status */
+            transition: color 0.5s, text-shadow 0.5s; 
         }
         .host-section { margin-top: 30px;
             text-align: left; }
         .host-section h2 { color: var(--text-dark); margin-bottom: 15px; font-weight: 400;
             }
         
-        /* DEKORASI KRUSIAL BARU: GLOWING SEPARATOR */
+        /* GLOWING SEPARATOR */
         .host-section::after {
             content: '';
             display: block;
@@ -205,7 +117,7 @@
             height: 2px;
             background: linear-gradient(90deg, rgba(33, 150, 243, 0) 0%, #2196F3 50%, rgba(33, 150, 243, 0) 100%);
             box-shadow: 0 0 10px var(--main-blue);
-            margin: 25px 0 15px; /* Add margin to separate */
+            margin: 25px 0 15px; 
         }
 
         /* Tombol Aksi Utama & Cooldown */
@@ -228,8 +140,10 @@
             white-space: normal;
             text-align: left;
             min-height: 50px; 
-            /* Tambahan untuk tag <a> */
             text-decoration: none;
+            /* KRUSIAL FIX: Pastikan tombol di atas elemen lain di container */
+            position: relative; 
+            z-index: 10; 
         }
         .action-button:hover { 
             background-color: var(--bg-button-hover);
@@ -253,7 +167,10 @@
 
         /* CSS TAB KONEKSI */
         .tabs-container { margin-top: 20px;
-            }
+            /* KRUSIAL FIX: Pastikan container tab di atas */
+            position: relative;
+            z-index: 10;
+        }
         .tab-buttons { display: flex; margin-bottom: 10px;
             }
         .tab-button {
@@ -269,18 +186,23 @@
             font-size: 11px; 
             margin: 0 1px;
             min-width: 0;
+            /* KRUSIAL FIX: Pastikan tombol tab bisa diklik */
+            position: relative;
+            z-index: 1;
         }
         .tab-button.active {
             background-color: var(--tab-border);
             color: var(--main-blue);
             border-bottom: 3px solid var(--main-blue);
         }
-        /* MODIFIKASI: Membuat Tab Content Transparan */
         .tab-content {
             padding: 15px;
-            background-color: transparent; /* Sekarang benar-benar transparan */
-            border-radius: 0; 
+            background-color: var(--bg-button); 
+            border-radius: 0 0 8px 8px;
             text-align: left;
+            /* KRUSIAL FIX: Pastikan konten tab (jika ada link di dalamnya) bisa diakses */
+            position: relative;
+            z-index: 1;
         }
         .tab-content.hidden {
             display: none;
@@ -295,7 +217,7 @@
             list-style-type: decimal;
             margin-left: 20px;
             font-size: 13px;
-            color: var(--text-light); /* Diubah ke light agar terbaca jelas di background container */
+            color: var(--text-light);
             text-align: left;
             padding-left: 0;
         }
@@ -308,7 +230,7 @@
             margin-top: 10px;
         }
 
-        /* --- FLOATING BUTTONS (Kiri Bawah & Kanan Bawah) --- */
+        /* --- FLOATING BUTTONS --- */
         .floating-button {
             position: fixed;
             padding: 10px 15px; 
@@ -317,14 +239,14 @@
             cursor: pointer;
             font-weight: 700;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-            z-index: 1001; 
+            z-index: 1001; /* Z-index sangat tinggi agar selalu di atas */
             transition: background-color 0.3s;
             display: flex;
             align-items: center;
             gap: 8px;
             font-size: 14px;
         }
-        
+
         /* Posisi & Warna Kiri */
         #floating-guide-button { bottom: 20px;
             left: 20px; background-color: var(--main-blue); color: white; }
@@ -346,7 +268,7 @@
         #floating-store-button:hover { background-color: #FFB300;
         }
 
-        /* --- MODAL FULL-SCREEN (Universal) --- */
+        /* --- MODAL FULL-SCREEN --- */
         .full-screen-modal {
             position: fixed;
             top: 0;
@@ -357,7 +279,6 @@
             backdrop-filter: blur(5px);
             z-index: 9999;
             display: none;
-            /* Default hidden */
             overflow-y: auto; 
             padding: 10px;
             align-items: flex-start; 
@@ -375,8 +296,10 @@
             margin: 20px auto; 
             padding: 25px;
             text-align: center;
+            /* KRUSIAL FIX: Pastikan modal content di atas latar belakang modal */
+            z-index: 1;
         }
-        
+
         /* Style Spesifik untuk Modal Selain Toko (Optional) */
         #full-feature-modal .modal-content-wrapper { border-color: var(--warning-orange);
             box-shadow: 0 0 40px rgba(255, 152, 0, 0.4); }
@@ -420,7 +343,7 @@
             padding-bottom: 5px;
             font-weight: 700;
         }
-        
+
         /* Item List Styling (Dipakai di Modal Feature) */
         .item-list {
             list-style-type: none;
@@ -461,6 +384,9 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5); 
+            /* KRUSIAL FIX: Pastikan tombol sosial bisa diklik */
+            position: relative;
+            z-index: 1;
         }
         .social-button-large:hover { opacity: 0.8;
         }
@@ -470,10 +396,12 @@
         }
         #telegram-button-large { background-color: #0088CC;
         } 
-        
+
         /* --- QRIS & Store Item Styling (Dipakai di Modal Toko) --- */
         .qris-container { text-align: center;
-            margin-bottom: 10px; padding: 5px; background-color: var(--bg-button); border-radius: 8px; }
+            margin-bottom: 10px; padding: 5px; background-color: var(--bg-button); border-radius: 8px; 
+            position: relative; z-index: 1;
+        }
         .qris-image { 
             width: 100%;
             max-width: 200px; 
@@ -485,19 +413,28 @@
             box-shadow: 0 0 15px rgba(0, 150, 136, 0.7); 
             
             /* ❗ GANTI TAUTAN GAMBAR QRIS DI SINI ❗ */
-            content: url(https://via.placeholder.com/200x200?text=GANTI+DENGAN+QRIS+ASLI);
+            content: url(https://via.placeholder.com/200x200?text=QRIS+ANDA);
             /* ❗ AKHIR GANTI TAUTAN GAMBAR QRIS ❗ */
         }
         .qris-instruction { font-size: 14px;
             color: var(--text-light); margin: 10px 0; font-weight: 500; }
         .qris-note-action { display: block;
             margin-top: 15px; padding: 10px; background-color: var(--main-blue); border-radius: 6px; font-size: 14px; font-weight: 700; color: white; text-decoration: none; text-align: center;
-            transition: opacity 0.3s; }
+            transition: opacity 0.3s; 
+            /* KRUSIAL FIX: Pastikan tombol ini bisa diklik */
+            position: relative;
+            z-index: 1;
+        }
         .qris-note-action:hover { opacity: 0.8;
         }
-        .store-item-button { width: 100%; padding: 12px; margin-bottom: 10px; background-color: var(--bg-button); color: var(--text-light);
+        .store-item-button { 
+            width: 100%; padding: 12px; margin-bottom: 10px; background-color: var(--bg-button); color: var(--text-light);
             border: 1px solid var(--border-dark); border-radius: 8px; cursor: pointer; transition: background-color 0.2s, border-color 0.2s, transform 0.2s; font-size: 14px; font-weight: 600;
-            display: flex; justify-content: space-between; align-items: center; text-align: left; }
+            display: flex; justify-content: space-between; align-items: center; text-align: left; 
+            /* KRUSIAL FIX: Pastikan tombol item toko bisa diklik */
+            position: relative;
+            z-index: 1;
+        }
         .store-item-button:hover { background-color: var(--bg-button-hover);
             border-color: var(--store-gold); transform: translateY(-2px); }
         .store-item-button .price-tag { color: var(--store-gold); font-weight: 800;
@@ -513,371 +450,198 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>GrowRushPS</h1>
-        <p class="description">Rasakan pengalaman bermain di Growtopia private server dengan gameplay seru dan sistem yang stabil</p>
 
-        <div class="server-status">
-            Status Server: <span id="status-text" style="color: #4CAF50; text-shadow: 0 0 5px rgba(76, 175, 80, 0.5); font-weight: 800;">UP</span>
-        </div>
-
-        <div class="host-section">
-            <h2>HOST & DOWNLOAD</h2>
-     
-            <button class="action-button" onclick="copyIP(this, '15.235.227.241')">
-                <span class="icon-placeholder">📋</span> IP
-            </button>
-            
-            <a href="https://www.growrush.my.id/GrowRushPS.txt" download="GrowRushPS.txt" class="action-button">
-                <span class="icon-placeholder">💾</span> Virtual Host
-  
-            </a>
-            
-            <button class="action-button" onclick="copyOnly(this, 'https://www.growrush.my.id/GrowRushPS.txt', 'URL PowerTunnel berhasil disalin! Sekarang Anda dapat melanjutkan ke langkah instalasi.')">
-                <span class="icon-placeholder">🔗</span> PowerTunnel
-            </button>
-            
-          
-            <button class="action-button" onclick="window.location.href='hostgo://15.235.227.241/growtopia1.com,growtopia2.com,www.growtopia1.com,www.growtopia2.com'">
-                <span class="icon-placeholder">🌐</span> Host GO URL
-            </button>
-            
-            <button class="action-button" onclick="copyOnly(this, 'https://www.growrush.my.id/GrowRushPS.conf', 'URL Konfigurasi Host iOS kustom berhasil disalin!')">
-                <span class="icon-placeholder">🍏</span> iOS 
-           
-            </button>
-            <p class="note">⚠️ Rekomendasi klien iOS: Surge 5</p>
-        </div>
-
-        <div class="tabs-container" id="tabs-container">
-            <div class="tab-buttons">
-                <button class="tab-button active" onclick="openGuide(event, 'PowerTunnel')">⚙️ PowerTunnel</button>
-                <button class="tab-button" onclick="openGuide(event, 'iOS')">🍏 iOS (Surge 5)</button>
-       
-                <button class="tab-button" onclick="openGuide(event, 'Windows')">💻 Windows</button>
-            </div>
-
-            <div id="PowerTunnel" class="tab-content">
-                <p class="guide-title">⚙️ Panduan Penggunaan PowerTunnel:</p>
-                <ol class="guide-list">
-                    <li>Pertama, unduh Aplikasi PowerTunnel 
-                    dari tautan di tombol di atas.</li>
-                    <li>Kemudian, klik tombol PowerTunnel URL.
-                    Ini akan menyalin tautan host kustom Anda ke clipboard.</li>
-                    <li>Buka aplikasi PowerTunnel, klik ikon tiga garis, lalu klik ikon pengaturan host.</li>
-                    <li>Tempel URL host yang sudah disalin.
-                    Ubah periode pembaruan host dari 12 jam menjadi 'on start'.</li>
-                    <li>Sekarang, Anda bisa login ke GTPS (Growtopia Private Server) Anda!</li>
-                </ol>
-            </div>
-
-            <div id="iOS" class="tab-content hidden">
-                <p class="guide-title">🍏 Panduan 
-                Penggunaan iOS (Surge 5):</p>
-                <ol class="guide-list">
-                    <li>Unduh Aplikasi bernama: Surge 5 dari App Store.</li>
-                    <li>Setelah menginstal, tekan OK.</li>
-                    <li>Klik tombol iOS Host.
-                    Ini akan menyalin URL konfigurasi kustom Anda ke clipboard.</li>
-                    <li>Buka Surge, klik pada Default.conf.</li>
-                    <li>Klik bagian IMPORT - Unduh Profil dari URL.</li>
-                    <li>Tempel URL yang Anda salin, lalu klik OK dan Selesai.</li>
-            
-                    <li>Tekan SETUP (Pengaturan) dan setujui kebijakan dengan mengklik OK dan Izinkan untuk Konfigurasi VPN!</li>
-                    <li>Selesai, buka aplikasi Growtopia dan sambungkan!</li>
-                </ol>
-            </div>
-
-            <div id="Windows" class="tab-content hidden">
-           
-                <p class="guide-title">💻 Panduan Penggunaan Windows (Host File):</p>
-                <ol class="guide-list">
-                    <li>Tekan ⊞ Win+R (Tombol Windows + R) untuk membuka jendela Run (Jalankan).</li>
-                    <li>Ketik `C:\Windows\System32\drivers\etc` di kotak teks.</li>
-                 
-                    <li>Cari file bernama hosts.</li>
-                    <li>Klik kanan pada file hosts dan edit dengan Notepad atau editor teks.</li>
-                    <li>Tambahkan baris IP/Domain yang Anda dapatkan dari tombol Unduh Host di bagian paling bawah file.</li>
-                    <li>Kemudian Simpan (Save) dan segera login ke Growtopia Anda.</li>
- 
-                </ol>
-                <p class="admin-note">❗ PENTING: Anda harus menjalankan Notepad/editor teks sebagai Administrator agar dapat menyimpan perubahan pada file hosts.</p>
-            </div>
-        </div>
-
-    </div>
-    
-    <button id="floating-feature-button" class="floating-button" onclick="openFullModal('full-feature-modal')">
-        🌟 Fitur Unggulan
-    </button>
-    
- 
     <button id="floating-guide-button" class="floating-button" onclick="openFullModal('full-guide-modal')">
-        🎮 Cara Bermain
+        <i class="fas fa-book"></i> GUIDE
     </button>
-    
-    <button id="floating-store-button" class="floating-button" onclick="openFullModal('full-store-modal')">
-        🛒 Toko
+    <button id="floating-feature-button" class="floating-button" onclick="openFullModal('full-feature-modal')">
+        <i class="fas fa-list-check"></i> FITUR
     </button>
 
     <button id="floating-social-button" class="floating-button" onclick="openFullModal('full-social-modal')">
-        💬 Komunitas
+        <i class="fas fa-share-nodes"></i> SOSIAL
     </button>
+    <button id="floating-store-button" class="floating-button" onclick="openFullModal('full-store-modal')">
+        <i class="fas fa-dollar-sign"></i> STORE
+    </button>
+
+    <div class="container">
+        <h1>GROW RUSH PS</h1>
+        <p class="description">Server Private Growtopia Terbaik di Indonesia</p>
+
+        <div class="server-status">
+            STATUS: <span id="status-text" style="color: #66BB6A; text-shadow: 0 0 10px rgba(102, 187, 106, 0.7);">ONLINE</span>
+        </div>
+
+        <div class="host-section">
+            <h2><i class="fas fa-terminal"></i> DOWNLOAD & HOST</h2>
+
+            <a href="https://link-ke-virtual-host-anda.zip" class="action-button" download>
+                <span class="icon-placeholder"><i class="fas fa-download"></i></span>
+                <div>
+                    Download Virtual Host
+                </div>
+            </a>
+            <p class="note">Gunakan link ini jika link utama terblokir.</p>
+
+            <button class="action-button" onclick="window.open('https://link-ke-apk-anda.apk', '_blank')">
+                <span class="icon-placeholder"><i class="fas fa-mobile-screen-button"></i></span>
+                <div>
+                    Download GrowRushPS APK
+                </div>
+            </button>
+            <p class="note">Akses cepat khusus pengguna Android.</p>
+            
+            <button class="action-button" onclick="window.open('https://link-ke-pc-client-anda.zip', '_blank')">
+                <span class="icon-placeholder"><i class="fas fa-computer"></i></span>
+                <div>
+                    Download PC Client (Auto Inject)
+                </div>
+            </button>
+            <p class="note">Rekomendasi untuk pengguna PC/Laptop.</p>
+        </div>
+
+        <div class="host-section">
+            <h2><i class="fas fa-link"></i> GUIDE KONEKSI</h2>
+
+            <div class="tabs-container">
+                <div class="tab-buttons">
+                    <button class="tab-button" onclick="openGuide(event, 'PowerTunnel')">PowerTunnel</button>
+                    <button class="tab-button" onclick="openGuide(event, 'VirtualHost')">Virtual Host</button>
+                    <button class="tab-button" onclick="openGuide(event, 'PC')">PC Client</button>
+                </div>
+
+                <div id="PowerTunnel" class="tab-content">
+                    <p class="guide-title">Cara Koneksi menggunakan PowerTunnel:</p>
+                    <ol class="guide-list">
+                        <li>Install PowerTunnel dari Google Play Store.</li>
+                        <li>Buka PowerTunnel, lalu klik menu (tiga garis).</li>
+                        <li>Pilih "Settings", lalu "Tunnel Configuration".</li>
+                        <li>Di bagian *Host*, masukkan **gt.growrushps.xyz**.</li>
+                        <li>Aktifkan PowerTunnel dan buka Growtopia.</li>
+                    </ol>
+                </div>
+
+                <div id="VirtualHost" class="tab-content hidden">
+                    <p class="guide-title">Cara Koneksi menggunakan Virtual Host:</p>
+                    <ol class="guide-list">
+                        <li>Pastikan aplikasi Growtopia asli sudah ter-uninstall.</li>
+                        <li>Download dan install Growtopia MOD dari link di atas.</li>
+                        <li>Download file Virtual Host (di tombol Virtual Host).</li>
+                        <li>Ekstrak file zip/rar tersebut ke folder Growtopia Anda.</li>
+                        <li>Jalankan Growtopia MOD.</li>
+                    </ol>
+                </div>
+
+                <div id="PC" class="tab-content hidden">
+                    <p class="guide-title">Cara Koneksi menggunakan PC Client:</p>
+                    <ol class="guide-list">
+                        <li>Download PC Client melalui tombol di atas.</li>
+                        <li>Ekstrak file ZIP di folder mana pun.</li>
+                        <li>Jalankan file `.exe` yang sudah di-ekstrak.</li>
+                        <li>Client akan otomatis melakukan koneksi ke server.</li>
+                        <li>Jika error, pastikan Anda memiliki `.NET Framework` terbaru.</li>
+                    </ol>
+                    <p class="admin-note"><i class="fas fa-triangle-exclamation"></i> Hubungi admin jika koneksi PC gagal setelah mencoba langkah ini.</p>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="full-store-modal" class="full-screen-modal">
         <div class="modal-content-wrapper">
-            <button class="close-button" onclick="closeFullModal('full-store-modal')">✖</button>
-      
-            <h2 class="store-title" style="font-size: 24px;
-            margin-bottom: 20px;">🛒 GrowRushPS Store</h2>
+            <button class="close-button" onclick="closeFullModal('full-store-modal')">&times;</button>
+            <h2><i class="fas fa-box-open"></i> ITEM STORE</h2>
+            <p class="description">Semua pembelian diproses melalui Admin. Hubungi Admin setelah transfer!</p>
 
             <div class="modal-section">
-                <h3 style="color: #009688;"><i class="fas fa-qrcode"></i> 1. Pembayaran via QRIS (Deposit Nominal Bebas)</h3>
+                <h3>Metode Pembayaran (QRIS)</h3>
                 <div class="qris-container">
-                    
-                    
-                    <img src="https://via.placeholder.com/200x200?text=QRIS+SCAN+ME" alt="QRIS Payment" class="qris-image"> 
-                    <p class="qris-instruction" style="font-size: 15px;
-                    font-weight: 700;">
-                        Langkah 1: SCAN QRIS DI ATAS melalui aplikasi bank/dompet digital Anda, lalu Lakukan Pembayaran dengan nominal yang diinginkan.
-                    </p>
+                    <div class="qris-image" role="img" aria-label="QRIS Code for Payment"></div>
+                    <p class="qris-instruction">Scan QRIS di atas untuk Pembayaran (Semua Bank/E-Wallet)</p>
                 </div>
-                
-      
-                <p class="qris-instruction" style="color: #FFEB3B; font-weight: 600;
-                margin: 15px 0;">
-                    ⚠️ PENTING: PASTIKAN PEMBAYARAN SUDAH BERHASIL (mendapat notifikasi sukses) sebelum menekan tombol di bawah!
-                </p>
-
-                <a href="https://wa.me/6281234567890?text=Halo%20Admin%20GrowRushPS,%20saya%20sudah%20melakukan%20pembayaran%20via%20QRIS.%20Mohon%20proses%20deposit/pembelian%20saya.%0A%0A[Tulis%20Nominal%20dan%20Nama%20GT%20Anda]" target="_blank" class="qris-note-action">
-                    ✅ 2. Pembayaran Berhasil! Klik Di Sini untuk Konfirmasi ke 
-                    Admin
-                </a>
-                </div>
-
-            <div class="modal-section">
-                <h3><i class="fas fa-tags"></i> Beli Item Satuan (Chat Admin Otomatis)</h3>
-                
-               
-                <button class="store-item-button" onclick="promptPurchase('1 GrowRush Coin', 'Rp 1.000')">
-                    GrowRush Coin <span class="price-tag">Rp 1.000</span>
-                </button>
-                <button class="store-item-button" onclick="promptPurchase('Costum Title', 'Rp 25.000')">
-                    Costum Title <span class="price-tag">Rp 25.000</span>
-        
-                </button>
-                <button class="store-item-button onclick" onclick="promptPurchase('Costum Item', 'Rp 20.000')">
-                    Costum Item <span class="price-tag">Rp 20.000</span>
-                </button>
-                <button class="store-item-button custom-item" onclick="promptPurchase('Custom Role', 'Rp 50.000')">
-        
-                    Custom Role <span class="price-tag">Rp 50.000</span>
-                </button>
-
-                <p class="admin-note" style="text-align: center;
-                margin-top: 10px; font-size: 13px;">
-                    ❗ Setelah menekan tombol 'Beli', isi format dan Anda akan diarahkan ke WhatsApp Admin untuk pembayaran.
-                </p>
-            </div>
-        </div>
-    </div>
-    
-    <div id="full-feature-modal" class="full-screen-modal">
-        <div class="modal-content-wrapper" style="border-color: var(--warning-orange);">
- 
-            <button class="close-button" onclick="closeFullModal('full-feature-modal')">✖</button>
-            <h2 style="font-size: 24px;
-            margin-bottom: 20px; color: var(--warning-orange);"><i class="fas fa-star"></i> Fitur Unggulan Server</h2>
-
-            <div class="modal-section">
-                <h3 style="color: var(--warning-orange);">⭐ Sistem Eksklusif</h3>
-                <ul class="item-list">
-                    <li><i class="fas fa-hammer" style="color: var(--warning-orange);"></i> Crafting Unik: Kombinasikan item langka untuk membuat item-item eksklusif.</li>
-         
-                    <li><i class="fas fa-chart-line" style="color: var(--warning-orange);"></i> Ekonomi Stabil: Kontrol supply & demand untuk harga yang wajar dan anti-inflasi.</li>
-                    <li><i class="fas fa-gem" style="color: var(--warning-orange);"></i> Item Custom: Tampilan baru dan unik yang tidak ada di server lain.</li>
-                </ul>
-            </div>
-         
-    
-            <div class="modal-section">
-                <h3 style="color: var(--warning-orange);">⚔️ Komunitas & Event</h3>
-                <ul class="item-list">
-                    <li><i class="fas fa-trophy" style="color: var(--warning-orange);"></i> Event Mingguan: PVP Arena, Parkour Race, dan Minigames berhadiah Setiap Minggu.</li>
-           
-                    <li><i class="fab fa-discord" style="color: var(--warning-orange);"></i> Komunitas Aktif: Server Discord yang ramai dan suportif.</li>
-                    <li><i class="fas fa-shield-alt" style="color: var(--warning-orange);"></i> Anti Cheat Maksimal: Pengalaman bermain yang adil dan bersih.</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div id="full-guide-modal" 
-    class="full-screen-modal">
-        <div class="modal-content-wrapper" style="border-color: var(--main-blue);">
-            <button class="close-button" onclick="closeFullModal('full-guide-modal')">✖</button>
-            <h2 style="font-size: 24px;
-            margin-bottom: 20px; color: var(--main-blue);"><i class="fas fa-gamepad"></i> Panduan Lengkap Bermain</h2>
-
-            <div class="modal-section">
-                <h3 style="color: var(--main-blue);">1. Panduan Koneksi Awal</h3>
-                <p style="color: var(--text-dark);">Pilih metode koneksi di tab bawah, lalu ikuti langkahnya:</p>
-                <a href="#tabs-container" onclick="closeFullModal('full-guide-modal')" class="qris-note-action" style="background-color: var(--main-blue);">
-           
-                    Lihat Panduan Detail (Scroll ke Bawah)
+                <a href="https://wa.me/ADMIN_WA_NUMBER" target="_blank" class="qris-note-action" onclick="window.open(`https://wa.me/${ADMIN_WA_NUMBER}?text=Halo Admin, saya sudah melakukan transfer.`, '_blank'); return false;">
+                    <i class="fab fa-whatsapp"></i> KONFIRMASI PEMBAYARAN VIA WA
                 </a>
             </div>
-            
+
             <div class="modal-section">
-                <h3 style="color: var(--main-blue);">2. Petunjuk Awal di Game</h3>
-           
-                <ol class="guide-list" style="list-style-type: decimal; color: var(--text-light);">
-                    <li>Dapatkan Item Dasar: Cari world START untuk mendapatkan item awal gratis.</li>
-                    <li>Mulai Farming: Farm item awal untuk mendapatkan modal WL/DL pertama Anda.</li>
-                    <li>Cari World Populer: Kunjungi world seperti MARKET atau HUB untuk 
-                    berinteraksi dengan pemain lain dan mencari tahu harga item.</li>
-                    <li>Jual/Beli: Gunakan sistem trade atau market di world untuk transaksi item.</li>
-                </ol>
+                <h3>List Item Tersedia</h3>
+                
+                <button class="store-item-button vip-item" 
+                    onclick="promptPurchase('VIP Rank (30 Hari)', 'Rp 20.000')">
+                    VIP Rank (30 Hari) <span class="price-tag">Rp 20.000</span>
+                </button>
+                
+                <button class="store-item-button" 
+                    onclick="promptPurchase('500 Crystal', 'Rp 10.000')">
+                    500 Crystal <span class="price-tag">Rp 10.000</span>
+                </button>
+
+                <button class="store-item-button custom-item" 
+                    onclick="promptPurchase('Custom Item Name', 'Rp 50.000')">
+                    Custom Item/Lainnya <span class="price-tag">Rp 50.000</span>
+                </button>
+                
             </div>
         </div>
     </div>
 
     <div id="full-social-modal" class="full-screen-modal">
-        <div class="modal-content-wrapper" style="border-color: #888;">
-     
-            <button class="close-button" onclick="closeFullModal('full-social-modal')">✖</button>
-            <h2 style="font-size: 24px;
-            margin-bottom: 20px; color: #BBB;"><i class="fas fa-users"></i> Bergabunglah dengan Komunitas Kami!</h2>
+        <div class="modal-content-wrapper">
+            <button class="close-button" onclick="closeFullModal('full-social-modal')">&times;</button>
+            <h2><i class="fas fa-share-nodes"></i> SOSIAL MEDIA KAMI</h2>
+            <p class="description">Ikuti kami untuk informasi event dan update terbaru!</p>
 
-            <div class="modal-section">
-                <h3 style="color: #BBB;">Gabung di Platform Favoritmu:</h3>
-                <div class="social-links">
-                    <a href="https://discord.gg/kFDepPDe7G" target="_blank" id="discord-button-large" class="social-button-large">
-                
-                    <i class="fab fa-discord social-icon" style="margin-right: 15px;
-                    font-size: 24px;"></i> Discord Server (Paling Aktif)
-                    </a>
-                    <a href=https://chat.whatsapp.com/Elq453EwzudLyUIi4nuDik" target="_blank" id="whatsapp-button-large" class="social-button-large">
-                        <i class="fab fa-whatsapp social-icon" style="margin-right: 15px; font-size: 24px;"></i> Grup WhatsApp
-                  
-                    </a>
-                    <a href="https://t.me/yourtelegramchannel" target="_blank" id="telegram-button-large" class="social-button-large">
-                        <i class="fab fa-telegram-plane social-icon" style="margin-right: 15px; font-size: 24px;"></i> Channel Telegram
-                    </a>
-                </div>
-     
-            </div>
-            
-            <div class="modal-section">
-                <h3 style="color: #BBB;">Admin & Bantuan</h3>
-                <a href="https://wa.me/6281234567890?text=Halo%20Admin%2C%20saya%20membutuhkan%20bantuan%20terkait%20akun%2Fmasalah%20koneksi."
-                target="_blank" class="qris-note-action" style="background-color: #26a69a;">
-                    <i class="fab fa-whatsapp"></i> Hubungi Admin via WhatsApp
+            <div class="social-links">
+                <a id="discord-button-large" class="social-button-large" href="LINK_DISCORD_ANDA" target="_blank">
+                    <i class="fab fa-discord"></i> Discord Server
                 </a>
-                </div>
+                <a id="whatsapp-button-large" class="social-button-large" href="https://wa.me/ADMIN_WA_NUMBER" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Hubungi Admin (WA)
+                </a>
+                <a id="telegram-button-large" class="social-button-large" href="LINK_TELEGRAM_ANDA" target="_blank">
+                    <i class="fab fa-telegram"></i> Channel Telegram
+                </a>
+            </div>
         </div>
     </div>
 
+    <div id="full-feature-modal" class="full-screen-modal">
+        <div class="modal-content-wrapper">
+            <button class="close-button" onclick="closeFullModal('full-feature-modal')">&times;</button>
+            <h2><i class="fas fa-list-check"></i> FITUR UNGGULAN</h2>
 
+            <div class="modal-section">
+                <h3>Gameplay Eksklusif</h3>
+                <ul class="item-list">
+                    <li><i class="fas fa-star"></i> Sistem Quest Harian/Mingguan yang Menantang.</li>
+                    <li><i class="fas fa-money-bill-wave"></i> Farming World dengan Drop Rate yang Seimbang.</li>
+                    <li><i class="fas fa-shield-halved"></i> Anti-Cheat Canggih dan Tim Moderasi Aktif 24 Jam.</li>
+                </ul>
+            </div>
+            
+            <div class="modal-section">
+                <h3>Ekonomi & Item</h3>
+                <ul class="item-list">
+                    <li><i class="fas fa-diamond"></i> Item Langka dan Custom hanya ada di Server Ini.</li>
+                    <li><i class="fas fa-tags"></i> Harga Item Stabil dan Selalu Diperbarui.</li>
+                    <li><i class="fas fa-cart-shopping"></i> Fitur `/buy` In-Game untuk Transaksi Cepat.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
     <script>
-        // Konstanta
-        const COOLDOWN_SECONDS = 4;
-        /* ❗ GANTI NOMOR WHATSAPP DI BAWAH INI DENGAN NOMOR ASLI ANDA (contoh: '6281234xxxx') 
-        */
-        const ADMIN_WA_NUMBER = '6281234567890';
-        /* ❗ AKHIR GANTI NOMOR WHATSAPP ❗
-        */
-
-        // --- FUNGSI UTILITY COOLDOWN ---
-        function applyCooldown(buttonElement, originalContent) {
-            let timeLeft = COOLDOWN_SECONDS;
-            buttonElement.disabled = true;
-            buttonElement.style.cursor = 'wait';
-            
-            const countdownInterval = setInterval(() => {
-                timeLeft--;
-                if (timeLeft <= 0) {
-                    clearInterval(countdownInterval);
-                    if (buttonElement.tagName === 'A') {
-         
-                        buttonElement.innerHTML = originalContent;
-                    } else {
-                        buttonElement.innerHTML = originalContent; 
-                        buttonElement.disabled = false; 
-       
-                    }
-                    buttonElement.style.cursor = 'pointer';
-                    buttonElement.style.backgroundColor = ''; 
-                } else {
-                    const iconPlaceholder = originalContent.match(/<span 
-                    class="icon-placeholder">.*?<\/span>/) ? originalContent.match(/<span class="icon-placeholder">.*?<\/span>/)[0] : '';
-                    buttonElement.innerHTML = `${iconPlaceholder} Tunggu ${timeLeft}s...`;
-                }
-            }, 1000);
-        }
-
-
-        // --- FUNGSI SALIN IP & TEKS (TIDAK DIGUNAKAN UNTUK TOMBOL DOWNLOAD) ---
-        function copyIP(buttonElement, ipValue) {
-            const originalContent = buttonElement.innerHTML;
-            if (buttonElement.disabled) { return; }
-            
-            navigator.clipboard.writeText(ipValue).then(() => {
-                buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #4CAF50;">✅</span> Berhasil Disalin!`;
-                buttonElement.style.backgroundColor = '#4CAF50'; 
-                applyCooldown(buttonElement, originalContent);
-           
-            }).catch(err => {
-                buttonElement.style.backgroundColor = '#FF5722'; 
-                buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> GAGAL SALIN. IP: ${ipValue}`; 
-                applyCooldown(buttonElement, originalContent);
-            });
-        }
+        // GANTI ANGKA INI DENGAN NOMOR WHATSAPP ADMIN ANDA (Format 628xxxxxxx, tanpa tanda + atau 0 di depan)
+        const ADMIN_WA_NUMBER = "6281234567890"; 
         
-        function copyOnly(buttonElement, value, successMessage) {
-            const originalContent = buttonElement.innerHTML;
-            if (buttonElement.disabled) { return; }
-
-            navigator.clipboard.writeText(value)
-                .then(() => {
-                    buttonElement.style.backgroundColor = '#4CAF50';
-                    const iconPlaceholder = originalContent.match(/<span class="icon-placeholder">.*?<\/span>/) ? originalContent.match(/<span class="icon-placeholder">.*?<\/span>/)[0] : '';
-               
-                    buttonElement.innerHTML = `${iconPlaceholder} ${successMessage}`;
-                    applyCooldown(buttonElement, originalContent);
-                })
-                .catch(err => {
-                    buttonElement.style.backgroundColor = '#FF5722'; 
-              
-                    buttonElement.innerHTML = `<span class="icon-placeholder" style="color: #FFEB3B;">⚠️</span> GAGAL SALIN.`; 
-                    applyCooldown(buttonElement, originalContent);
-                });
-        }
-
-        // --- FUNGSI TAB & MODAL ---
-        function openGuide(evt, tabName) {
-            let i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].classList.add('hidden');
-            }
-            
-            tablinks = document.getElementsByClassName("tab-button");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove("active");
-            }
-            
-            document.getElementById(tabName).classList.remove('hidden');
-            if (evt) {
-                evt.currentTarget.classList.add("active");
-            } else {
-                // Memastikan tab PowerTunnel terbuka saat halaman dimuat
-                const firstTabButton = document.querySelector('.tab-buttons .tab-button');
-                if (firstTabButton) {
-                    firstTabButton.classList.add("active");
-                }
-            }
-        }
-
+        // Pastikan Anda mengganti nomor di atas dan di bagian href/onclick yang lain
+        document.getElementById('floating-social-button').onclick = function() { openFullModal('full-social-modal'); };
+        
+        // =======================================================
+        // FUNGSIONALITAS UMUM MODAL
+        // =======================================================
+        
         function openFullModal(modalId) {
             document.getElementById(modalId).style.display = 'flex';
             document.body.classList.add('modal-open'); 
@@ -888,11 +652,50 @@
             document.body.classList.remove('modal-open'); 
         }
 
+        // =======================================================
+        // FUNGSIONALITAS TAB GUIDE
+        // =======================================================
+        function openGuide(evt, guideName) {
+            var i, tabcontent, tabbuttons;
+
+            // Sembunyikan semua konten tab
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.add("hidden");
+            }
+
+            // Hapus class 'active' dari semua tombol tab
+            tabbuttons = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tabbuttons.length; i++) {
+                tabbuttons[i].classList.remove("active");
+            }
+
+            // Tampilkan konten tab yang dipilih
+            const selectedGuide = document.getElementById(guideName);
+            if(selectedGuide) {
+                selectedGuide.classList.remove("hidden");
+            }
+
+
+            // Tambahkan class 'active' pada tombol yang diklik
+            if (evt && evt.currentTarget) {
+                evt.currentTarget.classList.add("active");
+            } else {
+                // Fallback untuk inisialisasi awal (memilih tab pertama)
+                const firstTabButton = document.querySelector('.tab-buttons .tab-button');
+                if (firstTabButton) {
+                    firstTabButton.classList.add("active");
+                }
+            }
+        }
+
+        // =======================================================
+        // FUNGSIONALITAS PROMPT PEMBELIAN VIA WHATSAPP
+        // =======================================================
         function promptPurchase(itemName, price) {
             const gtName = prompt(`Masukkan NAMA GrowID Anda untuk pembelian ${itemName} (${price}):`);
             
             if (gtName) {
-                // Menggunakan ADMIN_WA_NUMBER dari konstanta JavaScript
                 const message = `Halo Admin GrowRushPS, saya mau beli: %0A%0AItem: ${itemName}%0AHarga: ${price}%0ANama GrowID: ${gtName}%0A%0ASaya akan melakukan pembayaran sekarang. Mohon diproses.`;
                 const waUrl = `https://wa.me/${ADMIN_WA_NUMBER}?text=${message}`;
                 window.open(waUrl, '_blank');
@@ -900,10 +703,24 @@
                 alert("Nama GrowID tidak boleh kosong!");
             }
         }
+        
+        // =======================================================
+        // FUNGSI SIMULASI STATUS SERVER
+        // =======================================================
+        function initHardcodedStatus() {
+            const statusElement = document.getElementById('status-text');
+            
+            // Simulasikan status "ONLINE" secara permanen
+            statusElement.textContent = 'ONLINE';
+            statusElement.style.color = '#66BB6A';
+            statusElement.style.textShadow = '0 0 10px rgba(102, 187, 106, 0.7)';
+        }
 
-        // Panggil inisialisasi tab saat halaman dimuat
+
+        // Panggil fungsi status dan inisialisasi tab saat halaman dimuat
         window.onload = function() {
-            openGuide(null, 'PowerTunnel'); 
+            initHardcodedStatus();
+            openGuide(null, 'PowerTunnel'); // Set tab default ke PowerTunnel
         };
     </script>
 </body>
