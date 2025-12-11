@@ -101,7 +101,7 @@
         .server-status { margin: 10px 0 20px 0;
             font-size: 18px; font-weight: 600; }
         #status-text { 
-            /* Warna dan bayangan akan diatur oleh JS */
+            /* Warna dan bayangan akan diatur oleh JS (Dihapus karena sudah di HTML) */
             font-weight: 800;
             transition: color 0.5s, text-shadow 0.5s; /* Animasi status */
         }
@@ -180,8 +180,8 @@
         /* MODIFIKASI: Membuat Tab Content Transparan */
         .tab-content {
             padding: 15px;
-            background-color: transparent; /* Diubah dari var(--bg-button) menjadi transparent */
-            border-radius: 0; /* Dihapus dari 0 0 8px 8px agar menyatu */
+            background-color: transparent; /* Sekarang benar-benar transparan */
+            border-radius: 0; 
             text-align: left;
         }
         .tab-content.hidden {
@@ -197,7 +197,7 @@
             list-style-type: decimal;
             margin-left: 20px;
             font-size: 13px;
-            color: var(--text-dark);
+            color: var(--text-light); /* Diubah ke light agar terbaca jelas di background container */
             text-align: left;
             padding-left: 0;
         }
@@ -420,7 +420,7 @@
         <p class="description">Rasakan pengalaman bermain di Growtopia private server dengan gameplay seru dan sistem yang stabil</p>
 
         <div class="server-status">
-            Status Server: <span id="status-text">Memuat...</span> 
+            Status Server: <span id="status-text" style="color: #4CAF50; text-shadow: 0 0 5px rgba(76, 175, 80, 0.5); font-weight: 800;">UP</span>
         </div>
 
         <div class="host-section">
@@ -689,14 +689,7 @@
         /* ❗ AKHIR GANTI NOMOR WHATSAPP ❗
         */
 
-        // --- FUNGSI INI MENGGANTIKAN checkServerStatus (SELALU UP) ---
-        function initHardcodedStatus() {
-            const statusTextElement = document.getElementById('status-text');
-            // Hardcode status: UP (Hijau)
-            statusTextElement.textContent = 'UP';
-            statusTextElement.style.color = '#4CAF50'; // Hijau
-            statusTextElement.style.textShadow = '0 0 5px rgba(76, 175, 80, 0.5)';
-        }
+        // Catatan: Fungsi initHardcodedStatus dihapus karena status 'UP' sudah di-hardcode di HTML.
         
         // --- FUNGSI UTILITY COOLDOWN ---
         function applyCooldown(buttonElement, originalContent) {
@@ -812,9 +805,8 @@
             }
         }
 
-        // Panggil fungsi status dan inisialisasi tab saat halaman dimuat
+        // Panggil inisialisasi tab saat halaman dimuat
         window.onload = function() {
-            initHardcodedStatus();
             openGuide(null, 'PowerTunnel'); 
         };
     </script>
