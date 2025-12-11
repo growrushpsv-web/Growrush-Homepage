@@ -177,10 +177,11 @@
             color: var(--main-blue);
             border-bottom: 3px solid var(--main-blue);
         }
+        /* MODIFIKASI: Membuat Tab Content Transparan */
         .tab-content {
             padding: 15px;
-            background-color: var(--bg-button); 
-            border-radius: 0 0 8px 8px;
+            background-color: transparent; /* Diubah dari var(--bg-button) menjadi transparent */
+            border-radius: 0; /* Dihapus dari 0 0 8px 8px agar menyatu */
             text-align: left;
         }
         .tab-content.hidden {
