@@ -53,7 +53,7 @@ body::before {
     filter: blur(140px); /* Efek blur yang sangat kuat dan lebih besar */
     transform: translate(-50%, -50%);
     z-index: -1; /* Di belakang konten */
-    pointer-events: none;
+    pointer-events: none; /* KRUSIAL: Agar tidak menghalangi klik */
     animation: pulseGlow 20s infinite alternate; /* Animasi lembut */
 }
 
@@ -87,7 +87,7 @@ body::after {
     background-size: 100% 100%, 100% 100%;
     z-index: -2; /* Di belakang body::before */
     animation: moveGrid 30s linear infinite;
-    pointer-events: none;
+    pointer-events: none; /* KRUSIAL: Agar tidak menghalangi klik */
     opacity: 0.5;
 }
 
@@ -271,10 +271,10 @@ h1 {
     color: var(--main-blue);
     border-bottom: 3px solid var(--main-blue);
 }
-/* MODIFIKASI: Membuat Tab Content Transparan */
+/* MODIFIKASI: Membuat Tab Content Transparan (Ganti dari var(--bg-button) di kode lama Anda) */
 .tab-content {
     padding: 15px;
-    background-color: transparent; /* Sekarang benar-benar transparan */
+    background-color: transparent; 
     border-radius: 0; 
     text-align: left;
 }
